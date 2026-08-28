@@ -1,4 +1,5 @@
 import { notFound } from 'next/navigation';
+import { Screen } from '@/components/screen';
 import { createClient } from '@/lib/supabase/server';
 import { ReleaseForm } from '../../release-form';
 import { updateRelease } from '../../actions';
@@ -10,5 +11,9 @@ export default async function EditReleasePage({ params }: { params: { id: string
 
   if (!release) notFound();
 
-  return <ReleaseForm mode="edit" release={release as Release} action={updateRelease.bind(null, params.id)} />;
+  return (
+    <Screen title="RELEASE BEARBEITEN" back="/releases">
+      <ReleaseForm mode="edit" release={release as Release} action={updateRelease.bind(null, params.id)} />
+    </Screen>
+  );
 }

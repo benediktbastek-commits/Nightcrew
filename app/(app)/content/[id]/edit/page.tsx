@@ -1,4 +1,5 @@
 import { notFound } from 'next/navigation';
+import { Screen } from '@/components/screen';
 import { createClient } from '@/lib/supabase/server';
 import { PostForm } from '../../post-form';
 import { updatePost } from '../../actions';
@@ -13,5 +14,9 @@ export default async function EditPostPage({ params }: { params: { id: string } 
 
   if (!post) notFound();
 
-  return <PostForm mode="edit" post={post as Post} releases={(releases ?? []) as Release[]} action={updatePost.bind(null, params.id)} />;
+  return (
+    <Screen title="POST BEARBEITEN" back="/content">
+      <PostForm mode="edit" post={post as Post} releases={(releases ?? []) as Release[]} action={updatePost.bind(null, params.id)} />
+    </Screen>
+  );
 }

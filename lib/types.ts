@@ -18,11 +18,13 @@ export type Gig = {
   rider_sent: boolean;
 };
 
+export type ContactRole = 'booking' | 'label_promo' | 'crew';
+
 export type Contact = {
   id: string;
   name: string;
   organisation: string | null;
-  role: 'booking' | 'label_promo' | 'crew';
+  role: ContactRole;
   email: string | null;
   phone: string | null;
   last_contact_at: string | null;
@@ -150,6 +152,7 @@ export type AccountMetric = {
   saves: number | null;
   source: 'screenshot' | 'manual' | 'api';
   import_id: string | null;
+  previous: Record<string, number | null> | null;
 };
 
 export type PostMetric = {
@@ -186,6 +189,21 @@ export type AccountExtraction = {
   unreadable_fields?: string[];
 };
 
+export type PostExtraction = {
+  platform: PostPlatform;
+  posted_date?: string;
+  views?: number;
+  likes?: number;
+  saves?: number;
+  shares?: number;
+  followers_delta?: number;
+  avg_watch_seconds?: number;
+  completion_rate?: number;
+  analysis: string;
+  confidence: Record<string, number>;
+  unreadable_fields?: string[];
+};
+
 export type InvoiceStatus = 'draft' | 'open' | 'paid' | 'overdue';
 
 export type Invoice = {
@@ -217,6 +235,113 @@ export type ItineraryStop = {
   detail: string | null;
   done: boolean;
   sort_order: number;
+};
+
+export type Role = 'dj_producer' | 'photographer_videographer' | 'manager';
+
+export type PortfolioItem = {
+  title: string;
+  url: string;
+};
+
+export type ProfileSocials = {
+  instagram: string | null;
+  tiktok: string | null;
+  youtube: string | null;
+  spotify: string | null;
+  website: string | null;
+};
+
+export type Profile = {
+  id: string;
+  display_name: string | null;
+  avatar_url: string | null;
+  status: string | null;
+  roles: Role[];
+  ai_unlocked: boolean;
+  skills: string[];
+  portfolio: PortfolioItem[];
+  onboarded_at: string | null;
+  wants_content: boolean;
+  bio: string | null;
+  city: string | null;
+  socials: ProfileSocials | null;
+};
+
+export type ServiceType = 'photo' | 'video' | 'both';
+export type RequestStatus = 'open' | 'matched' | 'cancelled';
+export type OfferStatus = 'pending' | 'accepted' | 'declined';
+
+export type ServiceRequest = {
+  id: string;
+  dj_user_id: string;
+  gig_id: string | null;
+  location: string;
+  date: string;
+  service_type: ServiceType;
+  notes: string | null;
+  status: RequestStatus;
+  matched_photographer_id: string | null;
+  matched_gig_id: string | null;
+  target_photographer_id: string | null;
+  created_at: string;
+};
+
+export type PhotographerAvailability = {
+  id: string;
+  photographer_user_id: string;
+  date: string;
+  start_time: string;
+  end_time: string;
+  location: string;
+  created_at: string;
+};
+
+export type ServiceOffer = {
+  id: string;
+  request_id: string;
+  photographer_user_id: string;
+  message: string | null;
+  status: OfferStatus;
+  created_at: string;
+};
+
+export type AccessCode = {
+  id: string;
+  code: string;
+  label: string | null;
+  created_by: string;
+  redeemed_by: string | null;
+  redeemed_at: string | null;
+  revoked: boolean;
+  created_at: string;
+};
+
+export type Review = {
+  id: string;
+  request_id: string;
+  reviewer_id: string;
+  reviewee_id: string;
+  rating: number;
+  comment: string | null;
+  photo_url: string | null;
+  created_at: string;
+};
+
+export type ConnectionMessage = {
+  id: string;
+  request_id: string;
+  sender_id: string;
+  content: string;
+  created_at: string;
+};
+
+export type Notification = {
+  id: string;
+  message: string;
+  link: string | null;
+  read: boolean;
+  created_at: string;
 };
 
 export type ChatMessage = {

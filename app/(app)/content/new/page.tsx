@@ -1,3 +1,4 @@
+import { Screen } from '@/components/screen';
 import { createClient } from '@/lib/supabase/server';
 import { PostForm } from '../post-form';
 import { createPost } from '../actions';
@@ -7,5 +8,9 @@ export default async function NewPostPage() {
   const supabase = await createClient();
   const { data: releases } = await supabase.from('releases').select('*').order('release_date', { ascending: true });
 
-  return <PostForm mode="create" releases={(releases ?? []) as Release[]} action={createPost} />;
+  return (
+    <Screen title="NEUER POST" back="/content">
+      <PostForm mode="create" releases={(releases ?? []) as Release[]} action={createPost} />
+    </Screen>
+  );
 }

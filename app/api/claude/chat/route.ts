@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import type Anthropic from '@anthropic-ai/sdk';
 import { createClient } from '@/lib/supabase/server';
 import { getAnthropicClient } from '@/lib/anthropic';
+import { hasAiAccess } from '@/lib/ai-access';
 import type { SupabaseClient } from '@supabase/supabase-js';
 
 const LIST_UPCOMING_TOOL: Anthropic.Tool = {
@@ -90,6 +91,7 @@ export async function POST(request: Request) {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return NextResponse.json({ error: 'unauthorized' }, { status: 401 });
+  if (!(await hasAiAccess())) return NextResponse.json({ error: 'access_code_required' }, { status: 403 });
 
   const anthropic = getAnthropicClient();
   if (!anthropic) return NextResponse.json({ error: 'missing_api_key' }, { status: 503 });
@@ -128,7 +130,7 @@ export async function POST(request: Request) {
     supabase.from('posts').select('*', { count: 'exact', head: true }).gte('planned_at', today),
   ]);
 
-  const systemPrompt = `Du bist der Content-Planer in der DJ-Cockpit-App eines DJs/Producers. Antworte kurz, konkret, auf Deutsch.
+  const systemPrompt = `Du bist der Content-Planer in der Nightcrew-App eines DJs/Producers. Antworte kurz, konkret, auf Deutsch.
 Kontext:
 - Nächster Gig: ${nextGig ? `${nextGig.venue}, ${nextGig.city}, ${nextGig.date}` : 'keiner geplant'}
 - Nächstes Release: ${nextRelease ? `${nextRelease.title}, VÖ ${nextRelease.release_date}` : 'keins geplant'}

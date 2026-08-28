@@ -2,7 +2,6 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { Screen } from '@/components/screen';
 import { Chip, Segmented } from '@/components/ui';
 import { dateParts, formatDayMonth, formatEuro, formatTimeRange } from '@/lib/format';
 import type { Contact, Gig, GigStatus } from '@/lib/types';
@@ -22,7 +21,8 @@ const STATUS_TONE: Record<GigStatus, 'solid' | 'outline' | 'dim'> = {
   option: 'dim',
 };
 
-export function BookingsScreen({ gigs, contacts }: { gigs: Gig[]; contacts: Contact[] }) {
+export function BookingsScreen({ gigs, contacts, photographerConfirmedGigIds = [] }: { gigs: Gig[]; contacts: Contact[]; photographerConfirmedGigIds?: string[] }) {
+  const confirmedSet = new Set(photographerConfirmedGigIds);
   const [filter, setFilter] = useState<(typeof FILTERS)[number]>('ALLE');
   const [openGigId, setOpenGigId] = useState<string | null>(null);
 
@@ -37,7 +37,7 @@ export function BookingsScreen({ gigs, contacts }: { gigs: Gig[]; contacts: Cont
   const openGigContact = openGig ? contacts.find((contact) => contact.id === openGig.contact_id) : null;
 
   return (
-    <Screen title="BOOKINGS">
+    <>
       <Segmented labels={[...FILTERS]} value={filter} onChange={(label) => setFilter(label as (typeof FILTERS)[number])} />
       <div className="row list-meta">
         <span className="label">{String(filtered.length).padStart(2, '0')} TERMINE</span>
@@ -61,6 +61,7 @@ export function BookingsScreen({ gigs, contacts }: { gigs: Gig[]; contacts: Cont
                 <div className="gig-side">
                   <Chip tone={STATUS_TONE[gig.status]}>{STATUS_LABEL[gig.status]}</Chip>
                   <span className="gig-row-fee">{formatEuro(gig.fee_cents)}</span>
+                  {confirmedSet.has(gig.id) && <span className="stale-note">FOTO/VIDEO ✓</span>}
                 </div>
               </button>
             );
@@ -88,7 +89,11 @@ export function BookingsScreen({ gigs, contacts }: { gigs: Gig[]; contacts: Cont
               <div className="kv-row"><span className="kv-key">TECHNIK</span><span className="kv-value">{openGig.tech_notes || '—'}</span></div>
               <div className="kv-row"><span className="kv-key">HOTEL</span><span className="kv-value">{openGig.hotel || '—'}</span></div>
               <div className="kv-row"><span className="kv-key">ANREISE</span><span className="kv-value">{openGig.travel || '—'}</span></div>
+              <div className="kv-row"><span className="kv-key">FOTO/VIDEO</span><span className="kv-value">{confirmedSet.has(openGig.id) ? '✓ Bestätigt' : '—'}</span></div>
             </div>
+            {!confirmedSet.has(openGig.id) && (
+              <Link href={`/marketplace?gig=${openGig.id}#anfrage`} className="edit-link">AUF MARKTPLATZ POSTEN (FOTOGRAF SUCHEN)</Link>
+            )}
             <div className="button-row">
               {openGig.advance_confirmed ? (
                 <span className="button solid-button">✓ ADVANCE BESTÄTIGT</span>
@@ -102,6 +107,6 @@ export function BookingsScreen({ gigs, contacts }: { gigs: Gig[]; contacts: Cont
           </div>
         </div>
       )}
-    </Screen>
+    </>
   );
 }

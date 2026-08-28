@@ -3,13 +3,13 @@ import './globals.css';
 import { RegisterServiceWorker } from './register-sw';
 
 export const metadata: Metadata = {
-  title: 'DJ Cockpit',
-  description: 'Persönliches Management-Cockpit für DJ und Producer',
+  title: 'Nightcrew',
+  description: 'Die App für DJs, Producer und Eventfotograf:innen: Bookings, Content, Releases, Finanzen und Tour-Logistik an einem Ort.',
   manifest: '/manifest.json',
   appleWebApp: {
     capable: true,
     statusBarStyle: 'black-translucent',
-    title: 'DJ Cockpit',
+    title: 'Nightcrew',
   },
 };
 

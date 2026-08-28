@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { Segmented } from '@/components/ui';
-import { daysBetween, formatCompact, windowBucket } from '@/lib/format';
+import { daysBetween, formatCompact, formatDelta, windowBucket } from '@/lib/format';
 import type { AccountMetric, Import, PostPlatform } from '@/lib/types';
 
 const RANGES = ['7 T', '30 T', '90 T'] as const;
@@ -44,7 +44,14 @@ export function AnalyticsScreen({ metrics, lastImport }: { metrics: AccountMetri
     .filter((entry): entry is { platform: PostPlatform; row: AccountMetric } => entry !== null);
 
   const valueOf = (row: AccountMetric) => Number(row[metricKey]) || 0;
+  const previousOf = (row: AccountMetric) => {
+    const raw = row.previous?.[metricKey as string];
+    return raw === undefined || raw === null ? null : Number(raw) || 0;
+  };
   const total = matched.reduce((sum, { row }) => sum + valueOf(row), 0);
+  const hasTrend = matched.some(({ row }) => previousOf(row) !== null);
+  const previousTotal = matched.reduce((sum, { row }) => sum + (previousOf(row) ?? valueOf(row)), 0);
+  const totalDelta = hasTrend ? formatDelta(total, previousTotal) : null;
   const maxPlatformValue = Math.max(...matched.map(({ row }) => valueOf(row)), 1);
   const oldestAge = matched.length > 0 ? Math.max(...matched.map(({ row }) => daysBetween(row.period_end, today))) : null;
   const metricLabel = METRICS.find((m) => m.key === metricKey)?.label ?? '';
@@ -76,7 +83,14 @@ export function AnalyticsScreen({ metrics, lastImport }: { metrics: AccountMetri
 
           <section className="panel stat-card">
             <span className="label">{metricLabel} · {range}</span>
-            <div className="stat-value">{metricKey === 'followers_delta' && total >= 0 ? '+' : ''}{formatCompact(total)}</div>
+            <div className="stat-value-row">
+              <div className="stat-value">{metricKey === 'followers_delta' && total >= 0 ? '+' : ''}{formatCompact(total)}</div>
+              {totalDelta && (
+                <span className={`trend${totalDelta.startsWith('-') ? ' negative' : ''}`}>
+                  {totalDelta} <span className="muted">VS. VORMONAT</span>
+                </span>
+              )}
+            </div>
           </section>
 
           <section>
@@ -94,13 +108,19 @@ export function AnalyticsScreen({ metrics, lastImport }: { metrics: AccountMetri
               .sort((a, b) => valueOf(b.row) - valueOf(a.row))
               .map(({ platform, row }) => {
                 const age = daysBetween(row.period_end, today);
+                const previous = previousOf(row);
+                const delta = previous !== null ? formatDelta(valueOf(row), previous) : null;
+                const down = delta?.startsWith('-') ?? false;
                 return (
                   <div className="platform-row" key={platform}>
                     <div className="platform-row-top">
                       <span className="platform-name">{PLATFORM_LABEL[platform]}</span>
-                      <strong>{formatCompact(valueOf(row))}</strong>
+                      <div className="row" style={{ gap: 8 }}>
+                        {delta && <span className={`platform-delta${down ? ' negative' : ''}`}>{delta}</span>}
+                        <strong>{formatCompact(valueOf(row))}</strong>
+                      </div>
                     </div>
-                    <div className="platform-track"><i style={{ width: `${(valueOf(row) / maxPlatformValue) * 100}%` }} /></div>
+                    <div className="platform-track"><i className={down ? 'down' : ''} style={{ width: `${(valueOf(row) / maxPlatformValue) * 100}%` }} /></div>
                     <span className={`stale-note${age > STALE_AFTER_DAYS ? ' warn' : ''}`}>{age === 0 ? 'HEUTE AKTUALISIERT' : `VOR ${age} T AKTUALISIERT`}</span>
                   </div>
                 );
@@ -111,7 +131,7 @@ export function AnalyticsScreen({ metrics, lastImport }: { metrics: AccountMetri
 
       <section className="panel">
         <p className="muted">
-          &quot;Bester Content&quot; und Trend-Vergleiche brauchen Post-Kennzahlen aus dem Post-Import (noch nicht gebaut).
+          &quot;Bester Content&quot; braucht Post-Kennzahlen aus dem Post-Import (noch nicht gebaut). Der Trend oben vergleicht mit dem letzten Import derselben Plattform und Zeitspanne.
         </p>
       </section>
     </>

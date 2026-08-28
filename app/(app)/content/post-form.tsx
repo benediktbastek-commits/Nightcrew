@@ -2,7 +2,6 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { Screen } from '@/components/screen';
 import { toDatetimeLocal } from '@/lib/format';
 import type { Post, PostFormat, PostPlatform, PostStatus, Release } from '@/lib/types';
 
@@ -41,7 +40,7 @@ export function PostForm({
   const [status, setStatus] = useState<PostStatus>(post?.status ?? 'idea');
 
   return (
-    <Screen title={mode === 'create' ? 'NEUER POST' : 'POST BEARBEITEN'} back="/content">
+    <>
       <form action={action} className="auth-form">
         <input type="hidden" name="status" value={status} />
 
@@ -99,6 +98,6 @@ export function PostForm({
           <Link href="/content" className="button">ABBRECHEN</Link>
         </div>
       </form>
-    </Screen>
+    </>
   );
 }

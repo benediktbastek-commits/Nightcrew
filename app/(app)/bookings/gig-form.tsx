@@ -2,7 +2,6 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { Screen } from '@/components/screen';
 import type { Contact, Gig, GigStatus } from '@/lib/types';
 
 const STATUS_OPTIONS: { value: GigStatus; label: string }[] = [
@@ -25,7 +24,7 @@ export function GigForm({
   const [status, setStatus] = useState<GigStatus>(gig?.status ?? 'requested');
 
   return (
-    <Screen title={mode === 'create' ? 'NEUER GIG' : 'GIG BEARBEITEN'} back="/bookings">
+    <>
       <form action={action} className="auth-form">
         <input type="hidden" name="status" value={status} />
 
@@ -80,6 +79,7 @@ export function GigForm({
               <option value={contact.id} key={contact.id}>{contact.name}</option>
             ))}
           </select>
+          <Link href="/contacts/new" className="edit-link" style={{ marginTop: 6 }}>+ NEUEN KONTAKT ANLEGEN</Link>
         </div>
 
         <div className="form-field">
@@ -111,6 +111,6 @@ export function GigForm({
           <Link href="/bookings" className="button">ABBRECHEN</Link>
         </div>
       </form>
-    </Screen>
+    </>
   );
 }

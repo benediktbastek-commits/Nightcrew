@@ -1,4 +1,5 @@
 import { notFound } from 'next/navigation';
+import { Screen } from '@/components/screen';
 import { createClient } from '@/lib/supabase/server';
 import { InvoiceForm } from '../../invoice-form';
 import { updateInvoice } from '../../actions';
@@ -10,5 +11,9 @@ export default async function EditInvoicePage({ params }: { params: { id: string
 
   if (!invoice) notFound();
 
-  return <InvoiceForm mode="edit" invoice={invoice as Invoice} action={updateInvoice.bind(null, params.id)} />;
+  return (
+    <Screen title="RECHNUNG BEARBEITEN" back="/finance">
+      <InvoiceForm mode="edit" invoice={invoice as Invoice} action={updateInvoice.bind(null, params.id)} />
+    </Screen>
+  );
 }

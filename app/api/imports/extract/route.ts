@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import type Anthropic from '@anthropic-ai/sdk';
 import { createClient } from '@/lib/supabase/server';
 import { getAnthropicClient } from '@/lib/anthropic';
+import { hasAiAccess } from '@/lib/ai-access';
 import type { ImportKind, PostPlatform } from '@/lib/types';
 
 const ACCOUNT_TOOL: Anthropic.Tool = {
@@ -49,6 +50,10 @@ const POST_TOOL: Anthropic.Tool = {
       followers_delta: { type: 'integer' },
       avg_watch_seconds: { type: 'number' },
       completion_rate: { type: 'number' },
+      analysis: {
+        type: 'string',
+        description: 'Kurze, einfache Einschätzung auf Deutsch (2-3 Sätze): was an diesem Post gut oder schlecht gelaufen ist, basierend auf den erkannten Zahlen (z.B. Verhältnis Likes/Views, Completion Rate, Saves im Vergleich zur Reichweite). Konkret und knapp, keine Floskeln.',
+      },
       confidence: {
         type: 'object',
         description: 'Pro Feldname 0-1, wie sicher der Wert im Bild lesbar war',
@@ -56,7 +61,7 @@ const POST_TOOL: Anthropic.Tool = {
       },
       unreadable_fields: { type: 'array', items: { type: 'string' } },
     },
-    required: ['platform', 'confidence'],
+    required: ['platform', 'confidence', 'analysis'],
   },
 };
 
@@ -64,6 +69,7 @@ export async function POST(request: Request) {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return NextResponse.json({ error: 'unauthorized' }, { status: 401 });
+  if (!(await hasAiAccess())) return NextResponse.json({ error: 'access_code_required' }, { status: 403 });
 
   const anthropic = getAnthropicClient();
   if (!anthropic) return NextResponse.json({ error: 'missing_api_key' }, { status: 503 });
@@ -89,7 +95,7 @@ export async function POST(request: Request) {
           role: 'user',
           content: [
             { type: 'image', source: { type: 'base64', media_type: mediaType as 'image/jpeg' | 'image/png', data: imageBase64 } },
-            { type: 'text', text: kind === 'account' ? 'Lies die Account-Kennzahlen aus diesem Screenshot aus.' : 'Lies die Post-Kennzahlen aus diesem Screenshot aus.' },
+            { type: 'text', text: kind === 'account' ? 'Lies die Account-Kennzahlen aus diesem Screenshot aus.' : 'Lies die Post-Kennzahlen aus diesem Screenshot aus und gib eine kurze Einschätzung, was an diesem Post gut oder schlecht gelaufen ist.' },
           ],
         },
       ],

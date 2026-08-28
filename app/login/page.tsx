@@ -29,7 +29,7 @@ export default function LoginPage() {
       <div className="app">
         <div className="auth-screen">
           <div>
-            <p className="eyebrow">DJ COCKPIT</p>
+            <p className="eyebrow">NIGHTCREW</p>
             <h1>ANMELDEN</h1>
           </div>
           {status === 'sent' ? (

@@ -19,7 +19,7 @@ export default async function AnalyticsPage() {
   if (metricsError) console.error('[AnalyticsPage] metrics', metricsError);
 
   return (
-    <Screen title="ZAHLEN">
+    <Screen title="ANALYTICS">
       <AnalyticsScreen metrics={(metricsData ?? []) as AccountMetric[]} lastImport={lastImportData as Import | null} />
     </Screen>
   );

@@ -3,18 +3,31 @@ import { Screen } from '@/components/screen';
 import { PostCard } from '@/components/post-card';
 import { dateParts, daysBetween, formatDayMonth, formatDueLabel, formatEuro, formatTimeRange } from '@/lib/format';
 import { createClient } from '@/lib/supabase/server';
-import type { Gig, Post, Release, ReleaseAsset, ReleaseDeadline, ReleaseKind, Task } from '@/lib/types';
+import { hasRole, isPhotographerOnly } from '@/lib/roles';
+import type { Gig, Post, Profile, Release, ReleaseAsset, ReleaseDeadline, ReleaseKind, Task } from '@/lib/types';
 import { toggleAsset, toggleDeadline, togglePhaseTask } from './releases/actions';
 import { createTask, toggleTask } from './actions';
+import { PhotographerDashboard } from './photographer-dashboard';
 
 const KIND_LABEL: Record<ReleaseKind, string> = { ep: 'EP', single: 'SINGLE', album: 'ALBUM', remix: 'REMIX' };
 
 export default async function OverviewPage() {
   const supabase = await createClient();
+  const { data: { user: authUser } } = await supabase.auth.getUser();
+  const { data: profileData } = authUser
+    ? await supabase.from('profiles').select('roles').eq('id', authUser.id).maybeSingle()
+    : { data: null };
+  const roles = (profileData?.roles ?? []) as Profile['roles'];
+
+  if (authUser && isPhotographerOnly(roles)) {
+    return <PhotographerDashboard userId={authUser.id} />;
+  }
+
   const today = new Date().toISOString().slice(0, 10);
   const year = new Date().getFullYear();
 
   const in48h = new Date(Date.now() + 48 * 60 * 60 * 1000).toISOString();
+  const last30Days = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString().slice(0, 10);
 
   const [
     { data: tasksData, error: tasksError },
@@ -24,6 +37,8 @@ export default async function OverviewPage() {
     { data: dueSoonData, error: dueSoonError },
     { data: releasesData, error: releasesError },
     { data: openInvoicesData },
+    { count: contactsCount },
+    { count: contactsRecentCount },
   ] = await Promise.all([
     supabase
       .from('tasks')
@@ -44,6 +59,8 @@ export default async function OverviewPage() {
       .order('planned_at', { ascending: true }),
     supabase.from('releases').select('*').order('release_date', { ascending: true }),
     supabase.from('invoices').select('amount_cents').in('status', ['open', 'overdue']),
+    supabase.from('contacts').select('*', { count: 'exact', head: true }),
+    supabase.from('contacts').select('*', { count: 'exact', head: true }).gte('last_contact_at', last30Days),
   ]);
   if (tasksError) console.error('[OverviewPage] tasks', tasksError);
   if (gigsQ4Error) console.error('[OverviewPage] gigsQ4', gigsQ4Error);
@@ -189,8 +206,9 @@ export default async function OverviewPage() {
       </section>
       <section className="module-grid">
         <Link href="/finance" className="module"><span className="label">FINANZEN</span><strong>{formatEuro(openInvoicesTotal)}</strong><span className="muted">OFFEN</span></Link>
-        <button className="module"><span className="label">KONTAKTE</span><strong>42</strong><span className="muted">2 NEU</span></button>
+        <Link href="/contacts" className="module"><span className="label">KONTAKTE</span><strong>{contactsCount ?? 0}</strong><span className="muted">{contactsRecentCount ?? 0} LETZTE 30 T</span></Link>
         <Link href="/tour" className="module"><span className="label">TOUR</span><strong>{nextGig ? nextGig.city.toUpperCase() : '—'}</strong><span className="muted">{nextGig ? formatDayMonth(nextGig.date) : 'KEIN GIG'}</span></Link>
+        <Link href="/marketplace" className="module"><span className="label">FOTOGRAF / VIDEOGRAF</span><strong>SUCHEN</strong><span className="muted">Marktplatz</span></Link>
         <Link href="/import" className="module wide"><span>＋ SCREENSHOT IMPORTIEREN</span><span>›</span></Link>
       </section>
       <Link href="/claude" className="claude-link"><span className="pulse" /> MIT CLAUDE CONTENT PLANEN <span>›</span></Link>

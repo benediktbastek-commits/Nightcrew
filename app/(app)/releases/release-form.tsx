@@ -2,7 +2,6 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { Screen } from '@/components/screen';
 import type { Release, ReleaseKind, ReleaseStatus } from '@/lib/types';
 
 const KIND_OPTIONS: { value: ReleaseKind; label: string }[] = [
@@ -31,7 +30,7 @@ export function ReleaseForm({
   const [status, setStatus] = useState<ReleaseStatus>(release?.status ?? 'planning');
 
   return (
-    <Screen title={mode === 'create' ? 'NEUES RELEASE' : 'RELEASE BEARBEITEN'} back="/releases">
+    <>
       <form action={action} className="auth-form">
         <input type="hidden" name="kind" value={kind} />
         <input type="hidden" name="status" value={status} />
@@ -100,6 +99,6 @@ export function ReleaseForm({
           <Link href="/releases" className="button">ABBRECHEN</Link>
         </div>
       </form>
-    </Screen>
+    </>
   );
 }

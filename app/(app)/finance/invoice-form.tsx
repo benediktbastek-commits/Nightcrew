@@ -2,7 +2,6 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { Screen } from '@/components/screen';
 import type { Invoice, InvoiceStatus } from '@/lib/types';
 
 const STATUS_OPTIONS: { value: InvoiceStatus; label: string }[] = [
@@ -24,7 +23,7 @@ export function InvoiceForm({
   const [status, setStatus] = useState<InvoiceStatus>(invoice?.status ?? 'draft');
 
   return (
-    <Screen title={mode === 'create' ? 'NEUE RECHNUNG' : 'RECHNUNG BEARBEITEN'} back="/finance">
+    <>
       <form action={action} className="auth-form">
         <input type="hidden" name="status" value={status} />
 
@@ -71,6 +70,6 @@ export function InvoiceForm({
           <Link href="/finance" className="button">ABBRECHEN</Link>
         </div>
       </form>
-    </Screen>
+    </>
   );
 }
