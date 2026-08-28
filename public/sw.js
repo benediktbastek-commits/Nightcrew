@@ -1,5 +1,8 @@
-const CACHE = 'dj-cockpit-shell-v1';
-const SHELL = ['/', '/manifest.json'];
+const CACHE = 'nightcrew-shell-v2';
+// '/' bewusst nicht vorab cachen: für nicht eingeloggte Besucher ist das ein Redirect
+// auf /login, und das Cachen einer Redirect-Response wirft in Safari denselben Fehler
+// wie im fetch-Handler unten (siehe Kommentar dort).
+const SHELL = ['/manifest.json'];
 
 self.addEventListener('install', (event) => {
   event.waitUntil(caches.open(CACHE).then((cache) => cache.addAll(SHELL)));
@@ -15,6 +18,10 @@ self.addEventListener('activate', (event) => {
 
 self.addEventListener('fetch', (event) => {
   if (event.request.method !== 'GET') return;
+  // Seiten-Navigationen (inkl. Redirects wie /login -> /auth/callback) nie abfangen:
+  // Safari lehnt eine vom Service Worker zurückgegebene Redirect-Response für
+  // Navigationen strikt ab ("Response served by service worker has redirections").
+  if (event.request.mode === 'navigate') return;
 
   const url = new URL(event.request.url);
   if (url.origin !== self.location.origin) return;
