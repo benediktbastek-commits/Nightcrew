@@ -1,0 +1,1405 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+html,body{margin:0;padding:0;background:#080908;color:#E6E6E6;font-family:'JetBrains Mono',ui-monospace,SFMono-Regular,monospace;-webkit-font-smoothing:antialiased}
+a{color:#E6E6E6;text-decoration:none;border-bottom:1px solid rgba(230,230,230,.35)}a:hover{color:#fff;border-bottom-color:#fff}
+input{font-family:inherit}
+*::-webkit-scrollbar{width:0;height:0}
+@keyframes sheetUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes riseIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+@keyframes blink{0%,100%{opacity:.2}50%{opacity:1}}
+</style>
+</helmet>
+
+<template id="__bundler_thumbnail"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="#0E0F0E"/><rect x="30" y="30" width="40" height="40" fill="none" stroke="#E6E6E6" stroke-width="2"/><text x="50" y="57" font-family="monospace" font-size="20" font-weight="700" fill="#E6E6E6" text-anchor="middle">DJ</text></svg></template>
+
+<div style="min-height:100vh;display:flex;align-items:center;justify-content:center;padding:48px 24px;gap:56px;flex-wrap:wrap;background:#080908;background-image:linear-gradient(rgba(230,230,230,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(230,230,230,.035) 1px,transparent 1px);background-size:56px 56px">
+
+  <div style="width:390px;height:844px;position:relative;border-radius:36px;background:#0E0F0E;border:1px solid rgba(230,230,230,.16);box-shadow:0 40px 90px -20px rgba(0,0,0,.9);overflow:hidden;display:flex;flex-direction:column;flex:none">
+
+    <div style="height:44px;flex:none;display:flex;align-items:flex-end;justify-content:space-between;padding:0 24px 6px;font-size:10.5px;letter-spacing:.06em;color:#E6E6E6">
+      <span>22:41</span>
+      <div style="display:flex;align-items:center;gap:6px">
+        <span style="font-size:9px;color:rgba(230,230,230,.5)">5G</span>
+        <div style="width:20px;height:9px;border:1px solid rgba(230,230,230,.45);border-radius:2px;padding:1.5px;display:flex"><div style="width:70%;background:#E6E6E6;border-radius:1px"></div></div>
+      </div>
+    </div>
+
+    <div style="flex:none;padding:6px 20px 12px;display:flex;align-items:center;gap:12px;border-bottom:1px solid rgba(230,230,230,.1)">
+      <sc-if value="{{ isSub }}" hint-placeholder-val="{{ false }}">
+        <div onClick="{{ nav0 }}" style="width:30px;height:30px;flex:none;border:1px solid rgba(230,230,230,.16);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:13px;color:#E6E6E6;cursor:pointer">←</div>
+      </sc-if>
+      <div style="flex:1;display:flex;flex-direction:column;gap:4px;min-width:0">
+        <span style="font-size:8.5px;letter-spacing:.2em;color:rgba(230,230,230,.4)">FR · 28 AUG 2026</span>
+        <span style="font-size:17px;font-weight:600;letter-spacing:-.01em;color:#E6E6E6">{{ screenTitle }}</span>
+      </div>
+      <div style="width:34px;height:34px;flex:none;border-radius:50%;border:1px solid rgba(230,230,230,.2);display:flex;align-items:center;justify-content:center;font-size:10.5px;font-weight:700;color:#E6E6E6">{{ initials }}</div>
+    </div>
+
+    <div style="flex:1;overflow-y:auto;overflow-x:hidden;position:relative">
+
+      <sc-if value="{{ isOverview }}" hint-placeholder-val="{{ true }}">
+      <div style="padding:16px 20px 26px;display:flex;flex-direction:column;gap:20px;animation:fadeIn .22s ease">
+
+        <div style="border:1px solid rgba(230,230,230,.55);border-radius:4px;padding:16px;display:flex;flex-direction:column;gap:14px;background:rgba(230,230,230,.04)">
+          <div style="display:flex;align-items:center;justify-content:space-between">
+            <span style="font-size:8.5px;letter-spacing:.22em;color:#E6E6E6">NÄCHSTER GIG</span>
+            <span style="font-size:9px;letter-spacing:.12em;color:rgba(230,230,230,.5)">T−7</span>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:6px">
+            <span style="font-size:24px;font-weight:600;letter-spacing:-.03em;line-height:1.05;color:#E6E6E6">KATER BLAU</span>
+            <span style="font-size:11.5px;color:rgba(230,230,230,.6);letter-spacing:.02em">BERLIN / FR 04.09 / 02:00–04:00</span>
+          </div>
+          <div style="display:flex;gap:8px">
+            <div style="flex:1;padding:11px 0;border-radius:3px;background:#E6E6E6;color:#0E0F0E;font-size:11px;font-weight:700;letter-spacing:.08em;text-align:center;cursor:pointer">RIDER SENDEN</div>
+            <div onClick="{{ nav7 }}" style="flex:1;padding:11px 0;border-radius:3px;border:1px solid rgba(230,230,230,.2);font-size:11px;font-weight:500;letter-spacing:.08em;text-align:center;cursor:pointer;color:#E6E6E6">LOGISTIK</div>
+          </div>
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;border:1px solid rgba(230,230,230,.11);border-radius:4px;overflow:hidden">
+          <div style="padding:13px 12px;display:flex;flex-direction:column;gap:7px;border-right:1px solid rgba(230,230,230,.11)">
+            <span style="font-size:8px;letter-spacing:.16em;color:rgba(230,230,230,.42)">GIGS Q4</span>
+            <span style="font-size:20px;font-weight:600;letter-spacing:-.03em;color:#E6E6E6">11</span>
+          </div>
+          <div style="padding:13px 12px;display:flex;flex-direction:column;gap:7px;border-right:1px solid rgba(230,230,230,.11)">
+            <span style="font-size:8px;letter-spacing:.16em;color:rgba(230,230,230,.42)">HÖRER</span>
+            <span style="font-size:20px;font-weight:600;letter-spacing:-.03em;color:#E6E6E6">84k</span>
+          </div>
+          <div style="padding:13px 12px;display:flex;flex-direction:column;gap:7px">
+            <span style="font-size:8px;letter-spacing:.16em;color:rgba(230,230,230,.42)">POSTS OFFEN</span>
+            <span style="font-size:20px;font-weight:600;letter-spacing:-.03em;color:#E6E6E6">06</span>
+          </div>
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <div style="display:flex;align-items:baseline;justify-content:space-between">
+            <span style="font-size:9px;letter-spacing:.2em;color:rgba(230,230,230,.45)">RELEASE</span>
+            <span style="font-size:9px;letter-spacing:.12em;color:rgba(230,230,230,.45)">T−29</span>
+          </div>
+          <div style="border:1px solid rgba(230,230,230,.11);border-radius:4px;padding:15px;display:flex;flex-direction:column;gap:14px">
+            <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px">
+              <div style="display:flex;flex-direction:column;gap:5px">
+                <span style="font-size:15px;font-weight:600;letter-spacing:-.01em;color:#E6E6E6">EP „NACHTFORM“</span>
+                <span style="font-size:9.5px;letter-spacing:.12em;color:rgba(230,230,230,.45)">VÖ 26.09 · 4 TRACKS</span>
+              </div>
+              <div style="width:46px;height:46px;flex:none;border:1px solid rgba(230,230,230,.14);background:repeating-linear-gradient(45deg,rgba(230,230,230,.09) 0 4px,transparent 4px 9px)"></div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:7px">
+              <div style="display:flex;gap:3px;height:6px">
+                <sc-for list="{{ releaseSteps }}" as="rs" hint-placeholder-count="13">
+                  <div style="flex:1;background:{{ rs.c }};border:1px solid rgba(230,230,230,.2)"></div>
+                </sc-for>
+              </div>
+              <span style="font-size:8.5px;letter-spacing:.14em;color:rgba(230,230,230,.45)">8 / 13 AUFGABEN</span>
+            </div>
+          </div>
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <span style="font-size:9px;letter-spacing:.2em;color:rgba(230,230,230,.45)">OFFENE AUFGABEN</span>
+          <div style="border:1px solid rgba(230,230,230,.11);border-radius:4px;overflow:hidden">
+            <sc-for list="{{ tasks }}" as="t" hint-placeholder-count="4">
+              <div onClick="{{ t.toggle }}" style="display:flex;align-items:center;gap:12px;padding:13px 14px;border-bottom:1px solid rgba(230,230,230,.08);cursor:pointer">
+                <div style="width:15px;height:15px;flex:none;border:1px solid rgba(230,230,230,.35);display:flex;align-items:center;justify-content:center;background:{{ t.boxBg }}">
+                  <span style="font-size:9px;font-weight:700;color:#0E0F0E;opacity:{{ t.checkOp }}">✓</span>
+                </div>
+                <span style="flex:1;font-size:11.5px;letter-spacing:.01em;color:{{ t.color }};text-decoration:{{ t.deco }}">{{ t.t }}</span>
+                <span style="font-size:8.5px;letter-spacing:.12em;color:rgba(230,230,230,.35)">{{ t.due }}</span>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <span style="font-size:9px;letter-spacing:.2em;color:rgba(230,230,230,.45)">MODULE</span>
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px">
+            <div onClick="{{ nav5 }}" style="border:1px solid rgba(230,230,230,.11);border-radius:4px;padding:13px 11px;display:flex;flex-direction:column;gap:9px;cursor:pointer">
+              <span style="font-size:8px;letter-spacing:.14em;color:rgba(230,230,230,.42)">FINANZEN</span>
+              <span style="font-size:13px;font-weight:600;letter-spacing:-.02em;color:#E6E6E6">3.400 €</span>
+              <span style="font-size:8px;letter-spacing:.1em;color:rgba(230,230,230,.4)">OFFEN</span>
+            </div>
+            <div onClick="{{ nav6 }}" style="border:1px solid rgba(230,230,230,.11);border-radius:4px;padding:13px 11px;display:flex;flex-direction:column;gap:9px;cursor:pointer">
+              <span style="font-size:8px;letter-spacing:.14em;color:rgba(230,230,230,.42)">KONTAKTE</span>
+              <span style="font-size:13px;font-weight:600;letter-spacing:-.02em;color:#E6E6E6">42</span>
+              <span style="font-size:8px;letter-spacing:.1em;color:rgba(230,230,230,.4)">2 NEU</span>
+            </div>
+            <div onClick="{{ nav7 }}" style="border:1px solid rgba(230,230,230,.11);border-radius:4px;padding:13px 11px;display:flex;flex-direction:column;gap:9px;cursor:pointer">
+              <span style="font-size:8px;letter-spacing:.14em;color:rgba(230,230,230,.42)">TOUR</span>
+              <span style="font-size:13px;font-weight:600;letter-spacing:-.02em;color:#E6E6E6">KÖLN</span>
+              <span style="font-size:8px;letter-spacing:.1em;color:rgba(230,230,230,.4)">26.09</span>
+            </div>
+            <div onClick="{{ nav8 }}" style="border:1px solid rgba(230,230,230,.11);border-radius:4px;padding:13px 11px;display:flex;align-items:center;justify-content:space-between;gap:9px;cursor:pointer;grid-column:span 3">
+              <span style="font-size:8px;letter-spacing:.14em;color:rgba(230,230,230,.42)">SCREENSHOT IMPORTIEREN</span>
+              <span style="font-size:13px;font-weight:600;color:#E6E6E6">＋</span>
+            </div>
+          </div>
+        </div>
+
+        <div onClick="{{ nav4 }}" style="border:1px dashed rgba(230,230,230,.32);border-radius:4px;padding:14px;display:flex;align-items:center;gap:12px;cursor:pointer">
+          <div style="width:7px;height:7px;flex:none;background:#E6E6E6;animation:blink 1.8s ease-in-out infinite"></div>
+          <div style="flex:1;display:flex;flex-direction:column;gap:3px">
+            <span style="font-size:11px;font-weight:600;letter-spacing:.04em;color:#E6E6E6">CLAUDE HAT EINEN WOCHENPLAN</span>
+            <span style="font-size:10.5px;color:rgba(230,230,230,.5)">6 Posts bis zum Release · antippen</span>
+          </div>
+          <span style="font-size:13px;color:#E6E6E6">›</span>
+        </div>
+
+      </div>
+      </sc-if>
+
+      <sc-if value="{{ isBookings }}" hint-placeholder-val="{{ false }}">
+      <div style="padding:14px 20px 26px;display:flex;flex-direction:column;gap:14px;animation:fadeIn .22s ease">
+        <div style="display:flex;border:1px solid rgba(230,230,230,.14);border-radius:3px;overflow:hidden">
+          <div onClick="{{ fAll }}" style="flex:1;text-align:center;padding:9px 0;font-size:9.5px;font-weight:600;letter-spacing:.12em;cursor:pointer;border-right:1px solid rgba(230,230,230,.14);background:{{ fAllBg }};color:{{ fAllC }}">ALLE</div>
+          <div onClick="{{ fConf }}" style="flex:1;text-align:center;padding:9px 0;font-size:9.5px;font-weight:600;letter-spacing:.12em;cursor:pointer;border-right:1px solid rgba(230,230,230,.14);background:{{ fConfBg }};color:{{ fConfC }}">BESTÄTIGT</div>
+          <div onClick="{{ fReq }}" style="flex:1;text-align:center;padding:9px 0;font-size:9.5px;font-weight:600;letter-spacing:.12em;cursor:pointer;background:{{ fReqBg }};color:{{ fReqC }}">ANGEFRAGT</div>
+        </div>
+
+        <div style="display:flex;align-items:center;justify-content:space-between;font-size:8.5px;letter-spacing:.16em;color:rgba(230,230,230,.4)">
+          <span>{{ gigCount }} TERMINE</span>
+          <sc-if value="{{ showFees }}" hint-placeholder-val="{{ true }}">
+            <span>GAGE ∑ {{ feeSum }}</span>
+          </sc-if>
+        </div>
+
+        <div style="border-top:1px solid rgba(230,230,230,.11)">
+          <sc-for list="{{ gigs }}" as="g" hint-placeholder-count="6">
+            <div onClick="{{ g.open }}" style="display:flex;gap:13px;padding:14px 2px;border-bottom:1px solid rgba(230,230,230,.11);cursor:pointer;align-items:center;opacity:{{ g.op }}">
+              <div style="width:40px;flex:none;display:flex;flex-direction:column;align-items:center;gap:2px">
+                <span style="font-size:8px;letter-spacing:.14em;color:rgba(230,230,230,.4)">{{ g.day }}</span>
+                <span style="font-size:19px;font-weight:700;line-height:1;color:#E6E6E6">{{ g.d }}</span>
+                <span style="font-size:8px;letter-spacing:.14em;color:rgba(230,230,230,.4)">{{ g.m }}</span>
+              </div>
+              <div style="width:1px;align-self:stretch;background:rgba(230,230,230,.11)"></div>
+              <div style="flex:1;display:flex;flex-direction:column;gap:5px;min-width:0">
+                <span style="font-size:13px;font-weight:600;letter-spacing:-.01em;color:#E6E6E6;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ g.venue }}</span>
+                <span style="font-size:9.5px;letter-spacing:.1em;color:rgba(230,230,230,.5)">{{ g.city }} · {{ g.time }}</span>
+              </div>
+              <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px;flex:none">
+                <span style="font-size:8px;letter-spacing:.14em;padding:3px 6px;border:1px solid {{ g.stBorder }};background:{{ g.stBg }};color:{{ g.stC }}">{{ g.statusShort }}</span>
+                <sc-if value="{{ showFees }}" hint-placeholder-val="{{ true }}">
+                  <span style="font-size:10px;color:rgba(230,230,230,.6)">{{ g.fee }}</span>
+                </sc-if>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+      </sc-if>
+
+      <sc-if value="{{ isContent }}" hint-placeholder-val="{{ false }}">
+      <div style="padding:14px 20px 26px;display:flex;flex-direction:column;gap:18px;animation:fadeIn .22s ease">
+
+        <div style="display:flex;border:1px solid rgba(230,230,230,.11);border-radius:3px;overflow:hidden">
+          <sc-for list="{{ week }}" as="w" hint-placeholder-count="7">
+            <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:7px;padding:10px 0;background:{{ w.bg }};border-right:1px solid rgba(230,230,230,.11)">
+              <span style="font-size:8px;letter-spacing:.08em;color:rgba(230,230,230,.45)">{{ w.dow }}</span>
+              <span style="font-size:12px;font-weight:700;color:{{ w.numC }}">{{ w.num }}</span>
+              <div style="display:flex;gap:2.5px;height:4px">
+                <sc-for list="{{ w.dots }}" as="dot" hint-placeholder-count="2">
+                  <div style="width:4px;height:4px;background:{{ dot.c }};border:1px solid rgba(230,230,230,.4)"></div>
+                </sc-for>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+
+        <sc-for list="{{ groups }}" as="grp" hint-placeholder-count="3">
+          <div style="display:flex;flex-direction:column;gap:9px">
+            <div style="display:flex;align-items:baseline;gap:9px">
+              <span style="font-size:9px;letter-spacing:.2em;color:rgba(230,230,230,.45)">{{ grp.name }}</span>
+              <span style="font-size:9px;color:rgba(230,230,230,.3)">{{ grp.count }}</span>
+            </div>
+            <sc-for list="{{ grp.posts }}" as="p" hint-placeholder-count="2">
+              <div style="border:1px solid rgba(230,230,230,.11);border-radius:4px;padding:12px 13px;display:flex;gap:12px;align-items:flex-start">
+                <div style="width:36px;height:46px;flex:none;border:1px solid rgba(230,230,230,.12);background:repeating-linear-gradient(135deg,rgba(230,230,230,.08) 0 3px,transparent 3px 7px)"></div>
+                <div style="flex:1;display:flex;flex-direction:column;gap:6px;min-width:0">
+                  <div style="display:flex;align-items:center;gap:8px">
+                    <span style="font-size:8px;letter-spacing:.16em;color:#E6E6E6">{{ p.plat }}</span>
+                    <span style="font-size:8px;letter-spacing:.1em;color:rgba(230,230,230,.35)">{{ p.time }}</span>
+                  </div>
+                  <span style="font-size:11.5px;line-height:1.45;color:rgba(230,230,230,.85);text-wrap:pretty">{{ p.t }}</span>
+                </div>
+                <span style="font-size:8px;letter-spacing:.14em;padding:3px 6px;flex:none;border:1px solid {{ p.stBorder }};background:{{ p.stBg }};color:{{ p.stC }}">{{ p.st }}</span>
+              </div>
+            </sc-for>
+          </div>
+        </sc-for>
+
+        <div onClick="{{ nav4 }}" style="padding:13px;border:1px dashed rgba(230,230,230,.3);border-radius:4px;display:flex;align-items:center;justify-content:space-between;cursor:pointer">
+          <span style="font-size:10.5px;font-weight:600;letter-spacing:.1em;color:#E6E6E6">LÜCKEN MIT CLAUDE FÜLLEN</span>
+          <span style="font-size:13px;color:#E6E6E6">›</span>
+        </div>
+      </div>
+      </sc-if>
+
+      <sc-if value="{{ isStats }}" hint-placeholder-val="{{ false }}">
+      <div style="padding:14px 20px 26px;display:flex;flex-direction:column;gap:18px;animation:fadeIn .22s ease">
+
+        <div style="display:flex;border:1px solid rgba(230,230,230,.14);border-radius:3px;overflow:hidden">
+          <div onClick="{{ r7 }}" style="flex:1;text-align:center;padding:9px 0;font-size:9.5px;font-weight:600;letter-spacing:.12em;cursor:pointer;border-right:1px solid rgba(230,230,230,.14);background:{{ r7Bg }};color:{{ r7C }}">7 T</div>
+          <div onClick="{{ r30 }}" style="flex:1;text-align:center;padding:9px 0;font-size:9.5px;font-weight:600;letter-spacing:.12em;cursor:pointer;border-right:1px solid rgba(230,230,230,.14);background:{{ r30Bg }};color:{{ r30C }}">30 T</div>
+          <div onClick="{{ r90 }}" style="flex:1;text-align:center;padding:9px 0;font-size:9.5px;font-weight:600;letter-spacing:.12em;cursor:pointer;background:{{ r90Bg }};color:{{ r90C }}">90 T</div>
+        </div>
+
+        <div onClick="{{ nav8 }}" style="display:flex;align-items:center;justify-content:space-between;gap:10px;padding:11px 13px;border:1px dashed rgba(230,230,230,.28);border-radius:4px;cursor:pointer">
+          <div style="display:flex;flex-direction:column;gap:4px">
+            <span style="font-size:9.5px;font-weight:600;letter-spacing:.12em;color:#E6E6E6">＋ SCREENSHOT IMPORTIEREN</span>
+            <span style="font-size:9px;letter-spacing:.02em;color:rgba(230,230,230,.45)">Zuletzt: Instagram, vor 6 Tagen</span>
+          </div>
+          <span style="font-size:13px;color:#E6E6E6">›</span>
+        </div>
+
+        <div style="border:1px solid rgba(230,230,230,.11);border-radius:4px;padding:16px;display:flex;flex-direction:column;gap:15px">
+          <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:12px">
+            <div style="display:flex;flex-direction:column;gap:6px">
+              <span style="font-size:8.5px;letter-spacing:.2em;color:rgba(230,230,230,.42)">REICHWEITE GESAMT</span>
+              <span style="font-size:30px;font-weight:600;letter-spacing:-.04em;line-height:1;color:#E6E6E6">{{ reachValue }}</span>
+            </div>
+            <span style="font-size:10.5px;padding:4px 7px;border:1px solid rgba(230,230,230,.35);color:#E6E6E6">{{ reachDelta }}</span>
+          </div>
+          <div style="height:92px;display:flex;align-items:flex-end;gap:3px">
+            <sc-for list="{{ bars }}" as="b" hint-placeholder-count="14">
+              <div style="flex:1;display:flex;flex-direction:column;justify-content:flex-end;height:100%">
+                <div style="width:100%;height:{{ b.h }};background:{{ b.c }};border-top:1px solid rgba(230,230,230,.5)"></div>
+              </div>
+            </sc-for>
+          </div>
+          <div style="display:flex;justify-content:space-between;font-size:8px;letter-spacing:.14em;color:rgba(230,230,230,.32);border-top:1px solid rgba(230,230,230,.11);padding-top:8px">
+            <span>{{ axisA }}</span><span>{{ axisB }}</span><span>HEUTE</span>
+          </div>
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:9px">
+          <span style="font-size:9px;letter-spacing:.2em;color:rgba(230,230,230,.45)">NACH PLATTFORM</span>
+          <div style="border:1px solid rgba(230,230,230,.11);border-radius:4px;overflow:hidden">
+            <sc-for list="{{ platforms }}" as="pf" hint-placeholder-count="4">
+              <div style="padding:12px 14px;display:flex;flex-direction:column;gap:9px;border-bottom:1px solid rgba(230,230,230,.08)">
+                <div style="display:flex;align-items:baseline;justify-content:space-between;gap:10px">
+                  <span style="font-size:10.5px;font-weight:500;letter-spacing:.1em;color:#E6E6E6">{{ pf.name }}</span>
+                  <div style="display:flex;align-items:baseline;gap:10px">
+                    <span style="font-size:11.5px;color:#E6E6E6">{{ pf.val }}</span>
+                    <span style="font-size:9.5px;width:48px;text-align:right;color:{{ pf.dC }}">{{ pf.delta }}</span>
+                  </div>
+                </div>
+                <div style="height:4px;background:rgba(230,230,230,.08)"><div style="height:100%;width:{{ pf.w }};background:{{ pf.barC }}"></div></div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:9px">
+          <span style="font-size:9px;letter-spacing:.2em;color:rgba(230,230,230,.45)">BESTER CONTENT</span>
+          <div style="border:1px solid rgba(230,230,230,.11);border-radius:4px;overflow:hidden">
+            <sc-for list="{{ topContent }}" as="tc" hint-placeholder-count="3">
+              <div onClick="{{ tc.open }}" style="padding:12px 14px;display:flex;gap:12px;align-items:center;border-bottom:1px solid rgba(230,230,230,.08);cursor:pointer">
+                <span style="font-size:13px;font-weight:700;color:rgba(230,230,230,.3);width:16px;flex:none">{{ tc.rank }}</span>
+                <div style="flex:1;display:flex;flex-direction:column;gap:4px;min-width:0">
+                  <span style="font-size:11.5px;color:#E6E6E6;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ tc.t }}</span>
+                  <span style="font-size:8px;letter-spacing:.14em;color:rgba(230,230,230,.4)">{{ tc.plat }} · {{ tc.date }}</span>
+                </div>
+                <div style="display:flex;flex-direction:column;align-items:flex-end;gap:3px;flex:none">
+                  <span style="font-size:11.5px;color:#E6E6E6">{{ tc.views }}</span>
+                  <span style="font-size:8px;letter-spacing:.1em;color:rgba(230,230,230,.4)">{{ tc.saves }} SAVES</span>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:9px">
+          <div style="display:flex;align-items:baseline;justify-content:space-between">
+            <span style="font-size:9px;letter-spacing:.2em;color:rgba(230,230,230,.45)">WAS FUNKTIONIERT</span>
+            <span style="font-size:8px;letter-spacing:.12em;color:rgba(230,230,230,.32)">42 SHORTS AUSGEWERTET</span>
+          </div>
+          <div style="border:1px solid rgba(230,230,230,.11);border-radius:4px;overflow:hidden">
+            <sc-for list="{{ trends }}" as="tr" hint-placeholder-count="4">
+              <div style="padding:13px 14px;display:flex;flex-direction:column;gap:11px;border-bottom:1px solid rgba(230,230,230,.08)">
+                <div style="display:flex;align-items:baseline;justify-content:space-between;gap:10px">
+                  <span style="font-size:9px;letter-spacing:.16em;color:rgba(230,230,230,.45)">{{ tr.dim }}</span>
+                  <span style="font-size:10px;font-weight:700;color:#E6E6E6">{{ tr.delta }}</span>
+                </div>
+                <div style="display:flex;flex-direction:column;gap:7px">
+                  <div style="display:flex;align-items:center;gap:10px">
+                    <span style="flex:1;font-size:10.5px;color:#E6E6E6;min-width:0">{{ tr.aLabel }}</span>
+                    <span style="font-size:10px;color:#E6E6E6;width:44px;text-align:right;flex:none">{{ tr.aVal }}</span>
+                  </div>
+                  <div style="height:6px;background:rgba(230,230,230,.07)"><div style="height:100%;width:{{ tr.aW }};background:#E6E6E6"></div></div>
+                  <div style="display:flex;align-items:center;gap:10px">
+                    <span style="flex:1;font-size:10.5px;color:rgba(230,230,230,.5);min-width:0">{{ tr.bLabel }}</span>
+                    <span style="font-size:10px;color:rgba(230,230,230,.5);width:44px;text-align:right;flex:none">{{ tr.bVal }}</span>
+                  </div>
+                  <div style="height:6px;background:rgba(230,230,230,.07)"><div style="height:100%;width:{{ tr.bW }};background:rgba(230,230,230,.3)"></div></div>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+
+        <div style="border:1px solid rgba(230,230,230,.35);border-radius:4px;padding:14px;display:flex;flex-direction:column;gap:10px;background:rgba(230,230,230,.03)">
+          <span style="font-size:8px;letter-spacing:.22em;color:#E6E6E6">MUSTER ERKANNT</span>
+          <span style="font-size:11.5px;line-height:1.55;color:rgba(230,230,230,.8);text-wrap:pretty">Clips mit sichtbarem Mixer im Bild halten 4,1 Sek. länger als Clips ohne. Deine drei besten Posts liefen alle zwischen 19 und 21 Uhr.</span>
+          <div onClick="{{ nav4 }}" style="align-self:flex-start;margin-top:2px;padding:8px 12px;border:1px solid rgba(230,230,230,.3);font-size:10px;font-weight:600;letter-spacing:.1em;color:#E6E6E6;cursor:pointer">DARAUS EINEN PLAN BAUEN</div>
+        </div>
+      </div>
+      </sc-if>
+
+      <sc-if value="{{ isFinance }}" hint-placeholder-val="{{ false }}">
+      <div style="padding:14px 20px 26px;display:flex;flex-direction:column;gap:18px;animation:fadeIn .22s ease">
+        <div style="display:grid;grid-template-columns:1fr 1fr;border:1px solid rgba(230,230,230,.11);border-radius:4px;overflow:hidden;flex:none">
+          <div style="padding:14px;display:flex;flex-direction:column;gap:8px;border-right:1px solid rgba(230,230,230,.11)">
+            <span style="font-size:8px;letter-spacing:.16em;color:rgba(230,230,230,.42)">EINNAHMEN 2026</span>
+            <span style="font-size:20px;font-weight:600;letter-spacing:-.03em;color:#E6E6E6">38.400 €</span>
+          </div>
+          <div style="padding:14px;display:flex;flex-direction:column;gap:8px">
+            <span style="font-size:8px;letter-spacing:.16em;color:rgba(230,230,230,.42)">OFFEN</span>
+            <span style="font-size:20px;font-weight:600;letter-spacing:-.03em;color:#E6E6E6">3.400 €</span>
+          </div>
+          <div style="padding:14px;display:flex;flex-direction:column;gap:8px;border-top:1px solid rgba(230,230,230,.11);border-right:1px solid rgba(230,230,230,.11)">
+            <span style="font-size:8px;letter-spacing:.16em;color:rgba(230,230,230,.42)">AUSGABEN</span>
+            <span style="font-size:20px;font-weight:600;letter-spacing:-.03em;color:#E6E6E6">11.260 €</span>
+          </div>
+          <div style="padding:14px;display:flex;flex-direction:column;gap:8px;border-top:1px solid rgba(230,230,230,.11)">
+            <span style="font-size:8px;letter-spacing:.16em;color:rgba(230,230,230,.42)">RÜCKLAGE STEUER</span>
+            <span style="font-size:20px;font-weight:600;letter-spacing:-.03em;color:#E6E6E6">8.900 €</span>
+          </div>
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:9px">
+          <span style="font-size:9px;letter-spacing:.2em;color:rgba(230,230,230,.45)">RECHNUNGEN</span>
+          <div style="border:1px solid rgba(230,230,230,.11);border-radius:4px;overflow:hidden">
+            <sc-for list="{{ invoices }}" as="iv" hint-placeholder-count="5">
+              <div style="padding:12px 14px;display:flex;gap:12px;align-items:center;border-bottom:1px solid rgba(230,230,230,.08)">
+                <span style="font-size:9px;letter-spacing:.1em;color:rgba(230,230,230,.4);width:52px;flex:none">{{ iv.no }}</span>
+                <div style="flex:1;display:flex;flex-direction:column;gap:4px;min-width:0">
+                  <span style="font-size:11.5px;color:#E6E6E6;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ iv.who }}</span>
+                  <span style="font-size:8px;letter-spacing:.12em;color:rgba(230,230,230,.4)">{{ iv.date }}</span>
+                </div>
+                <span style="font-size:11.5px;color:#E6E6E6;flex:none">{{ iv.amt }}</span>
+                <span style="font-size:8px;letter-spacing:.12em;padding:3px 6px;flex:none;border:1px solid {{ iv.stBorder }};background:{{ iv.stBg }};color:{{ iv.stC }}">{{ iv.st }}</span>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:9px">
+          <span style="font-size:9px;letter-spacing:.2em;color:rgba(230,230,230,.45)">EINNAHMEN NACH QUELLE</span>
+          <div style="border:1px solid rgba(230,230,230,.11);border-radius:4px;padding:15px;display:flex;flex-direction:column;gap:12px">
+            <sc-for list="{{ income }}" as="in" hint-placeholder-count="4">
+              <div style="display:flex;flex-direction:column;gap:7px">
+                <div style="display:flex;justify-content:space-between;font-size:10px;letter-spacing:.08em">
+                  <span style="color:rgba(230,230,230,.75)">{{ in.k }}</span>
+                  <span style="color:#E6E6E6">{{ in.v }}</span>
+                </div>
+                <div style="height:4px;background:rgba(230,230,230,.08)"><div style="height:100%;width:{{ in.w }};background:{{ in.c }}"></div></div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+      </div>
+      </sc-if>
+
+      <sc-if value="{{ isContacts }}" hint-placeholder-val="{{ false }}">
+      <div style="padding:14px 20px 26px;display:flex;flex-direction:column;gap:16px;animation:fadeIn .22s ease">
+        <div style="display:flex;align-items:center;gap:10px;padding:10px 13px;border:1px solid rgba(230,230,230,.14);border-radius:3px">
+          <span style="font-size:11px;color:rgba(230,230,230,.35)">⌕</span>
+          <input value="{{ search }}" onChange="{{ onSearch }}" placeholder="Name, Club, Label" style="flex:1;background:transparent;border:0;outline:none;color:#E6E6E6;font-size:11.5px" />
+        </div>
+        <sc-for list="{{ contactGroups }}" as="cg" hint-placeholder-count="3">
+          <div style="display:flex;flex-direction:column;gap:9px">
+            <span style="font-size:9px;letter-spacing:.2em;color:rgba(230,230,230,.45)">{{ cg.name }}</span>
+            <div style="border:1px solid rgba(230,230,230,.11);border-radius:4px;overflow:hidden">
+              <sc-for list="{{ cg.people }}" as="c" hint-placeholder-count="3">
+                <div style="padding:12px 14px;display:flex;gap:12px;align-items:center;border-bottom:1px solid rgba(230,230,230,.08)">
+                  <div style="width:30px;height:30px;flex:none;border:1px solid rgba(230,230,230,.2);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9.5px;font-weight:700;color:#E6E6E6">{{ c.ini }}</div>
+                  <div style="flex:1;display:flex;flex-direction:column;gap:4px;min-width:0">
+                    <span style="font-size:11.5px;color:#E6E6E6">{{ c.name }}</span>
+                    <span style="font-size:8.5px;letter-spacing:.1em;color:rgba(230,230,230,.4)">{{ c.org }}</span>
+                  </div>
+                  <span style="font-size:8px;letter-spacing:.12em;color:rgba(230,230,230,.35);flex:none">{{ c.last }}</span>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+      </sc-if>
+
+      <sc-if value="{{ isTour }}" hint-placeholder-val="{{ false }}">
+      <div style="padding:14px 20px 26px;display:flex;flex-direction:column;gap:18px;animation:fadeIn .22s ease">
+        <div style="border:1px solid rgba(230,230,230,.55);border-radius:4px;padding:15px;display:flex;flex-direction:column;gap:6px;background:rgba(230,230,230,.04)">
+          <span style="font-size:8px;letter-spacing:.22em;color:#E6E6E6">NÄCHSTE REISE</span>
+          <span style="font-size:20px;font-weight:600;letter-spacing:-.03em;color:#E6E6E6">KÖLN · 26.09</span>
+          <span style="font-size:10.5px;color:rgba(230,230,230,.6)">Bootshaus / Red Room · 2 Nächte</span>
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:9px">
+          <span style="font-size:9px;letter-spacing:.2em;color:rgba(230,230,230,.45)">ABLAUF</span>
+          <div style="border:1px solid rgba(230,230,230,.11);border-radius:4px;padding:6px 14px 14px">
+            <sc-for list="{{ itinerary }}" as="it" hint-placeholder-count="6">
+              <div style="display:flex;gap:14px;padding:10px 0">
+                <span style="font-size:10px;letter-spacing:.06em;color:rgba(230,230,230,.5);width:44px;flex:none;padding-top:1px">{{ it.time }}</span>
+                <div style="width:1px;background:rgba(230,230,230,.14);flex:none;position:relative">
+                  <div style="position:absolute;left:-3px;top:3px;width:7px;height:7px;background:{{ it.dot }};border:1px solid rgba(230,230,230,.5)"></div>
+                </div>
+                <div style="flex:1;display:flex;flex-direction:column;gap:4px">
+                  <span style="font-size:11.5px;color:#E6E6E6">{{ it.t }}</span>
+                  <span style="font-size:9px;letter-spacing:.06em;color:rgba(230,230,230,.45)">{{ it.sub }}</span>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:9px">
+          <span style="font-size:9px;letter-spacing:.2em;color:rgba(230,230,230,.45)">RIDER-CHECK</span>
+          <div style="border:1px solid rgba(230,230,230,.11);border-radius:4px;overflow:hidden">
+            <sc-for list="{{ rider }}" as="rd" hint-placeholder-count="4">
+              <div onClick="{{ rd.toggle }}" style="display:flex;align-items:center;gap:12px;padding:12px 14px;border-bottom:1px solid rgba(230,230,230,.08);cursor:pointer">
+                <div style="width:15px;height:15px;flex:none;border:1px solid rgba(230,230,230,.35);display:flex;align-items:center;justify-content:center;background:{{ rd.boxBg }}">
+                  <span style="font-size:9px;font-weight:700;color:#0E0F0E;opacity:{{ rd.checkOp }}">✓</span>
+                </div>
+                <span style="flex:1;font-size:11.5px;color:{{ rd.color }};text-decoration:{{ rd.deco }}">{{ rd.t }}</span>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+      </div>
+      </sc-if>
+
+      <sc-if value="{{ isAI }}" hint-placeholder-val="{{ false }}">
+      <div style="min-height:100%;display:flex;flex-direction:column;animation:fadeIn .22s ease">
+        <div style="flex:1;padding:16px 20px 8px;display:flex;flex-direction:column;gap:13px">
+          <sc-for list="{{ messages }}" as="m" hint-placeholder-count="1">
+            <div style="max-width:86%;align-self:{{ m.self }};padding:12px 13px;border:1px solid {{ m.border }};background:{{ m.bg }};color:{{ m.color }};font-size:11.5px;line-height:1.55;letter-spacing:.01em;text-wrap:pretty;animation:riseIn .28s ease">{{ m.text }}</div>
+          </sc-for>
+
+          <sc-if value="{{ thinking }}" hint-placeholder-val="{{ false }}">
+            <div style="align-self:flex-start;display:flex;gap:5px;padding:13px;border:1px solid rgba(230,230,230,.12)">
+              <div style="width:5px;height:5px;background:#E6E6E6;animation:blink 1s ease-in-out infinite"></div>
+              <div style="width:5px;height:5px;background:#E6E6E6;animation:blink 1s ease-in-out .2s infinite"></div>
+              <div style="width:5px;height:5px;background:#E6E6E6;animation:blink 1s ease-in-out .4s infinite"></div>
+            </div>
+          </sc-if>
+
+          <sc-if value="{{ hasPlan }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;flex-direction:column;gap:8px;animation:riseIn .32s ease">
+            <div style="display:flex;align-items:center;justify-content:space-between;padding-top:4px">
+              <span style="font-size:8px;letter-spacing:.2em;color:rgba(230,230,230,.42)">PLANVORSCHLAG · {{ planCount }} POSTS</span>
+              <span onClick="{{ addAll }}" style="font-size:9.5px;font-weight:600;letter-spacing:.1em;color:#E6E6E6;cursor:pointer;border-bottom:1px solid rgba(230,230,230,.4)">ALLE ÜBERNEHMEN</span>
+            </div>
+            <sc-for list="{{ plan }}" as="p" hint-placeholder-count="4">
+              <div style="border:1px solid {{ p.border }};border-radius:4px;background:{{ p.bg }};padding:12px 13px;display:flex;flex-direction:column;gap:8px">
+                <div style="display:flex;align-items:center;gap:9px">
+                  <span style="font-size:9px;letter-spacing:.12em;color:#E6E6E6">{{ p.day }}</span>
+                  <span style="font-size:8px;letter-spacing:.16em;color:rgba(230,230,230,.5)">{{ p.plat }}</span>
+                </div>
+                <span style="font-size:11.5px;line-height:1.5;color:rgba(230,230,230,.82);text-wrap:pretty">{{ p.idea }}</span>
+                <div onClick="{{ p.add }}" style="align-self:flex-start;margin-top:2px;padding:7px 11px;font-size:9.5px;font-weight:600;letter-spacing:.1em;cursor:pointer;border:1px solid {{ p.btnBorder }};background:{{ p.btnBg }};color:{{ p.btnC }}">{{ p.btnLabel }}</div>
+              </div>
+            </sc-for>
+          </div>
+          </sc-if>
+        </div>
+
+        <div style="flex:none;position:sticky;bottom:0;padding:10px 20px 16px;background:linear-gradient(to top,#0E0F0E 60%,rgba(14,15,14,0));display:flex;flex-direction:column;gap:9px">
+          <div style="display:flex;gap:6px;overflow-x:auto">
+            <sc-for list="{{ suggestions }}" as="s" hint-placeholder-count="3">
+              <div onClick="{{ s.use }}" style="flex:none;padding:8px 11px;border:1px solid rgba(230,230,230,.16);font-size:10px;letter-spacing:.04em;color:rgba(230,230,230,.7);cursor:pointer;white-space:nowrap">{{ s.t }}</div>
+            </sc-for>
+          </div>
+          <div style="display:flex;align-items:center;gap:9px;padding:7px 7px 7px 13px;border:1px solid rgba(230,230,230,.22)">
+            <span style="font-size:11px;color:rgba(230,230,230,.4)">&gt;</span>
+            <input value="{{ draft }}" onChange="{{ onDraft }}" onKeyDown="{{ onKey }}" placeholder="Was planen wir?" style="flex:1;background:transparent;border:0;outline:none;color:#E6E6E6;font-size:11.5px;padding:6px 0" />
+            <div onClick="{{ send }}" style="width:32px;height:32px;flex:none;background:#E6E6E6;display:flex;align-items:center;justify-content:center;color:#0E0F0E;font-size:13px;font-weight:700;cursor:pointer">↑</div>
+          </div>
+        </div>
+      </div>
+      </sc-if>
+
+      <sc-if value="{{ isImport }}" hint-placeholder-val="{{ false }}">
+      <div style="padding:14px 20px 26px;display:flex;flex-direction:column;gap:16px;animation:fadeIn .22s ease">
+        <div style="display:flex;border:1px solid rgba(230,230,230,.14);border-radius:3px;overflow:hidden">
+          <div onClick="{{ kAccount }}" style="flex:1;text-align:center;padding:9px 0;font-size:9.5px;font-weight:600;letter-spacing:.12em;cursor:pointer;border-right:1px solid rgba(230,230,230,.14);background:{{ kAccBg }};color:{{ kAccC }}">ACCOUNT</div>
+          <div onClick="{{ kPost }}" style="flex:1;text-align:center;padding:9px 0;font-size:9.5px;font-weight:600;letter-spacing:.12em;cursor:pointer;background:{{ kPostBg }};color:{{ kPostC }}">EINZELNER POST</div>
+        </div>
+
+        <sc-if value="{{ impPick }}" hint-placeholder-val="{{ true }}">
+        <div style="display:flex;flex-direction:column;gap:14px">
+          <div onClick="{{ startRead }}" style="height:196px;border:1px dashed rgba(230,230,230,.3);border-radius:4px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:13px;cursor:pointer;background:repeating-linear-gradient(135deg,rgba(230,230,230,.035) 0 6px,transparent 6px 13px)">
+            <div style="width:42px;height:42px;border:1px solid rgba(230,230,230,.3);display:flex;align-items:center;justify-content:center;font-size:17px;color:#E6E6E6">＋</div>
+            <div style="display:flex;flex-direction:column;gap:5px;align-items:center">
+              <span style="font-size:11px;font-weight:600;letter-spacing:.08em;color:#E6E6E6">SCREENSHOT ABLEGEN</span>
+              <span style="font-size:9.5px;color:rgba(230,230,230,.45)">oder aus der Galerie wählen</span>
+            </div>
+          </div>
+          <span style="font-size:9.5px;line-height:1.6;color:rgba(230,230,230,.5)">{{ impHint }}</span>
+          <div style="display:flex;flex-direction:column;gap:9px">
+            <span style="font-size:9px;letter-spacing:.2em;color:rgba(230,230,230,.45)">LETZTE IMPORTE</span>
+            <div style="border:1px solid rgba(230,230,230,.11);border-radius:4px;overflow:hidden">
+              <sc-for list="{{ imports }}" as="im" hint-placeholder-count="4">
+                <div style="padding:11px 13px;display:flex;gap:12px;align-items:center;border-bottom:1px solid rgba(230,230,230,.08)">
+                  <div style="width:22px;height:28px;flex:none;border:1px solid rgba(230,230,230,.14);background:repeating-linear-gradient(135deg,rgba(230,230,230,.09) 0 3px,transparent 3px 6px)"></div>
+                  <div style="flex:1;display:flex;flex-direction:column;gap:3px;min-width:0">
+                    <span style="font-size:10.5px;color:#E6E6E6">{{ im.plat }} · {{ im.kind }}</span>
+                    <span style="font-size:8px;letter-spacing:.12em;color:rgba(230,230,230,.4)">{{ im.range }}</span>
+                  </div>
+                  <span style="font-size:8px;letter-spacing:.12em;color:rgba(230,230,230,.35);flex:none">{{ im.when }}</span>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+        </div>
+        </sc-if>
+
+        <sc-if value="{{ impReading }}" hint-placeholder-val="{{ false }}">
+        <div style="display:flex;flex-direction:column;gap:14px;animation:riseIn .25s ease">
+          <div style="height:196px;border:1px solid rgba(230,230,230,.14);border-radius:4px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;background:repeating-linear-gradient(135deg,rgba(230,230,230,.05) 0 6px,transparent 6px 13px)">
+            <div style="display:flex;gap:5px">
+              <div style="width:6px;height:6px;background:#E6E6E6;animation:blink 1s ease-in-out infinite"></div>
+              <div style="width:6px;height:6px;background:#E6E6E6;animation:blink 1s ease-in-out .2s infinite"></div>
+              <div style="width:6px;height:6px;background:#E6E6E6;animation:blink 1s ease-in-out .4s infinite"></div>
+            </div>
+            <span style="font-size:10px;letter-spacing:.16em;color:rgba(230,230,230,.6)">CLAUDE LIEST DEN SCREENSHOT</span>
+          </div>
+          <div style="border:1px solid rgba(230,230,230,.11);border-radius:4px;overflow:hidden">
+            <sc-for list="{{ readSteps }}" as="rs" hint-placeholder-count="3">
+              <div style="padding:11px 13px;display:flex;gap:11px;align-items:center;border-bottom:1px solid rgba(230,230,230,.08)">
+                <span style="font-size:10px;width:12px;flex:none;color:{{ rs.c }}">{{ rs.mark }}</span>
+                <span style="flex:1;font-size:10.5px;color:{{ rs.c }}">{{ rs.t }}</span>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+        </sc-if>
+
+        <sc-if value="{{ impReview }}" hint-placeholder-val="{{ false }}">
+        <div style="display:flex;flex-direction:column;gap:14px;animation:riseIn .25s ease">
+          <div style="display:flex;gap:13px;align-items:flex-start;flex:none">
+            <div style="width:74px;height:104px;flex:none;border:1px solid rgba(230,230,230,.16);background:repeating-linear-gradient(135deg,rgba(230,230,230,.09) 0 4px,transparent 4px 9px)"></div>
+            <div style="flex:1;display:flex;flex-direction:column;gap:7px;min-width:0">
+              <span style="font-size:8px;letter-spacing:.2em;color:rgba(230,230,230,.45)">ERKANNT</span>
+              <span style="font-size:13px;font-weight:600;letter-spacing:-.01em;color:#E6E6E6">{{ revTitle }}</span>
+              <span style="font-size:9.5px;letter-spacing:.06em;color:rgba(230,230,230,.5)">{{ revSub }}</span>
+              <span style="font-size:8.5px;letter-spacing:.1em;padding:3px 6px;align-self:flex-start;border:1px solid rgba(230,230,230,.2);color:#E6E6E6">{{ revConf }}</span>
+            </div>
+          </div>
+          <div style="border:1px solid rgba(230,230,230,.11);border-radius:4px;overflow:hidden">
+            <sc-for list="{{ revRows }}" as="rr" hint-placeholder-count="6">
+              <div style="padding:11px 13px;display:flex;gap:10px;align-items:center;border-bottom:1px solid rgba(230,230,230,.08);background:{{ rr.rowBg }}">
+                <span style="flex:1;font-size:9px;letter-spacing:.14em;color:rgba(230,230,230,.45);min-width:0">{{ rr.k }}</span>
+                <span style="font-size:11.5px;color:#E6E6E6;flex:none">{{ rr.v }}</span>
+                <span style="font-size:8px;letter-spacing:.12em;padding:2px 5px;flex:none;border:1px solid {{ rr.stBorder }};color:{{ rr.stC }}">{{ rr.st }}</span>
+              </div>
+            </sc-for>
+          </div>
+          <span style="font-size:9.5px;line-height:1.6;color:rgba(230,230,230,.5)">Zwei Werte waren im Screenshot abgeschnitten. Tippe eine Zeile an, um sie von Hand zu korrigieren.</span>
+          <div style="display:flex;gap:8px">
+            <div onClick="{{ confirmImport }}" style="flex:1;padding:12px 0;background:#E6E6E6;color:#0E0F0E;font-size:10.5px;font-weight:700;letter-spacing:.1em;text-align:center;cursor:pointer">ÜBERNEHMEN</div>
+            <div onClick="{{ resetImport }}" style="padding:12px 16px;border:1px solid rgba(230,230,230,.2);font-size:10.5px;font-weight:500;letter-spacing:.1em;text-align:center;cursor:pointer;color:#E6E6E6">VERWERFEN</div>
+          </div>
+        </div>
+        </sc-if>
+
+        <sc-if value="{{ impDone }}" hint-placeholder-val="{{ false }}">
+        <div style="display:flex;flex-direction:column;gap:14px;animation:riseIn .25s ease">
+          <div style="border:1px solid rgba(230,230,230,.5);border-radius:4px;padding:16px;display:flex;flex-direction:column;gap:9px;background:rgba(230,230,230,.04)">
+            <span style="font-size:8px;letter-spacing:.22em;color:#E6E6E6">ÜBERNOMMEN</span>
+            <span style="font-size:11.5px;line-height:1.55;color:rgba(230,230,230,.85)">{{ doneText }}</span>
+          </div>
+          <div style="display:flex;gap:8px">
+            <div onClick="{{ nav3 }}" style="flex:1;padding:12px 0;background:#E6E6E6;color:#0E0F0E;font-size:10.5px;font-weight:700;letter-spacing:.1em;text-align:center;cursor:pointer">ZU DEN ZAHLEN</div>
+            <div onClick="{{ resetImport }}" style="padding:12px 16px;border:1px solid rgba(230,230,230,.2);font-size:10.5px;font-weight:500;letter-spacing:.1em;text-align:center;cursor:pointer;color:#E6E6E6">NÄCHSTER</div>
+          </div>
+        </div>
+        </sc-if>
+      </div>
+      </sc-if>
+
+      <sc-if value="{{ isRelease }}" hint-placeholder-val="{{ false }}">
+      <div style="padding:14px 20px 26px;display:flex;flex-direction:column;gap:18px;animation:fadeIn .22s ease">
+        <div style="border:1px solid rgba(230,230,230,.55);border-radius:4px;background:rgba(230,230,230,.04)">
+          <div style="padding:16px;display:flex;align-items:flex-start;justify-content:space-between;gap:14px">
+            <div style="display:flex;flex-direction:column;gap:7px;min-width:0">
+              <span style="font-size:8px;letter-spacing:.22em;color:rgba(230,230,230,.55)">AKTUELLER RELEASE</span>
+              <span style="font-size:25px;font-weight:600;letter-spacing:-.04em;line-height:1;color:#E6E6E6">NACHTFORM</span>
+              <span style="font-size:10px;letter-spacing:.06em;color:rgba(230,230,230,.6)">EP · 4 TRACKS · HALLENFORM</span>
+            </div>
+            <div style="display:flex;flex-direction:column;align-items:flex-end;flex:none">
+              <span style="font-size:40px;font-weight:700;letter-spacing:-.05em;line-height:.9;color:#E6E6E6">29</span>
+              <span style="font-size:8px;letter-spacing:.2em;color:rgba(230,230,230,.5)">TAGE</span>
+            </div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;border-top:1px solid rgba(230,230,230,.14)">
+            <div style="padding:11px 16px;display:flex;flex-direction:column;gap:5px;border-right:1px solid rgba(230,230,230,.14)">
+              <span style="font-size:8px;letter-spacing:.16em;color:rgba(230,230,230,.45)">VERÖFFENTLICHUNG</span>
+              <span style="font-size:12px;color:#E6E6E6">SA 26.09.2026</span>
+            </div>
+            <div style="padding:11px 16px;display:flex;flex-direction:column;gap:5px">
+              <span style="font-size:8px;letter-spacing:.16em;color:rgba(230,230,230,.45)">STATUS</span>
+              <span style="font-size:12px;font-weight:600;color:#E6E6E6">{{ relStatus }}</span>
+            </div>
+          </div>
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <div style="display:flex;align-items:baseline;justify-content:space-between">
+            <span style="font-size:9px;letter-spacing:.2em;color:rgba(230,230,230,.45)">ZEITSTRAHL</span>
+            <span style="font-size:8px;letter-spacing:.12em;color:rgba(230,230,230,.32)">01.08 → 26.09</span>
+          </div>
+          <div style="border:1px solid rgba(230,230,230,.11);border-radius:4px;padding:15px 15px 13px">
+            <div style="position:relative;padding-top:16px">
+              <div style="position:absolute;left:34%;top:0;bottom:-22px;width:1px;background:#E6E6E6;z-index:2"></div>
+              <div style="position:absolute;left:34%;top:0;transform:translateX(-50%);z-index:3;font-size:7.5px;letter-spacing:.14em;background:#0E0F0E;padding:0 4px;color:#E6E6E6">HEUTE</div>
+              <div style="display:flex;height:26px;border:1px solid rgba(230,230,230,.16)">
+                <sc-for list="{{ relSegs }}" as="sg" hint-placeholder-count="5">
+                  <div style="width:{{ sg.w }};background:{{ sg.bg }};border-right:1px solid rgba(230,230,230,.16);display:flex;align-items:center;justify-content:center">
+                    <span style="font-size:8px;font-weight:700;letter-spacing:.1em;color:{{ sg.c }}">{{ sg.no }}</span>
+                  </div>
+                </sc-for>
+              </div>
+              <div style="display:flex;margin-top:26px">
+                <sc-for list="{{ relSegs }}" as="sg2" hint-placeholder-count="5">
+                  <div style="width:{{ sg2.w }};padding-right:4px">
+                    <span style="font-size:7.5px;letter-spacing:.06em;line-height:1.3;color:rgba(230,230,230,.4);display:block">{{ sg2.short }}</span>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;border:1px solid rgba(230,230,230,.11);border-radius:4px;overflow:hidden">
+          <sc-for list="{{ relStats }}" as="rst" hint-placeholder-count="4">
+            <div style="padding:13px 14px;display:flex;flex-direction:column;gap:8px;border-bottom:1px solid rgba(230,230,230,.08);border-right:1px solid rgba(230,230,230,.08)">
+              <span style="font-size:8px;letter-spacing:.16em;color:rgba(230,230,230,.42)">{{ rst.k }}</span>
+              <span style="font-size:17px;font-weight:600;letter-spacing:-.03em;color:#E6E6E6">{{ rst.v }}</span>
+              <span style="font-size:8px;letter-spacing:.1em;color:rgba(230,230,230,.4)">{{ rst.sub }}</span>
+            </div>
+          </sc-for>
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <div style="display:flex;align-items:baseline;justify-content:space-between">
+            <span style="font-size:9px;letter-spacing:.2em;color:rgba(230,230,230,.45)">PHASEN</span>
+            <span style="font-size:8px;letter-spacing:.12em;color:rgba(230,230,230,.32)">{{ relDone }} / {{ relTotal }} AUFGABEN</span>
+          </div>
+          <sc-for list="{{ phases }}" as="ph" hint-placeholder-count="5">
+            <div style="border:1px solid {{ ph.border }};border-radius:4px;overflow:hidden">
+              <div style="padding:12px 13px;display:flex;align-items:center;gap:10px;background:{{ ph.headBg }}">
+                <span style="font-size:9px;font-weight:700;letter-spacing:.14em;color:{{ ph.headC }};flex:none">{{ ph.no }}</span>
+                <span style="flex:1;font-size:11px;font-weight:600;letter-spacing:.08em;color:{{ ph.headC }};min-width:0">{{ ph.name }}</span>
+                <span style="font-size:8.5px;letter-spacing:.1em;color:{{ ph.rangeC }};flex:none">{{ ph.prog }} · {{ ph.range }}</span>
+              </div>
+              <sc-for list="{{ ph.tasks }}" as="pt" hint-placeholder-count="2">
+                <div onClick="{{ pt.toggle }}" style="padding:11px 13px;display:flex;align-items:center;gap:11px;border-top:1px solid rgba(230,230,230,.08);cursor:pointer">
+                  <div style="width:14px;height:14px;flex:none;border:1px solid rgba(230,230,230,.35);display:flex;align-items:center;justify-content:center;background:{{ pt.boxBg }}">
+                    <span style="font-size:8.5px;font-weight:700;color:#0E0F0E;opacity:{{ pt.checkOp }}">✓</span>
+                  </div>
+                  <span style="flex:1;font-size:11px;color:{{ pt.color }};text-decoration:{{ pt.deco }}">{{ pt.t }}</span>
+                </div>
+              </sc-for>
+            </div>
+          </sc-for>
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:9px">
+          <span style="font-size:9px;letter-spacing:.2em;color:rgba(230,230,230,.45)">TRACKS</span>
+          <div style="border:1px solid rgba(230,230,230,.11);border-radius:4px;overflow:hidden">
+            <sc-for list="{{ tracks }}" as="tk" hint-placeholder-count="4">
+              <div style="padding:12px 13px;display:flex;gap:12px;align-items:center;border-bottom:1px solid rgba(230,230,230,.08)">
+                <span style="font-size:9px;letter-spacing:.12em;color:rgba(230,230,230,.45);width:20px;flex:none">{{ tk.no }}</span>
+                <span style="flex:1;font-size:11.5px;color:#E6E6E6;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ tk.t }}</span>
+                <span style="font-size:10px;color:rgba(230,230,230,.5);flex:none">{{ tk.len }}</span>
+                <span style="font-size:8px;letter-spacing:.12em;padding:3px 6px;flex:none;border:1px solid {{ tk.stBorder }};background:{{ tk.stBg }};color:{{ tk.stC }}">{{ tk.st }}</span>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:9px">
+          <div style="display:flex;align-items:baseline;justify-content:space-between">
+            <span style="font-size:9px;letter-spacing:.2em;color:rgba(230,230,230,.45)">ASSETS</span>
+            <span style="font-size:8px;letter-spacing:.12em;color:rgba(230,230,230,.32)">{{ assetsDone }}</span>
+          </div>
+          <div style="border:1px solid rgba(230,230,230,.11);border-radius:4px;overflow:hidden">
+            <sc-for list="{{ assets }}" as="as" hint-placeholder-count="6">
+              <div style="padding:11px 13px;display:flex;gap:11px;align-items:center;border-bottom:1px solid rgba(230,230,230,.08)">
+                <span style="font-size:10px;width:12px;flex:none;color:{{ as.c }}">{{ as.mark }}</span>
+                <span style="flex:1;font-size:11px;color:{{ as.c }};min-width:0">{{ as.t }}</span>
+                <span style="font-size:8px;letter-spacing:.12em;color:rgba(230,230,230,.35);flex:none">{{ as.note }}</span>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:9px">
+          <span style="font-size:9px;letter-spacing:.2em;color:rgba(230,230,230,.45)">EXTERNE DEADLINES</span>
+          <div style="border:1px solid rgba(230,230,230,.11);border-radius:4px;overflow:hidden">
+            <sc-for list="{{ deadlines }}" as="dl" hint-placeholder-count="4">
+              <div style="padding:12px 13px;display:flex;gap:12px;align-items:center;border-bottom:1px solid rgba(230,230,230,.08)">
+                <span style="font-size:10px;letter-spacing:.06em;color:rgba(230,230,230,.5);width:44px;flex:none">{{ dl.date }}</span>
+                <div style="flex:1;display:flex;flex-direction:column;gap:3px;min-width:0">
+                  <span style="font-size:11px;color:#E6E6E6">{{ dl.t }}</span>
+                  <span style="font-size:8px;letter-spacing:.12em;color:rgba(230,230,230,.4)">{{ dl.who }}</span>
+                </div>
+                <span style="font-size:8px;letter-spacing:.12em;padding:3px 6px;flex:none;border:1px solid {{ dl.stBorder }};background:{{ dl.stBg }};color:{{ dl.stC }}">{{ dl.st }}</span>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:9px">
+          <span style="font-size:9px;letter-spacing:.2em;color:rgba(230,230,230,.45)">WEITERE RELEASES</span>
+          <div style="border:1px solid rgba(230,230,230,.11);border-radius:4px;overflow:hidden">
+            <sc-for list="{{ otherReleases }}" as="or" hint-placeholder-count="2">
+              <div style="padding:13px;display:flex;gap:12px;align-items:center;border-bottom:1px solid rgba(230,230,230,.08)">
+                <div style="width:34px;height:34px;flex:none;border:1px solid rgba(230,230,230,.14);background:repeating-linear-gradient(45deg,rgba(230,230,230,.09) 0 4px,transparent 4px 9px)"></div>
+                <div style="flex:1;display:flex;flex-direction:column;gap:4px;min-width:0">
+                  <span style="font-size:11.5px;font-weight:600;letter-spacing:.02em;color:#E6E6E6;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ or.t }}</span>
+                  <span style="font-size:8px;letter-spacing:.12em;color:rgba(230,230,230,.4)">{{ or.sub }}</span>
+                </div>
+                <div style="display:flex;flex-direction:column;align-items:flex-end;gap:5px;flex:none">
+                  <span style="font-size:10px;color:rgba(230,230,230,.55)">{{ or.date }}</span>
+                  <span style="font-size:8px;letter-spacing:.12em;padding:2px 6px;border:1px solid {{ or.stBorder }};background:{{ or.stBg }};color:{{ or.stC }}">{{ or.st }}</span>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+
+        <div onClick="{{ nav4 }}" style="padding:13px;border:1px dashed rgba(230,230,230,.3);border-radius:4px;display:flex;align-items:center;justify-content:space-between;cursor:pointer">
+          <span style="font-size:10.5px;font-weight:600;letter-spacing:.1em;color:#E6E6E6">PLAN MIT CLAUDE ÜBERARBEITEN</span>
+          <span style="font-size:13px;color:#E6E6E6">›</span>
+        </div>
+      </div>
+      </sc-if>
+
+      <sc-if value="{{ postOpen }}" hint-placeholder-val="{{ false }}">
+      <div style="position:absolute;inset:0;z-index:20">
+        <div onClick="{{ closePost }}" style="position:absolute;inset:0;background:rgba(4,5,4,.75);animation:fadeIn .18s ease"></div>
+        <div style="position:absolute;left:0;right:0;bottom:0;background:#131413;border-top:1px solid rgba(230,230,230,.2);padding:14px 20px 24px;display:flex;flex-direction:column;gap:16px;animation:sheetUp .26s cubic-bezier(.2,.9,.2,1);max-height:90%;overflow-y:auto">
+          <div style="width:36px;height:3px;background:rgba(230,230,230,.25);align-self:center;flex:none"></div>
+          <div style="display:flex;gap:13px;align-items:flex-start;flex:none">
+            <div style="width:56px;height:74px;flex:none;border:1px solid rgba(230,230,230,.16);background:repeating-linear-gradient(135deg,rgba(230,230,230,.09) 0 4px,transparent 4px 9px)"></div>
+            <div style="flex:1;display:flex;flex-direction:column;gap:6px;min-width:0">
+              <span style="font-size:8px;letter-spacing:.2em;color:rgba(230,230,230,.45)">{{ pdPlat }} · {{ pdDate }}</span>
+              <span style="font-size:14px;font-weight:600;letter-spacing:-.01em;line-height:1.3;color:#E6E6E6;text-wrap:pretty">{{ pdTitle }}</span>
+            </div>
+          </div>
+
+          <div style="display:grid;grid-template-columns:1fr 1fr;border:1px solid rgba(230,230,230,.11);border-radius:4px;overflow:hidden;flex:none">
+            <sc-for list="{{ pdMetrics }}" as="pm" hint-placeholder-count="4">
+              <div style="padding:12px 13px;display:flex;flex-direction:column;gap:7px;border-bottom:1px solid rgba(230,230,230,.08);border-right:1px solid rgba(230,230,230,.08)">
+                <span style="font-size:8px;letter-spacing:.14em;color:rgba(230,230,230,.42)">{{ pm.k }}</span>
+                <div style="display:flex;align-items:baseline;gap:7px">
+                  <span style="font-size:17px;font-weight:600;letter-spacing:-.03em;color:#E6E6E6">{{ pm.v }}</span>
+                  <span style="font-size:9px;color:{{ pm.dC }}">{{ pm.d }}</span>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+
+          <div style="display:flex;flex-direction:column;gap:9px;flex:none">
+            <div style="display:flex;align-items:baseline;justify-content:space-between">
+              <span style="font-size:9px;letter-spacing:.2em;color:rgba(230,230,230,.45)">GESEHEN BIS</span>
+              <span style="font-size:9px;color:rgba(230,230,230,.5)">{{ pdCompletion }} KOMPLETT</span>
+            </div>
+            <div style="border:1px solid rgba(230,230,230,.11);border-radius:4px;padding:13px">
+              <div style="height:56px;display:flex;align-items:flex-end;gap:3px">
+                <sc-for list="{{ pdCurve }}" as="pc" hint-placeholder-count="10">
+                  <div style="flex:1;display:flex;flex-direction:column;justify-content:flex-end;height:100%">
+                    <div style="width:100%;height:{{ pc.h }};background:{{ pc.c }};border-top:1px solid rgba(230,230,230,.4)"></div>
+                  </div>
+                </sc-for>
+              </div>
+              <div style="display:flex;justify-content:space-between;font-size:8px;letter-spacing:.12em;color:rgba(230,230,230,.32);border-top:1px solid rgba(230,230,230,.11);margin-top:9px;padding-top:7px">
+                <span>0 S</span><span>{{ pdDrop }}</span><span>{{ pdLen }}</span>
+              </div>
+            </div>
+          </div>
+
+          <div style="border:1px solid rgba(230,230,230,.11);border-radius:4px;overflow:hidden;flex:none">
+            <sc-for list="{{ pdRows }}" as="pr" hint-placeholder-count="5">
+              <div style="display:flex;gap:14px;padding:11px 13px;border-bottom:1px solid rgba(230,230,230,.08)">
+                <span style="font-size:8px;letter-spacing:.16em;color:rgba(230,230,230,.4);width:78px;flex:none;padding-top:2px">{{ pr.k }}</span>
+                <span style="flex:1;font-size:11px;color:#E6E6E6;line-height:1.45">{{ pr.v }}</span>
+              </div>
+            </sc-for>
+          </div>
+
+          <div style="display:flex;gap:8px;flex:none">
+            <div onClick="{{ planSimilar }}" style="flex:1;padding:12px 0;background:#E6E6E6;color:#0E0F0E;font-size:10.5px;font-weight:700;letter-spacing:.1em;text-align:center;cursor:pointer">ÄHNLICHEN POST PLANEN</div>
+            <div onClick="{{ closePost }}" style="padding:12px 16px;border:1px solid rgba(230,230,230,.2);color:#E6E6E6;font-size:10.5px;font-weight:500;letter-spacing:.1em;text-align:center;cursor:pointer">SCHLIESSEN</div>
+          </div>
+        </div>
+      </div>
+      </sc-if>
+
+      <sc-if value="{{ gigOpen }}" hint-placeholder-val="{{ false }}">
+      <div style="position:absolute;inset:0;z-index:20">
+        <div onClick="{{ closeGig }}" style="position:absolute;inset:0;background:rgba(4,5,4,.75);animation:fadeIn .18s ease"></div>
+        <div style="position:absolute;left:0;right:0;bottom:0;background:#131413;border-top:1px solid rgba(230,230,230,.2);padding:14px 20px 24px;display:flex;flex-direction:column;gap:16px;animation:sheetUp .26s cubic-bezier(.2,.9,.2,1);max-height:88%;overflow-y:auto">
+          <div style="width:36px;height:3px;background:rgba(230,230,230,.25);align-self:center;flex:none"></div>
+          <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex:none">
+            <div style="display:flex;flex-direction:column;gap:6px">
+              <span style="font-size:19px;font-weight:600;letter-spacing:-.03em;color:#E6E6E6">{{ sheetVenue }}</span>
+              <span style="font-size:10.5px;letter-spacing:.06em;color:rgba(230,230,230,.55)">{{ sheetSub }}</span>
+            </div>
+            <span style="font-size:8px;letter-spacing:.14em;padding:4px 7px;flex:none;border:1px solid {{ sheetStBorder }};background:{{ sheetStBg }};color:{{ sheetStC }}">{{ sheetStatus }}</span>
+          </div>
+          <div style="border:1px solid rgba(230,230,230,.11);border-radius:4px;overflow:hidden;flex:none">
+            <sc-for list="{{ sheetRows }}" as="r" hint-placeholder-count="5">
+              <div style="display:flex;gap:14px;padding:11px 13px;border-bottom:1px solid rgba(230,230,230,.08)">
+                <span style="font-size:8px;letter-spacing:.16em;color:rgba(230,230,230,.4);width:70px;flex:none;padding-top:2px">{{ r.k }}</span>
+                <span style="flex:1;font-size:11.5px;color:#E6E6E6;line-height:1.45">{{ r.v }}</span>
+              </div>
+            </sc-for>
+          </div>
+          <div style="display:flex;gap:8px;flex:none">
+            <div style="flex:1;padding:12px 0;background:#E6E6E6;color:#0E0F0E;font-size:10.5px;font-weight:700;letter-spacing:.1em;text-align:center;cursor:pointer">ADVANCE BESTÄTIGEN</div>
+            <div onClick="{{ closeGig }}" style="padding:12px 16px;border:1px solid rgba(230,230,230,.2);color:#E6E6E6;font-size:10.5px;font-weight:500;letter-spacing:.1em;text-align:center;cursor:pointer">SCHLIESSEN</div>
+          </div>
+        </div>
+      </div>
+      </sc-if>
+
+    </div>
+
+    <div style="flex:none;display:flex;align-items:stretch;padding:6px 8px 18px;border-top:1px solid rgba(230,230,230,.11);background:#0B0C0B">
+      <div onClick="{{ nav0 }}" style="flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;padding:8px 0;cursor:pointer">
+        <div style="width:14px;height:2px;background:#E6E6E6;opacity:{{ d0 }}"></div>
+        <span style="font-size:7.5px;font-weight:600;letter-spacing:.06em;color:{{ c0 }}">ÜBERBLICK</span>
+      </div>
+      <div onClick="{{ nav1 }}" style="flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;padding:8px 0;cursor:pointer">
+        <div style="width:14px;height:2px;background:#E6E6E6;opacity:{{ d1 }}"></div>
+        <span style="font-size:7.5px;font-weight:600;letter-spacing:.06em;color:{{ c1 }}">BOOKINGS</span>
+      </div>
+      <div onClick="{{ nav2 }}" style="flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;padding:8px 0;cursor:pointer">
+        <div style="width:14px;height:2px;background:#E6E6E6;opacity:{{ d2 }}"></div>
+        <span style="font-size:7.5px;font-weight:600;letter-spacing:.06em;color:{{ c2 }}">CONTENT</span>
+      </div>
+      <div onClick="{{ nav9 }}" style="flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;padding:8px 0;cursor:pointer">
+        <div style="width:14px;height:2px;background:#E6E6E6;opacity:{{ d9 }}"></div>
+        <span style="font-size:7.5px;font-weight:600;letter-spacing:.06em;color:{{ c9 }}">RELEASES</span>
+      </div>
+      <div onClick="{{ nav3 }}" style="flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;padding:8px 0;cursor:pointer">
+        <div style="width:14px;height:2px;background:#E6E6E6;opacity:{{ d3 }}"></div>
+        <span style="font-size:7.5px;font-weight:600;letter-spacing:.06em;color:{{ c3 }}">ZAHLEN</span>
+      </div>
+      <div onClick="{{ nav4 }}" style="flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;padding:8px 0;cursor:pointer">
+        <div style="width:14px;height:2px;background:#E6E6E6;opacity:{{ d4 }}"></div>
+        <span style="font-size:7.5px;font-weight:600;letter-spacing:.06em;color:{{ c4 }}">CLAUDE</span>
+      </div>
+    </div>
+
+  </div>
+
+  <div style="width:270px;flex:none;display:flex;flex-direction:column;gap:16px">
+    <div style="display:flex;flex-direction:column;gap:8px">
+      <span style="font-size:8.5px;letter-spacing:.24em;color:rgba(230,230,230,.5)">DJ COCKPIT · V1</span>
+      <span style="font-size:19px;font-weight:600;letter-spacing:-.03em;line-height:1.25;color:#E6E6E6">Ein Screen pro Frage, die du dir morgens stellst.</span>
+    </div>
+    <div style="height:1px;background:rgba(230,230,230,.14)"></div>
+    <div style="display:flex;flex-direction:column;gap:12px;font-size:10px;line-height:1.65;color:rgba(230,230,230,.5);letter-spacing:.02em">
+      <span>ÜBERBLICK — nächster Gig, Release-Countdown, Aufgaben (antippbar), Einstieg in Finanzen / Kontakte / Tour.</span>
+      <span>BOOKINGS — Filter oben, Termin antippen öffnet das Advance-Sheet mit Technik, Hotel, Anreise.</span>
+      <span>CONTENT — Wochenstreifen plus Pipeline: heute, diese Woche, geplant.</span>
+      <span>ZAHLEN — Reichweite, Plattform-Split, bester Content, erkanntes Muster.</span>
+      <span>CLAUDE — Prompt rein, Plan kommt als Karten zurück, jede Karte einzeln in den Kalender.</span>
+      <span>ZAHLEN — „Was funktioniert“ vergleicht alle 42 Shorts nach Bildinhalt, Postzeit, Länge und Ton. Eine Zeile bei „Bester Content“ antippen öffnet die Detailanalyse mit Retention-Kurve.</span>
+      <span>IMPORT — Screenshot rein, Claude liest die Werte aus, du prüfst die unsicheren und übernimmst. Getrennt für Account und einzelnen Post.</span>
+      <span>RELEASES — eigener Tab: Countdown, Zeitstrahl mit Heute-Marker, Status-Kennzahlen, fünf Phasen mit Aufgaben, Tracks, Assets, externe Deadlines und weitere Releases.</span>
+      <span>FINANZEN / KONTAKTE / TOUR / IMPORT — über die Modul-Kacheln, zurück per Pfeil oben links.</span>
+    </div>
+    <div style="height:1px;background:rgba(230,230,230,.14)"></div>
+    <span style="font-size:9.5px;line-height:1.65;color:rgba(230,230,230,.35)">Monochrom gehalten: Status über Rahmen und Füllung, nicht über Farbe. Nächster Schritt wäre echte Plattform-Anbindung — sag, womit ich anfangen soll.</span>
+  </div>
+
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:760,&quot;height&quot;:940},&quot;artistName&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;Leo Marks&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;showFees&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Datenschutz&quot;},&quot;aiAutoPlan&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Claude&quot;}}">
+const FG = '#E6E6E6';
+const MUTED = 'rgba(230,230,230,.45)';
+const BORDER = 'rgba(230,230,230,.2)';
+
+const GIGS = [
+  {day:'FR',d:'04',m:'SEP',venue:'Kater Blau',city:'BERLIN',time:'02:00–04:00',fee:'1.200 €',status:'Bestätigt',contact:'Mira Sandt · Booking',tech:'2× CDJ-3000, DJM-A9, Monitor links',hotel:'Michelberger · Check-in 22:00',travel:'Bahn 18:04 ab Leipzig Hbf'},
+  {day:'SA',d:'12',m:'SEP',venue:'Kantine',city:'BERLIN',time:'01:00–03:00',fee:'900 €',status:'Bestätigt',contact:'Jonas Reh · Promoter',tech:'3× CDJ-2000NXS2, DJM-900',hotel:'Kein Hotel · Rückfahrt nachts',travel:'Eigenes Auto'},
+  {day:'FR',d:'19',m:'SEP',venue:'Rote Sonne',city:'MÜNCHEN',time:'03:00–05:00',fee:'1.400 €',status:'Angefragt',contact:'Lena Vogt · Booking',tech:'Angebot ausstehend',hotel:'Wird gestellt',travel:'Flug oder ICE, offen'},
+  {day:'SA',d:'26',m:'SEP',venue:'Bootshaus · Red Room',city:'KÖLN',time:'00:00–02:00',fee:'1.800 €',status:'Bestätigt',contact:'Tarek Ilhan · Booking',tech:'4× CDJ-3000, DJM-V10',hotel:'Hotel Mondial · 2 Nächte',travel:'ICE 15:22, Rider gesendet'},
+  {day:'FR',d:'03',m:'OKT',venue:'De School',city:'AMSTERDAM',time:'04:00–06:00',fee:'1.600 €',status:'Angefragt',contact:'Invite via Label',tech:'Offen',hotel:'Offen',travel:'Offen'},
+  {day:'FR',d:'17',m:'OKT',venue:'Tresor',city:'BERLIN',time:'02:00–04:00',fee:'1.100 €',status:'Option',contact:'Wartet auf Bestätigung',tech:'Standard-Setup',hotel:'Nicht nötig',travel:'Bahn'}
+];
+
+const POSTS = [
+  {g:'HEUTE',plat:'INSTAGRAM',time:'18:30',t:'Reel: Studio-Loop „Nachtform“, 12 Sek., Ton an',st:'FERTIG'},
+  {g:'HEUTE',plat:'TIKTOK',time:'21:00',t:'B2B-Clip vom letzten Kater-Set, Untertitel fehlen',st:'ENTWURF'},
+  {g:'DIESE WOCHE',plat:'INSTAGRAM',time:'SO 12:00',t:'Carousel: Trackliste EP + Coverdetail',st:'ENTWURF'},
+  {g:'DIESE WOCHE',plat:'YOUTUBE',time:'SA 17:00',t:'Full Set Kantine, 62 Min., Schnitt läuft',st:'IN ARBEIT'},
+  {g:'GEPLANT',plat:'TIKTOK',time:'08.09',t:'Teaser 1 – erste 9 Sek. vom Titeltrack',st:'IDEE'},
+  {g:'GEPLANT',plat:'INSTAGRAM',time:'19.09',t:'Ankündigung München, Story-Set mit Ticketlink',st:'IDEE'}
+];
+
+const RANGES = {
+  '7T':{reach:'126.400',delta:'+8,2 %',axisA:'22.08',axisB:'25.08',bars:[38,52,44,61,49,74,88]},
+  '30T':{reach:'512.900',delta:'+14,6 %',axisA:'29.07',axisB:'13.08',bars:[30,41,36,48,44,55,50,62,58,71,66,80,74,92]},
+  '90T':{reach:'1.284.000',delta:'+31,4 %',axisA:'MAI',axisB:'JUL',bars:[22,28,25,34,31,40,37,46,52,48,60,57,68,66,78,74,86,95]}
+};
+
+const PLATFORMS = [
+  {name:'SPOTIFY',val:'84.100',delta:'+6,1 %',w:'82%',up:true},
+  {name:'INSTAGRAM',val:'41.200',delta:'+11,4 %',w:'54%',up:true},
+  {name:'TIKTOK',val:'128.700',delta:'+22,9 %',w:'96%',up:true},
+  {name:'YOUTUBE',val:'9.340',delta:'−3,2 %',w:'18%',up:false}
+];
+
+const TOP = [
+  {rank:'1',t:'Reel: Mixer-Closeup, Drop bei 0:04',plat:'INSTAGRAM',date:'21.08',views:'96.4k',saves:'3.1k',
+   m:[{k:'AUFRUFE',v:'96.4k',d:'+212 %'},{k:'GESPEICHERT',v:'3.1k',d:'+180 %'},{k:'GETEILT',v:'1.87k',d:'+96 %'},{k:'NEUE FOLLOWER',v:'+212',d:'+140 %'}],
+   completion:'41 %', len:'12 S', drop:'4 S', curve:[100,97,92,86,71,62,55,50,46,41],
+   rows:[{k:'LÄNGE',v:'12 Sekunden, Loop'},{k:'GEPOSTET',v:'DO 21.08 · 19:40'},{k:'HOOK',v:'Fader-Bewegung, kein Text'},{k:'MIXER IM BILD',v:'ja, ganze Länge'},{k:'TON',v:'eigener Track (Nachtform 02)'}]},
+  {rank:'2',t:'B2B mit Nils, Kantine 05:40 Uhr',plat:'TIKTOK',date:'16.08',views:'71.2k',saves:'2.4k',
+   m:[{k:'AUFRUFE',v:'71.2k',d:'+128 %'},{k:'GESPEICHERT',v:'2.4k',d:'+104 %'},{k:'GETEILT',v:'1.24k',d:'+61 %'},{k:'NEUE FOLLOWER',v:'+164',d:'+88 %'}],
+   completion:'34 %', len:'21 S', drop:'6 S', curve:[100,94,84,73,63,55,49,43,38,34],
+   rows:[{k:'LÄNGE',v:'21 Sekunden'},{k:'GEPOSTET',v:'SA 16.08 · 20:10'},{k:'HOOK',v:'Handzeichen zwischen uns beiden'},{k:'MIXER IM BILD',v:'ja, erste 8 Sek.'},{k:'TON',v:'eigener Track (unreleased)'}]},
+  {rank:'3',t:'Snippet „Nachtform“ Titeltrack',plat:'TIKTOK',date:'09.08',views:'44.8k',saves:'1.9k',
+   m:[{k:'AUFRUFE',v:'44.8k',d:'+44 %'},{k:'GESPEICHERT',v:'1.9k',d:'+58 %'},{k:'GETEILT',v:'610',d:'−12 %'},{k:'NEUE FOLLOWER',v:'+78',d:'+21 %'}],
+   completion:'28 %', len:'34 S', drop:'9 S', curve:[100,88,74,63,53,45,39,34,31,28],
+   rows:[{k:'LÄNGE',v:'34 Sekunden'},{k:'GEPOSTET',v:'SA 09.08 · 23:30'},{k:'HOOK',v:'Overlay-Text „EP kommt“'},{k:'MIXER IM BILD',v:'nein, nur Laptop'},{k:'TON',v:'eigener Track (Nachtform 01)'}]}
+];
+
+const TRENDS = [
+  {dim:'BILDINHALT',aLabel:'Mixer / Hände sichtbar',aVal:'71k',aW:'96%',bLabel:'Nur Crowd oder Booth',bVal:'19k',bW:'26%',delta:'3,7×'},
+  {dim:'POSTZEIT',aLabel:'19–21 Uhr',aVal:'58k',aW:'88%',bLabel:'Nach 23 Uhr',bVal:'22k',bW:'34%',delta:'2,6×'},
+  {dim:'LÄNGE',aLabel:'Unter 15 Sekunden',aVal:'49k',aW:'82%',bLabel:'Über 30 Sekunden',bVal:'27k',bW:'45%',delta:'1,8×'},
+  {dim:'TON',aLabel:'Eigener Track',aVal:'44k',aW:'74%',bLabel:'Fremder Track',bVal:'31k',bW:'52%',delta:'1,4×'},
+  {dim:'TEXT IM BILD',aLabel:'Ohne Overlay',aVal:'41k',aW:'70%',bLabel:'Mit Overlay-Text',bVal:'36k',bW:'61%',delta:'1,1×'}
+];
+
+const IMPORTS = [
+  {plat:'INSTAGRAM',kind:'ACCOUNT',range:'01.–28.08',when:'VOR 6 T'},
+  {plat:'TIKTOK',kind:'POST',range:'REEL 16.08',when:'VOR 9 T'},
+  {plat:'SPOTIFY',kind:'ACCOUNT',range:'JULI',when:'VOR 3 W'},
+  {plat:'YOUTUBE',kind:'ACCOUNT',range:'01.–31.07',when:'VOR 4 W'}
+];
+
+const READ_STEPS = [
+  {t:'Plattform erkannt: Instagram',ok:true},
+  {t:'Zeitraum gelesen: 01.–28.08.2026',ok:true},
+  {t:'7 Kennzahlen gefunden',ok:true},
+  {t:'Werte gegen letzten Import prüfen …',ok:false}
+];
+
+const REVIEW = {
+  account: {
+    title:'INSTAGRAM · ACCOUNT', sub:'01.–28.08.2026 · 7 Werte', conf:'6 VON 7 SICHER',
+    rows:[
+      {k:'AUFRUFE',v:'512.900',sure:true},{k:'REICHWEITE',v:'318.400',sure:true},
+      {k:'PROFILAUFRUFE',v:'12.840',sure:true},{k:'NEUE FOLLOWER',v:'+1.204',sure:true},
+      {k:'INTERAKTIONEN',v:'41.200',sure:true},{k:'ZEITRAUM',v:'01.–28.08',sure:true},
+      {k:'TOP-ORT',v:'Berlin (?)',sure:false}
+    ],
+    done:'6 Werte für August übernommen, ein Wert wartet auf deine Korrektur. Der Trend-Vergleich ist neu berechnet.'
+  },
+  post: {
+    title:'INSTAGRAM · REEL', sub:'Reel vom 21.08 · 7 Werte', conf:'5 VON 7 SICHER',
+    rows:[
+      {k:'AUFRUFE',v:'96.400',sure:true},{k:'GEFÄLLT MIR',v:'7.310',sure:true},
+      {k:'GESPEICHERT',v:'3.100',sure:true},{k:'GETEILT',v:'1.870',sure:false},
+      {k:'⌀ WIEDERGABE',v:'8,4 S',sure:true},{k:'KOMPLETT',v:'41 %',sure:true},
+      {k:'NEUE FOLLOWER',v:'+212 (?)',sure:false}
+    ],
+    done:'Post gespeichert und in die Trend-Auswertung aufgenommen. Damit sind 42 Shorts vergleichbar.'
+  }
+};
+
+const HINTS = {
+  account:'Claude liest Aufrufe, Reichweite, Follower und Zeitraum aus dem Insights-Screenshot. Funktioniert mit Instagram, TikTok, YouTube Studio und Spotify for Artists.',
+  post:'Für einzelne Shorts: Aufrufe, Saves, Shares, durchschnittliche Wiedergabedauer und Completion-Rate. Daraus entstehen die Trend-Vergleiche auf dem Zahlen-Screen.'
+};
+
+const REL_SEGS = [
+  {no:'01',w:'22%',short:'ANKÜNDIGUNG',state:'done'},
+  {no:'02',w:'18%',short:'PRE-SAVE & PITCH',state:'now'},
+  {no:'03',w:'26%',short:'TEASER',state:'todo'},
+  {no:'04',w:'20%',short:'RELEASE-WOCHE',state:'todo'},
+  {no:'05',w:'14%',short:'DANACH',state:'todo'}
+];
+
+const REL_STATS = [
+  {k:'PRE-SAVES',v:'412',sub:'ZIEL 1.000'},
+  {k:'PLAYLIST-PITCH',v:'0 / 3',sub:'FRIST 05.09'},
+  {k:'TEASER FERTIG',v:'0 / 3',sub:'AB 31.08'},
+  {k:'BUDGET',v:'640 €',sub:'VON 1.200 €'}
+];
+
+const TRACKS = [
+  {no:'A1',t:'Nachtform',len:'6:42',st:'MASTER',kind:'solid'},
+  {no:'A2',t:'Kaltlicht',len:'7:10',st:'MASTER',kind:'solid'},
+  {no:'B1',t:'Zwischenraum',len:'6:04',st:'REVISION',kind:'outline'},
+  {no:'B2',t:'Nachtform (Rauschform Rmx)',len:'7:28',st:'OFFEN',kind:'dim'}
+];
+
+const ASSETS = [
+  {t:'Artwork 3000 × 3000',ok:true,note:'21.08'},
+  {t:'Master WAV 24 / 44,1',ok:true,note:'25.08'},
+  {t:'Instrumental-Versionen',ok:true,note:'25.08'},
+  {t:'Presse-Text DE / EN',ok:true,note:'26.08'},
+  {t:'Spotify Canvas (4×)',ok:false,note:'FEHLT'},
+  {t:'Snippets für Teaser',ok:true,note:'27.08'}
+];
+
+const OTHER_RELEASES = [
+  {t:'RAUSCHFORM REMIX',sub:'SINGLE · REMIX FÜR NILS BERGER',date:'14.11',st:'PLANUNG',kind:'outline'},
+  {t:'HALBSCHATTEN',sub:'EP · 214k STREAMS · 3 PLAYLISTS',date:'28.03',st:'ERSCHIENEN',kind:'dim'}
+];
+
+const DEADLINES = [
+  {date:'29.08',t:'Master an Distribution',who:'HALLENFORM RECORDS',st:'MORGEN',kind:'solid'},
+  {date:'05.09',t:'Spotify Editorial-Pitch',who:'SPOTIFY FOR ARTISTS',st:'OFFEN',kind:'outline'},
+  {date:'12.09',t:'Presse & Radio-Promo raus',who:'SOFIA KAISER',st:'OFFEN',kind:'outline'},
+  {date:'19.09',t:'Beatport-Assets hochladen',who:'LABEL',st:'OFFEN',kind:'outline'},
+  {date:'21.08',t:'Artwork final abgegeben',who:'JAN WIECK',st:'ERLEDIGT',kind:'dim'}
+];
+
+const WEEK = [
+  {dow:'MO',num:'24',dots:0},{dow:'DI',num:'25',dots:1},{dow:'MI',num:'26',dots:1},
+  {dow:'DO',num:'27',dots:0},{dow:'FR',num:'28',dots:2,today:true},{dow:'SA',num:'29',dots:1},{dow:'SO',num:'30',dots:1}
+];
+
+const PLAN = [
+  {day:'MO 31.08',plat:'TIKTOK',idea:'Teaser 1: 9 Sek. aus dem Titeltrack, Kamera auf den Fader. Kein Text außer „26.09“.'},
+  {day:'MI 02.09',plat:'INSTAGRAM',idea:'Carousel: Coverdetail, Trackliste, ein Satz zum Titel. Slide 3 mit Pre-Save-Link in Bio.'},
+  {day:'SA 05.09',plat:'INSTAGRAM',idea:'Reel vom Kater-Set am Freitag – der Moment, in dem Track 2 zum ersten Mal live läuft.'},
+  {day:'DI 15.09',plat:'TIKTOK',idea:'Teaser 2: Studio-Ausschnitt zu Track 4. Mixer sichtbar, das performt bei dir am besten.'},
+  {day:'DO 24.09',plat:'INSTAGRAM',idea:'Story-Reihe: 48h-Countdown, drei Slides, Frage-Sticker „welcher Track zuerst?“'},
+  {day:'SA 26.09',plat:'YOUTUBE',idea:'Release-Tag: Full Set Bootshaus als Premiere um 20:00, EP in der Beschreibung verlinkt.'}
+];
+
+const INVOICES = [
+  {no:'2026-041',who:'Bootshaus GmbH',date:'26.09 · FÄLLIG 10.10',amt:'1.800 €',st:'OFFEN'},
+  {no:'2026-040',who:'Rote Sonne',date:'19.09 · ENTWURF',amt:'1.400 €',st:'ENTWURF'},
+  {no:'2026-039',who:'Kantine Berlin',date:'12.09 · FÄLLIG 26.09',amt:'900 €',st:'OFFEN'},
+  {no:'2026-038',who:'Kater Blau',date:'04.09 · BEZAHLT 08.09',amt:'1.200 €',st:'BEZAHLT'},
+  {no:'2026-035',who:'Lichtung Festival',date:'19.07 · ÜBERFÄLLIG',amt:'2.100 €',st:'MAHNUNG'}
+];
+
+const INCOME = [
+  {k:'GAGEN',v:'26.900 €',w:'88%'},
+  {k:'STREAMING / LABEL',v:'6.240 €',w:'26%'},
+  {k:'MERCH',v:'3.180 €',w:'14%'},
+  {k:'PRODUKTION EXTERN',v:'2.080 €',w:'9%'}
+];
+
+const CONTACTS = [
+  {grp:'BOOKING',name:'Mira Sandt',org:'KATER BLAU · BERLIN',last:'VOR 2 T'},
+  {grp:'BOOKING',name:'Tarek Ilhan',org:'BOOTSHAUS · KÖLN',last:'VOR 5 T'},
+  {grp:'BOOKING',name:'Lena Vogt',org:'ROTE SONNE · MÜNCHEN',last:'HEUTE'},
+  {grp:'LABEL & PROMO',name:'Nils Berger',org:'HALLENFORM RECORDS',last:'VOR 1 W'},
+  {grp:'LABEL & PROMO',name:'Sofia Kaiser',org:'PRESSE / RADIO-PROMO',last:'VOR 3 W'},
+  {grp:'CREW',name:'Jan Wieck',org:'VIDEO & SCHNITT',last:'GESTERN'},
+  {grp:'CREW',name:'Ellen Roth',org:'MASTERING',last:'VOR 4 T'}
+];
+
+const ITINERARY = [
+  {time:'15:22',t:'ICE 812 Leipzig → Köln Hbf',sub:'WAGEN 8, PLATZ 41 · ANKUNFT 18:47',done:true},
+  {time:'19:10',t:'Check-in Hotel Mondial',sub:'2 NÄCHTE, VOM VERANSTALTER',done:true},
+  {time:'22:30',t:'Abendessen mit Tarek',sub:'LOBBY, TISCH RESERVIERT',done:false},
+  {time:'23:30',t:'Soundcheck Red Room',sub:'TECHNIKER: MARCO',done:false},
+  {time:'00:00',t:'Set · 2 Stunden',sub:'DJM-V10, 4× CDJ-3000',done:false},
+  {time:'11:40',t:'Rückfahrt ICE 611',sub:'SO 28.09 · ANKUNFT 15:02',done:false}
+];
+
+class Component extends DCLogic {
+  state = {
+    tab: 0, filter: 'Alle', range: '30T', openGig: null, openPost: null, draft: '', thinking: false, search: '',
+    impKind: 'account', impStep: 'pick',
+    phases: [
+      {no:'01',name:'ANKÜNDIGUNG',range:'ERLEDIGT',tasks:[{t:'Artwork final',d:true},{t:'Distribution angelegt',d:true},{t:'Label-Freigabe',d:true}]},
+      {no:'02',name:'PRE-SAVE & PITCH',range:'LÄUFT',tasks:[{t:'Pre-Save-Link erstellt',d:true},{t:'Spotify-Pitch abgeben',d:false},{t:'Presse-Mail an Sofia',d:false}]},
+      {no:'03',name:'TEASER-PHASE',range:'AB 31.08',tasks:[{t:'Teaser 1 schneiden',d:false},{t:'Carousel Trackliste',d:false},{t:'Teaser 2 Studio-Clip',d:false}]},
+      {no:'04',name:'RELEASE-WOCHE',range:'21.–27.09',tasks:[{t:'48h-Countdown Stories',d:false},{t:'YouTube-Premiere planen',d:false},{t:'Beatport-Upload',d:false}]},
+      {no:'05',name:'NACH DEM RELEASE',range:'AB 27.09',tasks:[{t:'Playlist-Adds prüfen',d:false},{t:'Besten Clip boosten',d:false}]}
+    ],
+    tasks: [
+      {t:'Rider an Kater Blau schicken', due:'HEUTE', d:false},
+      {t:'Master „Nachtform“ abnehmen', due:'MO', d:true},
+      {t:'Reel aus Kantine-Set schneiden', due:'MI', d:false},
+      {t:'Beatport-Upload EP', due:'15.09', d:false}
+    ],
+    rider: [
+      {t:'Technik-Rider gesendet', d:true},
+      {t:'Hospitality bestätigt', d:true},
+      {t:'Gästeliste eingetragen (3)', d:false},
+      {t:'USB-Sticks doppelt bespielt', d:false}
+    ],
+    messages: [{role:'ai', text:'Sag mir, was ansteht. Zum Beispiel: „EP-Release am 26.09, plane mir vier Wochen Content dafür.“'}],
+    plan: null, added: {}
+  };
+
+  set = (o) => this.setState(Object.assign({ openGig: null, openPost: null }, o));
+
+  startRead = () => {
+    this.setState({ impStep: 'reading' });
+    clearTimeout(this._i);
+    this._i = setTimeout(() => this.setState({ impStep: 'review' }), 1600);
+  };
+  confirmImport = () => this.setState({ impStep: 'done' });
+  resetImport = () => this.setState({ impStep: 'pick' });
+  planSimilar = () => {
+    const p = this.state.openPost != null ? TOP[this.state.openPost] : null;
+    this.setState({
+      tab: 4, openPost: null, openGig: null,
+      draft: p ? ('Plane mir drei Posts wie „' + p.t + '“') : 'Plane mir drei Posts wie meinen besten Reel'
+    });
+  };
+
+  send = () => {
+    const q = (this.state.draft || '').trim() || 'EP „Nachtform“ kommt am 26.09 – plane mir den Content bis dahin.';
+    this.setState(s => ({ messages: s.messages.concat([{role:'me', text:q}]), draft:'', thinking:true, plan:null }));
+    clearTimeout(this._t);
+    this._t = setTimeout(() => {
+      const auto = this.props.aiAutoPlan !== false;
+      const reply = auto
+        ? 'Sechs Posts über vier Wochen, verteilt auf TikTok, Instagram und YouTube. Die zwei Gigs vorher sind eingebaut, damit Live-Material den Release trägt.'
+        : 'Zwei Rückfragen, dann baue ich: Fokus auf Pre-Saves oder auf Reichweite? Und darf ich Material von den beiden Gigs vorher einplanen?';
+      this.setState(s => ({ thinking:false, messages: s.messages.concat([{role:'ai', text:reply}]), plan: auto ? PLAN : null }));
+    }, 1000);
+  };
+
+  onDraft = (e) => this.setState({ draft: e.target.value });
+  onSearch = (e) => this.setState({ search: e.target.value });
+  onKey = (e) => { if (e.key === 'Enter') this.send(); };
+  addAll = () => { const a = {}; PLAN.forEach((_,i) => a[i] = true); this.setState({ added: a }); };
+  componentWillUnmount() { clearTimeout(this._t); clearTimeout(this._i); }
+
+  chip(kind) {
+    if (kind === 'solid') return { stBg: FG, stC: '#0E0F0E', stBorder: FG };
+    if (kind === 'outline') return { stBg: 'transparent', stC: FG, stBorder: BORDER };
+    return { stBg: 'transparent', stC: 'rgba(230,230,230,.4)', stBorder: 'rgba(230,230,230,.12)' };
+  }
+
+  check(item, onToggle) {
+    return {
+      t: item.t, due: item.due,
+      boxBg: item.d ? FG : 'transparent',
+      checkOp: item.d ? 1 : 0,
+      color: item.d ? 'rgba(230,230,230,.35)' : FG,
+      deco: item.d ? 'line-through' : 'none',
+      toggle: onToggle
+    };
+  }
+
+  renderVals() {
+    const s = this.state;
+    const titles = ['Überblick','Bookings','Content','Zahlen','Claude','Finanzen','Kontakte','Tour & Logistik','Screenshot-Import','Release-Plan'];
+    const showFees = this.props.showFees !== false;
+    const artist = this.props.artistName || 'Leo Marks';
+    const initials = artist.split(/\s+/).filter(Boolean).map(w => w[0]).slice(0,2).join('').toUpperCase();
+
+    const gigChip = (st) => this.chip(st === 'Bestätigt' ? 'solid' : st === 'Angefragt' ? 'outline' : 'dim');
+    const filtered = GIGS.filter(g => s.filter === 'Alle' || g.status === s.filter);
+    const gigs = filtered.map(g => Object.assign({}, g, gigChip(g.status), {
+      statusShort: g.status.toUpperCase().slice(0,4),
+      op: g.status === 'Option' ? .6 : 1,
+      open: () => this.setState({ openGig: GIGS.indexOf(g) })
+    }));
+    const feeSum = filtered.reduce((a,g) => a + parseInt(g.fee.replace(/\D/g,''),10), 0);
+
+    const tabC = (i) => (s.tab === i ? FG : 'rgba(230,230,230,.4)');
+    const tabD = (i) => (s.tab === i ? 1 : 0);
+    const seg = (on) => ({ bg: on ? FG : 'transparent', c: on ? '#0E0F0E' : 'rgba(230,230,230,.55)' });
+    const sA = seg(s.filter === 'Alle'), sC = seg(s.filter === 'Bestätigt'), sR = seg(s.filter === 'Angefragt');
+    const g7 = seg(s.range === '7T'), g30 = seg(s.range === '30T'), g90 = seg(s.range === '90T');
+
+    const R = RANGES[s.range];
+    const bars = R.bars.map((h,i) => ({ h: h + '%', c: i === R.bars.length - 1 ? FG : 'rgba(230,230,230,.22)' }));
+
+    const groups = ['HEUTE','DIESE WOCHE','GEPLANT'].map(name => {
+      const posts = POSTS.filter(p => p.g === name).map(p => Object.assign({}, p,
+        this.chip(p.st === 'FERTIG' ? 'solid' : p.st === 'IDEE' ? 'dim' : 'outline')));
+      return { name, count: String(posts.length).padStart(2,'0'), posts };
+    });
+
+    const g = s.openGig != null ? GIGS[s.openGig] : null;
+    const gc = g ? gigChip(g.status) : {};
+
+    const messages = s.messages.map(m => m.role === 'me'
+      ? {text:m.text, self:'flex-end', bg:FG, color:'#0E0F0E', border:FG}
+      : {text:m.text, self:'flex-start', bg:'transparent', color:'rgba(230,230,230,.88)', border:'rgba(230,230,230,.14)'});
+
+    const plan = (s.plan || []).map((p,i) => {
+      const on = !!s.added[i];
+      return Object.assign({}, p, {
+        border: on ? 'rgba(230,230,230,.5)' : 'rgba(230,230,230,.12)',
+        bg: on ? 'rgba(230,230,230,.05)' : 'transparent',
+        btnBg: on ? FG : 'transparent',
+        btnC: on ? '#0E0F0E' : FG,
+        btnBorder: on ? FG : BORDER,
+        btnLabel: on ? '✓ IM KALENDER' : '+ IN KALENDER',
+        add: () => this.setState(st => ({ added: Object.assign({}, st.added, {[i]: !st.added[i]}) }))
+      });
+    });
+
+    const q = s.search.trim().toLowerCase();
+    const matched = CONTACTS.filter(c => !q || (c.name + ' ' + c.org).toLowerCase().includes(q));
+    const contactGroups = ['BOOKING','LABEL & PROMO','CREW'].map(name => ({
+      name,
+      people: matched.filter(c => c.grp === name).map(c => Object.assign({}, c, {
+        ini: c.name.split(' ').map(w => w[0]).join('').toUpperCase()
+      }))
+    })).filter(gr => gr.people.length > 0);
+
+    const rev = REVIEW[s.impKind];
+    const kAcc = seg(s.impKind === 'account'), kPst = seg(s.impKind === 'post');
+
+    const phaseTotal = s.phases.reduce((a,p) => a + p.tasks.length, 0);
+    const phaseDone = s.phases.reduce((a,p) => a + p.tasks.filter(t => t.d).length, 0);
+    const phases = s.phases.map((p,pi) => {
+      const done = p.tasks.every(t => t.d);
+      const running = !done && p.tasks.some(t => t.d);
+      return {
+        no: p.no, name: p.name, range: p.range,
+        border: running ? 'rgba(230,230,230,.45)' : 'rgba(230,230,230,.11)',
+        headBg: done ? 'rgba(230,230,230,.9)' : running ? 'rgba(230,230,230,.07)' : 'transparent',
+        headC: done ? '#0E0F0E' : FG,
+        rangeC: done ? 'rgba(14,15,14,.6)' : 'rgba(230,230,230,.45)',
+        prog: p.tasks.filter(t => t.d).length + '/' + p.tasks.length,
+        tasks: p.tasks.map((t,ti) => this.check(t, () => this.setState(st => ({
+          phases: st.phases.map((x,j) => j === pi
+            ? Object.assign({}, x, { tasks: x.tasks.map((y,k) => k === ti ? Object.assign({}, y, {d: !y.d}) : y) })
+            : x)
+        }))))
+      };
+    });
+
+    const pd = s.openPost != null ? TOP[s.openPost] : null;
+
+    return Object.assign({
+      isImport: s.tab === 8, isRelease: s.tab === 9,
+      kAccount: () => this.setState({impKind:'account', impStep:'pick'}),
+      kPost: () => this.setState({impKind:'post', impStep:'pick'}),
+      kAccBg: kAcc.bg, kAccC: kAcc.c, kPostBg: kPst.bg, kPostC: kPst.c,
+      impPick: s.impStep === 'pick', impReading: s.impStep === 'reading',
+      impReview: s.impStep === 'review', impDone: s.impStep === 'done',
+      impHint: HINTS[s.impKind], imports: IMPORTS,
+      startRead: this.startRead, confirmImport: this.confirmImport, resetImport: this.resetImport,
+      readSteps: READ_STEPS.map(r => ({ t:r.t, mark: r.ok ? '✓' : '·', c: r.ok ? FG : 'rgba(230,230,230,.4)' })),
+      revTitle: rev.title, revSub: rev.sub, revConf: rev.conf, doneText: rev.done,
+      revRows: rev.rows.map(r => ({
+        k:r.k, v:r.v, st: r.sure ? 'SICHER' : 'PRÜFEN',
+        rowBg: r.sure ? 'transparent' : 'rgba(230,230,230,.05)',
+        stBorder: r.sure ? 'rgba(230,230,230,.12)' : 'rgba(230,230,230,.45)',
+        stC: r.sure ? 'rgba(230,230,230,.4)' : FG
+      })),
+
+      phases, relDone: phaseDone, relTotal: phaseTotal,
+      relStatus: phaseDone >= 4 ? 'AUF KURS' : 'IM VERZUG',
+      relSegs: REL_SEGS.map(g2 => ({
+        no: g2.no, w: g2.w, short: g2.short,
+        bg: g2.state === 'done' ? 'rgba(230,230,230,.85)' : g2.state === 'now' ? 'rgba(230,230,230,.22)' : 'transparent',
+        c: g2.state === 'done' ? '#0E0F0E' : g2.state === 'now' ? FG : 'rgba(230,230,230,.4)'
+      })),
+      relStats: REL_STATS,
+      tracks: TRACKS.map(t => Object.assign({}, t, this.chip(t.kind))),
+      assets: ASSETS.map(a => ({ t:a.t, note:a.note, mark: a.ok ? '✓' : '·', c: a.ok ? FG : 'rgba(230,230,230,.45)' })),
+      assetsDone: ASSETS.filter(a => a.ok).length + ' / ' + ASSETS.length + ' FERTIG',
+      otherReleases: OTHER_RELEASES.map(o => Object.assign({}, o, this.chip(o.kind))),
+      deadlines: DEADLINES.map(d => Object.assign({}, d, this.chip(d.kind))),
+
+      postOpen: !!pd, closePost: () => this.setState({openPost:null}), planSimilar: this.planSimilar,
+      pdTitle: pd ? pd.t : '', pdPlat: pd ? pd.plat : '', pdDate: pd ? pd.date : '',
+      pdMetrics: pd ? pd.m.map(m => Object.assign({}, m, { dC: m.d.indexOf('−') === 0 ? 'rgba(230,230,230,.45)' : FG })) : [],
+      pdCompletion: pd ? pd.completion : '', pdLen: pd ? pd.len : '', pdDrop: pd ? ('ABBRUCH ' + pd.drop) : '',
+      pdCurve: pd ? pd.curve.map((h,i) => ({ h: h + '%', c: i === 0 ? FG : 'rgba(230,230,230,.28)' })) : [],
+      pdRows: pd ? pd.rows : []
+    },
+
+    {
+      screenTitle: titles[s.tab], initials, showFees,
+      isOverview: s.tab === 0, isBookings: s.tab === 1, isContent: s.tab === 2, isStats: s.tab === 3,
+      isAI: s.tab === 4, isFinance: s.tab === 5, isContacts: s.tab === 6, isTour: s.tab === 7,
+      isImport: s.tab === 8, isRelease: s.tab === 9,
+      isSub: s.tab > 4 && s.tab !== 9,
+      c9: tabC(9), d9: tabD(9),
+      nav0: () => this.set({tab:0}), nav1: () => this.set({tab:1}), nav2: () => this.set({tab:2}),
+      nav3: () => this.set({tab:3}), nav4: () => this.set({tab:4}), nav5: () => this.set({tab:5}),
+      nav6: () => this.set({tab:6}), nav7: () => this.set({tab:7}),
+      nav8: () => this.set({tab:8, impStep:'pick'}), nav9: () => this.set({tab:9}),
+      c0: tabC(0), d0: tabD(0), c1: tabC(1), d1: tabD(1), c2: tabC(2), d2: tabD(2),
+      c3: tabC(3), d3: tabD(3), c4: tabC(4), d4: tabD(4),
+
+      releaseSteps: Array.from({length:13}, (_,i) => ({ c: i < 8 ? FG : 'transparent' })),
+      tasks: s.tasks.map((t,i) => this.check(t, () =>
+        this.setState(st => ({ tasks: st.tasks.map((x,j) => j === i ? Object.assign({}, x, {d: !x.d}) : x) })))),
+      rider: s.rider.map((t,i) => this.check(t, () =>
+        this.setState(st => ({ rider: st.rider.map((x,j) => j === i ? Object.assign({}, x, {d: !x.d}) : x) })))),
+
+      gigs, gigCount: String(filtered.length).padStart(2,'0'), feeSum: feeSum.toLocaleString('de-DE') + ' €',
+      fAll: () => this.set({filter:'Alle'}), fConf: () => this.set({filter:'Bestätigt'}), fReq: () => this.set({filter:'Angefragt'}),
+      fAllBg: sA.bg, fAllC: sA.c, fConfBg: sC.bg, fConfC: sC.c, fReqBg: sR.bg, fReqC: sR.c,
+
+      week: WEEK.map(w => ({
+        dow: w.dow, num: w.num,
+        bg: w.today ? 'rgba(230,230,230,.09)' : 'transparent',
+        numC: FG,
+        dots: Array.from({length:w.dots}, (_,i) => ({ c: i === 0 ? FG : 'transparent' }))
+      })),
+      groups,
+
+      r7: () => this.set({range:'7T'}), r30: () => this.set({range:'30T'}), r90: () => this.set({range:'90T'}),
+      r7Bg: g7.bg, r7C: g7.c, r30Bg: g30.bg, r30C: g30.c, r90Bg: g90.bg, r90C: g90.c,
+      reachValue: R.reach, reachDelta: R.delta, axisA: R.axisA, axisB: R.axisB, bars,
+      platforms: PLATFORMS.map(p => ({
+        name:p.name, val:p.val, delta:p.delta, w:p.w,
+        dC: p.up ? FG : 'rgba(230,230,230,.45)',
+        barC: p.up ? 'rgba(230,230,230,.75)' : 'rgba(230,230,230,.28)'
+      })),
+      topContent: TOP.map((t,i) => Object.assign({}, t, { open: () => this.setState({ openPost: i, openGig: null }) })),
+      trends: TRENDS,
+
+      invoices: INVOICES.map(iv => Object.assign({}, iv,
+        this.chip(iv.st === 'MAHNUNG' ? 'solid' : iv.st === 'OFFEN' ? 'outline' : 'dim'))),
+      income: INCOME.map((i,idx) => Object.assign({}, i, { c: idx === 0 ? FG : 'rgba(230,230,230,.4)' })),
+
+      search: s.search, onSearch: this.onSearch, contactGroups,
+      itinerary: ITINERARY.map(i => Object.assign({}, i, { dot: i.done ? FG : 'transparent' })),
+
+      messages, thinking: s.thinking, draft: s.draft, onDraft: this.onDraft, onKey: this.onKey, send: this.send,
+      hasPlan: plan.length > 0, plan, planCount: String(plan.length).padStart(2,'0'), addAll: this.addAll,
+      suggestions: ['Wochenplan für 7 Tage','Was posten nach Bootshaus?','Warum lief August besser?']
+        .map(t => ({ t, use: () => this.setState({ draft: t }) })),
+
+      gigOpen: !!g,
+      sheetVenue: g ? g.venue.toUpperCase() : '', sheetStatus: g ? g.status.toUpperCase() : '',
+      sheetSub: g ? (g.city + ' / ' + g.day + ' ' + g.d + '. ' + g.m + ' / ' + g.time) : '',
+      sheetStBg: gc.stBg, sheetStC: gc.stC, sheetStBorder: gc.stBorder,
+      sheetRows: g ? [
+        {k:'GAGE', v: showFees ? g.fee : '––––'},
+        {k:'KONTAKT', v:g.contact},
+        {k:'TECHNIK', v:g.tech},
+        {k:'HOTEL', v:g.hotel},
+        {k:'ANREISE', v:g.travel}
+      ] : [],
+      closeGig: () => this.set({openGig:null})
+    });
+  }
+}
+
+</script>
+</body>
+</html>
