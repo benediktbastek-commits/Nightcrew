@@ -146,7 +146,6 @@ export function ImportFlow({ posts }: { posts: Post[] }) {
             ref={fileInputRef}
             type="file"
             accept="image/*"
-            capture="environment"
             style={{ display: 'none' }}
             onChange={(event) => {
               const file = event.target.files?.[0];
