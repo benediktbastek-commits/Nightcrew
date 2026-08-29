@@ -19,10 +19,17 @@ const SOCIAL_FIELDS: { key: keyof NonNullable<Profile['socials']>; label: string
   { key: 'website', label: 'WEBSITE', placeholder: 'deine-seite.de' },
 ];
 
+const ERROR_MESSAGE: Record<string, string> = {
+  invalid_username: 'Benutzername: 3-20 Zeichen, nur Kleinbuchstaben, Zahlen, "_" oder ".".',
+  username_taken: 'Dieser Benutzername ist schon vergeben.',
+  save_failed: 'Speichern fehlgeschlagen — bitte nochmal versuchen.',
+};
+
 export function SettingsForm({ profile, userId }: { profile: Profile; userId: string }) {
   const [avatarUrl, setAvatarUrl] = useState(profile.avatar_url);
   const [uploading, setUploading] = useState(false);
   const [saved, setSaved] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   async function handleAvatarChange(event: React.ChangeEvent<HTMLInputElement>) {
@@ -48,7 +55,12 @@ export function SettingsForm({ profile, userId }: { profile: Profile; userId: st
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
     if (avatarUrl) formData.set('avatar_url', avatarUrl);
-    await updateProfile(formData);
+    setError(null);
+    const result = await updateProfile(formData);
+    if (result?.error) {
+      setError(ERROR_MESSAGE[result.error] ?? 'Etwas ist schiefgelaufen.');
+      return;
+    }
     setSaved(true);
     setTimeout(() => setSaved(false), 2000);
   }
@@ -64,6 +76,11 @@ export function SettingsForm({ profile, userId }: { profile: Profile; userId: st
           <p className="muted" style={{ fontSize: 9, marginTop: 4 }}>Am besten ein Foto, auf dem dein Gesicht mittig ist — wird als Kreis zugeschnitten.</p>
         </div>
         <input ref={fileInputRef} type="file" accept="image/*" style={{ display: 'none' }} onChange={handleAvatarChange} />
+      </div>
+
+      <div className="form-field">
+        <span className="label">BENUTZERNAME</span>
+        <input className="field" name="username" defaultValue={profile.username ?? ''} placeholder="z.B. dj_bastek" pattern="[a-z0-9_.]{3,20}" required />
       </div>
 
       <div className="form-field">
@@ -110,6 +127,8 @@ export function SettingsForm({ profile, userId }: { profile: Profile; userId: st
           </label>
         ))}
       </div>
+
+      {error && <p className="error-text">{error}</p>}
 
       <button type="submit" className="button solid-button">{saved ? '✓ GESPEICHERT' : 'SPEICHERN'}</button>
     </form>

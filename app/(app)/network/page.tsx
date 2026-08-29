@@ -10,7 +10,7 @@ const ROLE_LABEL: Record<Role, string> = {
   manager: 'MANAGER',
 };
 
-type MiniProfile = Pick<Profile, 'id' | 'display_name' | 'roles' | 'city'>;
+type MiniProfile = Pick<Profile, 'id' | 'display_name' | 'roles' | 'city' | 'username'>;
 
 export default async function NetworkPage({ searchParams }: { searchParams: { q?: string } }) {
   const supabase = await createClient();
@@ -22,7 +22,7 @@ export default async function NetworkPage({ searchParams }: { searchParams: { q?
   const [{ data: myConnectionsData }, { data: searchData }] = await Promise.all([
     supabase.from('connections').select('*').or(`requester_id.eq.${user.id},recipient_id.eq.${user.id}`),
     query
-      ? supabase.from('profiles').select('id, display_name, roles, city').ilike('display_name', `%${query}%`).neq('id', user.id).limit(20)
+      ? supabase.from('profiles').select('id, display_name, roles, city, username').or(`display_name.ilike.%${query}%,username.ilike.%${query}%`).neq('id', user.id).limit(20)
       : Promise.resolve({ data: [] as MiniProfile[] }),
   ]);
 
@@ -62,7 +62,9 @@ export default async function NetworkPage({ searchParams }: { searchParams: { q?
               return (
                 <div className="platform-row" key={profile.id}>
                   <div className="platform-row-top">
-                    <Link href={`/profile/${profile.id}`} className="platform-name profile-link">{profile.display_name ?? 'Unbekannt'}</Link>
+                    <Link href={`/profile/${profile.id}`} className="platform-name profile-link">
+                      {profile.display_name ?? 'Unbekannt'}{profile.username ? ` · @${profile.username}` : ''}
+                    </Link>
                     {!existing || existing.status === 'declined' ? (
                       <form action={sendConnectionRequest.bind(null, profile.id)}>
                         <button type="submit" className="edit-link">VERBINDEN</button>

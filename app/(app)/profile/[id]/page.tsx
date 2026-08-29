@@ -61,6 +61,7 @@ export default async function PublicProfilePage({ params }: { params: { id: stri
         </div>
         <div>
           <h2 style={{ margin: 0, fontSize: 18 }}>{profile.display_name ?? 'Unbekannt'}</h2>
+          {profile.username && <p className="muted" style={{ marginTop: 2 }}>@{profile.username}</p>}
           {profile.status && <p className="muted" style={{ marginTop: 4 }}>{profile.status}</p>}
         </div>
       </div>

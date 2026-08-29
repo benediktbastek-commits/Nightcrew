@@ -15,7 +15,7 @@ export default async function SettingsPage() {
 
   const isOwner = isOwnerEmail(user.email);
   const { data: profileData } = await supabase.from('profiles').select('*').eq('id', user.id).maybeSingle();
-  const profile = (profileData ?? { id: user.id, display_name: null, avatar_url: null, status: null, roles: [], ai_unlocked: false, skills: [], portfolio: [], onboarded_at: null, wants_content: false, bio: null, city: null, socials: null }) as Profile;
+  const profile = (profileData ?? { id: user.id, display_name: null, avatar_url: null, status: null, roles: [], ai_unlocked: false, skills: [], portfolio: [], onboarded_at: null, wants_content: false, bio: null, city: null, socials: null, username: null }) as Profile;
 
   const { data: codesData } = isOwner
     ? await supabase.from('access_codes').select('*').eq('created_by', user.id).order('created_at', { ascending: false })

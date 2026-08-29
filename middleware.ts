@@ -42,8 +42,8 @@ export async function middleware(request: NextRequest) {
   }
 
   if (user && !isAuthRoute && !isApiRoute && !isOnboardingRoute) {
-    const { data: profile } = await supabase.from('profiles').select('onboarded_at').eq('id', user.id).maybeSingle();
-    if (!profile?.onboarded_at) {
+    const { data: profile } = await supabase.from('profiles').select('onboarded_at, username').eq('id', user.id).maybeSingle();
+    if (!profile?.onboarded_at || !profile?.username) {
       const url = request.nextUrl.clone();
       url.pathname = '/onboarding';
       return NextResponse.redirect(url);

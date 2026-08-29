@@ -4,6 +4,7 @@ import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
 import { isOwnerEmail } from '@/lib/owner';
+import { isValidUsername, normalizeUsername } from '@/lib/username';
 import type { Role } from '@/lib/types';
 
 export async function updateProfile(formData: FormData) {
@@ -17,6 +18,12 @@ export async function updateProfile(formData: FormData) {
   const avatarUrl = String(formData.get('avatar_url') ?? '').trim();
   const city = String(formData.get('city') ?? '').trim();
   const bio = String(formData.get('bio') ?? '').trim();
+  const username = normalizeUsername(String(formData.get('username') ?? ''));
+
+  if (!isValidUsername(username)) return { error: 'invalid_username' };
+
+  const { data: taken } = await supabase.from('profiles').select('id').eq('username', username).neq('id', user.id).maybeSingle();
+  if (taken) return { error: 'username_taken' };
   const socials = {
     instagram: String(formData.get('social_instagram') ?? '').trim() || null,
     tiktok: String(formData.get('social_tiktok') ?? '').trim() || null,
@@ -34,13 +41,18 @@ export async function updateProfile(formData: FormData) {
       city: city || null,
       bio: bio || null,
       socials,
+      username,
       ...(avatarUrl ? { avatar_url: avatarUrl } : {}),
     })
     .eq('id', user.id);
-  if (error) console.error('[updateProfile]', error);
+  if (error) {
+    console.error('[updateProfile]', error);
+    return { error: error.code === '23505' ? 'username_taken' : 'save_failed' };
+  }
 
   revalidatePath('/settings');
   revalidatePath('/');
+  return { error: null };
 }
 
 export async function updatePhotographerDetails(formData: FormData) {

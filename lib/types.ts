@@ -266,6 +266,7 @@ export type Profile = {
   bio: string | null;
   city: string | null;
   socials: ProfileSocials | null;
+  username: string | null;
 };
 
 export type ServiceType = 'photo' | 'video' | 'both';
