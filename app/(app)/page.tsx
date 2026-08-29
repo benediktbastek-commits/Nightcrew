@@ -1,10 +1,10 @@
 import Link from 'next/link';
 import { Screen } from '@/components/screen';
 import { PostCard } from '@/components/post-card';
-import { dateParts, daysBetween, formatDayMonth, formatDueLabel, formatEuro, formatTimeRange } from '@/lib/format';
+import { dateParts, daysBetween, formatCompact, formatDayMonth, formatDueLabel, formatEuro, formatTimeRange, windowBucket } from '@/lib/format';
 import { createClient } from '@/lib/supabase/server';
 import { hasRole, isPhotographerOnly } from '@/lib/roles';
-import type { Gig, Post, Profile, Release, ReleaseAsset, ReleaseDeadline, ReleaseKind, Task } from '@/lib/types';
+import type { AccountMetric, Gig, Post, Profile, Release, ReleaseAsset, ReleaseDeadline, ReleaseKind, Task } from '@/lib/types';
 import { toggleAsset, toggleDeadline, togglePhaseTask } from './releases/actions';
 import { createTask, toggleTask } from './actions';
 import { PhotographerDashboard } from './photographer-dashboard';
@@ -39,6 +39,7 @@ export default async function OverviewPage() {
     { data: openInvoicesData },
     { count: contactsCount },
     { count: contactsRecentCount },
+    { data: accountMetricsData },
   ] = await Promise.all([
     supabase
       .from('tasks')
@@ -61,6 +62,7 @@ export default async function OverviewPage() {
     supabase.from('invoices').select('amount_cents').in('status', ['open', 'overdue']),
     supabase.from('contacts').select('*', { count: 'exact', head: true }),
     supabase.from('contacts').select('*', { count: 'exact', head: true }).gte('last_contact_at', last30Days),
+    supabase.from('account_metrics').select('platform, period_start, period_end, views'),
   ]);
   if (tasksError) console.error('[OverviewPage] tasks', tasksError);
   if (gigsQ4Error) console.error('[OverviewPage] gigsQ4', gigsQ4Error);
@@ -72,6 +74,16 @@ export default async function OverviewPage() {
   const nextGig = nextGigData as Gig | null;
   const daysUntilGig = nextGig ? Math.round((new Date(`${nextGig.date}T00:00:00`).getTime() - new Date(`${today}T00:00:00`).getTime()) / 86400000) : null;
   const dueSoonPosts = (dueSoonData ?? []) as Post[];
+
+  // Gleiche "30 Tage"-Fensterlogik wie im Analytics-Tab: pro Plattform nur der
+  // Screenshot, dessen Zeitraum zu 30 Tagen passt, keine Vermischung mit 7/90-Tage-Werten.
+  const accountMetrics = (accountMetricsData ?? []) as Pick<AccountMetric, 'platform' | 'period_start' | 'period_end' | 'views'>[];
+  const reachPlatforms = Array.from(new Set(accountMetrics.map((m) => m.platform)));
+  const totalReach = reachPlatforms.reduce((sum, platform) => {
+    const candidates = accountMetrics.filter((m) => m.platform === platform && windowBucket(m.period_start, m.period_end) === 30);
+    const latest = candidates.sort((a, b) => b.period_end.localeCompare(a.period_end))[0];
+    return sum + (latest?.views ?? 0);
+  }, 0);
 
   const releases = (releasesData ?? []) as Release[];
   const currentRelease = releases.find((release) => release.release_date >= today && release.status !== 'released') ?? null;
@@ -119,7 +131,7 @@ export default async function OverviewPage() {
       </section>
       <section className="metrics">
         <div className="metric"><span className="label">GIGS Q4</span><strong>{String(gigsQ4Count ?? 0).padStart(2, '0')}</strong></div>
-        <div className="metric"><span className="label">HÖRER</span><strong>84k</strong></div>
+        <div className="metric"><span className="label">AUFRUFE 30T</span><strong>{totalReach > 0 ? formatCompact(totalReach) : '—'}</strong></div>
         <div className="metric"><span className="label">POSTS OFFEN</span><strong>{String(postsOpenCount ?? 0).padStart(2, '0')}</strong></div>
       </section>
       <section>
