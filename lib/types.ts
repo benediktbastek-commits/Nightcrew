@@ -307,17 +307,6 @@ export type ServiceOffer = {
   created_at: string;
 };
 
-export type AccessCode = {
-  id: string;
-  code: string;
-  label: string | null;
-  created_by: string;
-  redeemed_by: string | null;
-  redeemed_at: string | null;
-  revoked: boolean;
-  created_at: string;
-};
-
 export type Review = {
   id: string;
   request_id: string;

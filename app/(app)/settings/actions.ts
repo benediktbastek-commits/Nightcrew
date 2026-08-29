@@ -94,39 +94,6 @@ export async function toggleContentModule(formData: FormData) {
   revalidatePath('/');
 }
 
-export async function redeemAccessCode(formData: FormData) {
-  const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) return { error: 'unauthorized' };
-
-  const code = String(formData.get('code') ?? '').trim();
-  if (!code) return { error: 'missing_code' };
-
-  const { data: match } = await supabase
-    .from('access_codes')
-    .select('id')
-    .eq('code', code)
-    .is('redeemed_by', null)
-    .eq('revoked', false)
-    .maybeSingle();
-  if (!match) return { error: 'invalid_code' };
-
-  const { error: redeemError } = await supabase
-    .from('access_codes')
-    .update({ redeemed_by: user.id, redeemed_at: new Date().toISOString() })
-    .eq('id', match.id);
-  if (redeemError) {
-    console.error('[redeemAccessCode]', redeemError);
-    return { error: 'redeem_failed' };
-  }
-
-  const { error: profileError } = await supabase.from('profiles').update({ ai_unlocked: true }).eq('id', user.id);
-  if (profileError) console.error('[redeemAccessCode] profile', profileError);
-
-  revalidatePath('/settings');
-  return { error: null };
-}
-
 export async function submitFeedback(formData: FormData) {
   const message = String(formData.get('message') ?? '').trim();
   if (!message) return;
@@ -137,31 +104,6 @@ export async function submitFeedback(formData: FormData) {
 
   const { error } = await supabase.from('feedback').insert({ user_id: user.id, message });
   if (error) console.error('[submitFeedback]', error);
-
-  revalidatePath('/settings');
-}
-
-export async function createAccessCode(formData: FormData) {
-  const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user || !isOwnerEmail(user.email)) return;
-
-  const label = String(formData.get('label') ?? '').trim() || null;
-  const code = Math.random().toString(36).slice(2, 8).toUpperCase();
-
-  const { error } = await supabase.from('access_codes').insert({ code, label, created_by: user.id });
-  if (error) console.error('[createAccessCode]', error);
-
-  revalidatePath('/settings');
-}
-
-export async function revokeAccessCode(id: string) {
-  const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user || !isOwnerEmail(user.email)) return;
-
-  const { error } = await supabase.from('access_codes').update({ revoked: true }).eq('id', id).eq('created_by', user.id);
-  if (error) console.error('[revokeAccessCode]', error);
 
   revalidatePath('/settings');
 }

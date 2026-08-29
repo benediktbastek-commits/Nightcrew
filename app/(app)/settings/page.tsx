@@ -1,21 +1,17 @@
 import { Screen } from '@/components/screen';
-import { Chip } from '@/components/ui';
 import { createClient } from '@/lib/supabase/server';
 import { isOwnerEmail } from '@/lib/owner';
 import { hasRole } from '@/lib/roles';
 import { signOut } from '@/app/actions';
 import { SettingsForm } from './settings-form';
 import {
-  createAccessCode,
   grantAiAccessByEmail,
-  redeemAccessCode,
-  revokeAccessCode,
   revokeAiAccessById,
   submitFeedback,
   toggleContentModule,
   updatePhotographerDetails,
 } from './actions';
-import type { AccessCode, Profile } from '@/lib/types';
+import type { Profile } from '@/lib/types';
 
 const AI_ERROR_MESSAGE: Record<string, string> = {
   missing_email: 'Bitte eine E-Mail-Adresse eingeben.',
@@ -32,13 +28,9 @@ export default async function SettingsPage({ searchParams }: { searchParams: { a
   const { data: profileData } = await supabase.from('profiles').select('*').eq('id', user.id).maybeSingle();
   const profile = (profileData ?? { id: user.id, display_name: null, avatar_url: null, status: null, roles: [], ai_unlocked: false, skills: [], portfolio: [], onboarded_at: null, wants_content: false, bio: null, city: null, socials: null, username: null }) as Profile;
 
-  const [{ data: codesData }, { data: unlockedData }] = isOwner
-    ? await Promise.all([
-        supabase.from('access_codes').select('*').eq('created_by', user.id).order('created_at', { ascending: false }),
-        supabase.from('profiles').select('id, display_name, username').eq('ai_unlocked', true).neq('id', user.id),
-      ])
-    : [{ data: null }, { data: null }];
-  const codes = (codesData ?? []) as AccessCode[];
+  const { data: unlockedData } = isOwner
+    ? await supabase.from('profiles').select('id, display_name, username').eq('ai_unlocked', true).neq('id', user.id)
+    : { data: null };
   const unlockedProfiles = (unlockedData ?? []) as Pick<Profile, 'id' | 'display_name' | 'username'>[];
 
   return (
@@ -53,10 +45,7 @@ export default async function SettingsPage({ searchParams }: { searchParams: { a
         {isOwner || profile.ai_unlocked ? (
           <p className="muted">✓ Freigeschaltet{isOwner ? ' (Eigentümer)' : ''}.</p>
         ) : (
-          <form action={redeemAccessCode} className="quick-add">
-            <input className="field" name="code" placeholder="Zugangscode eingeben" required />
-            <button type="submit" className="button">✓</button>
-          </form>
+          <p className="muted">Noch nicht freigeschaltet — frag den Entwickler, dich per E-Mail freizuschalten.</p>
         )}
       </section>
 
@@ -117,36 +106,6 @@ export default async function SettingsPage({ searchParams }: { searchParams: { a
             <button type="submit" className="button">FREISCHALTEN</button>
           </form>
           {searchParams.ai_error && <p className="error-text">{AI_ERROR_MESSAGE[searchParams.ai_error] ?? 'Etwas ist schiefgelaufen.'}</p>}
-        </section>
-      )}
-
-      {isOwner && (
-        <section>
-          <div className="row section-heading"><span className="label">ZUGANGSCODES VERWALTEN</span><span className="muted">{codes.length}</span></div>
-          {codes.length === 0 ? (
-            <p className="empty-state">Noch keine Codes erstellt.</p>
-          ) : (
-            codes.map((code) => (
-              <div className="platform-row" key={code.id}>
-                <div className="platform-row-top">
-                  <span className="platform-name bright">{code.code}</span>
-                  <Chip tone={code.revoked ? 'dim' : code.redeemed_by ? 'solid' : 'outline'}>
-                    {code.revoked ? 'WIDERRUFEN' : code.redeemed_by ? 'EINGELÖST' : 'OFFEN'}
-                  </Chip>
-                </div>
-                {code.label && <span className="muted">{code.label}</span>}
-                {!code.revoked && !code.redeemed_by && (
-                  <form action={revokeAccessCode.bind(null, code.id)}>
-                    <button type="submit" className="edit-link">WIDERRUFEN</button>
-                  </form>
-                )}
-              </div>
-            ))
-          )}
-          <form action={createAccessCode} className="quick-add">
-            <input className="field" name="label" placeholder="Für wen? (optional)" />
-            <button type="submit" className="button">+</button>
-          </form>
         </section>
       )}
 
