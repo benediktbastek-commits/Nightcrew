@@ -18,6 +18,13 @@ export async function createClient() {
           }
         }) as SetAllCookies,
       },
+      // Ohne das kann Next.js' fetch-Cache eine Antwort von User A für eine
+      // identische Anfrage-URL an User B ausliefern, wenn eine Query nicht explizit
+      // nach user_id filtert (RLS filtert zwar serverseitig richtig, aber der Cache-Key
+      // basiert nur auf URL+Body, nicht auf dem Auth-Header). Jede Anfrage muss frisch sein.
+      global: {
+        fetch: (input: RequestInfo | URL, init?: RequestInit) => fetch(input, { ...init, cache: 'no-store' }),
+      },
     }
   );
 }
