@@ -101,7 +101,7 @@ export default async function SettingsPage({ searchParams }: { searchParams: { a
               </div>
             ))
           )}
-          <form action={grantAiAccessByEmail} className="quick-add">
+          <form action={grantAiAccessByEmail} className="inline-form">
             <input className="field" type="email" name="email" placeholder="freund@email.de" required />
             <button type="submit" className="button">FREISCHALTEN</button>
           </form>
