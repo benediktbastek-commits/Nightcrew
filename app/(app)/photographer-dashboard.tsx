@@ -8,9 +8,10 @@ export async function PhotographerDashboard({ userId }: { userId: string }) {
   const supabase = await createClient();
   const today = new Date().toISOString().slice(0, 10);
 
-  const [{ data: nextGigData }, { count: openRequestsCount }] = await Promise.all([
+  const [{ data: nextGigData }, { count: openRequestsCount }, { count: pendingConnectionsCount }] = await Promise.all([
     supabase.from('gigs').select('*').eq('user_id', userId).gte('date', today).order('date', { ascending: true }).limit(1).maybeSingle(),
     supabase.from('service_requests').select('*', { count: 'exact', head: true }).eq('status', 'open'),
+    supabase.from('connections').select('*', { count: 'exact', head: true }).eq('recipient_id', userId).eq('status', 'pending'),
   ]);
   const nextGig = nextGigData as Gig | null;
 
@@ -38,7 +39,8 @@ export async function PhotographerDashboard({ userId }: { userId: string }) {
       </Link>
 
       <section className="module-grid">
-        <Link href="/settings" className="module wide"><span>SKILLS & REFERENZEN BEARBEITEN</span><span>›</span></Link>
+        <Link href="/network" className="module"><span className="label">NETZWERK</span><strong>{pendingConnectionsCount ?? 0}</strong><span className="muted">NEUE ANFRAGEN</span></Link>
+        <Link href="/settings" className="module"><span className="label">SKILLS</span><strong>BEARBEITEN</strong><span className="muted">& Referenzen</span></Link>
       </section>
     </Screen>
   );

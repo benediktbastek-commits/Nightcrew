@@ -1,8 +1,10 @@
+import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { Screen } from '@/components/screen';
 import { Chip } from '@/components/ui';
 import { createClient } from '@/lib/supabase/server';
-import type { Profile, Role } from '@/lib/types';
+import { sendConnectionRequest } from '../../network/actions';
+import type { Connection, Profile, Role } from '@/lib/types';
 
 const ROLE_LABEL: Record<Role, string> = {
   dj_producer: 'DJ / PRODUCER',
@@ -32,10 +34,21 @@ function socialUrl(key: string, rawValue: string) {
 
 export default async function PublicProfilePage({ params }: { params: { id: string } }) {
   const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
   const { data: profileData } = await supabase.from('profiles').select('*').eq('id', params.id).maybeSingle();
   if (!profileData) notFound();
   const profile = profileData as Profile;
   const socials = Object.entries(profile.socials ?? {}).filter((entry): entry is [string, string] => !!entry[1]);
+
+  const isOwnProfile = user?.id === params.id;
+  const { data: connectionData } = !isOwnProfile && user
+    ? await supabase
+        .from('connections')
+        .select('*')
+        .or(`and(requester_id.eq.${user.id},recipient_id.eq.${params.id}),and(requester_id.eq.${params.id},recipient_id.eq.${user.id})`)
+        .maybeSingle()
+    : { data: null };
+  const connection = connectionData as Connection | null;
 
   return (
     <Screen title={profile.display_name ?? 'PROFIL'} back="/marketplace">
@@ -56,6 +69,22 @@ export default async function PublicProfilePage({ params }: { params: { id: stri
         {(profile.roles ?? []).map((role) => <Chip key={role} tone="outline">{ROLE_LABEL[role] ?? role}</Chip>)}
         {profile.city && <Chip tone="dim">{profile.city}</Chip>}
       </div>
+
+      {!isOwnProfile && user && (
+        <div className="button-row">
+          {!connection || connection.status === 'declined' ? (
+            <form action={sendConnectionRequest.bind(null, params.id)} style={{ flex: 1 }}>
+              <button type="submit" className="button solid-button">VERBINDEN</button>
+            </form>
+          ) : connection.status === 'pending' && connection.requester_id === user.id ? (
+            <button type="button" className="button" disabled>ANFRAGE GESENDET</button>
+          ) : connection.status === 'pending' ? (
+            <Link href="/network" className="button solid-button">ANFRAGE ANNEHMEN</Link>
+          ) : (
+            <Link href={`/network/chat/${connection.id}`} className="button solid-button">CHAT ÖFFNEN</Link>
+          )}
+        </div>
+      )}
 
       {profile.bio && (
         <section className="panel">

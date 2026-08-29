@@ -40,6 +40,7 @@ export default async function OverviewPage() {
     { count: contactsCount },
     { count: contactsRecentCount },
     { data: accountMetricsData },
+    { count: pendingConnectionsCount },
   ] = await Promise.all([
     supabase
       .from('tasks')
@@ -63,6 +64,7 @@ export default async function OverviewPage() {
     supabase.from('contacts').select('*', { count: 'exact', head: true }),
     supabase.from('contacts').select('*', { count: 'exact', head: true }).gte('last_contact_at', last30Days),
     supabase.from('account_metrics').select('platform, period_start, period_end, views'),
+    authUser ? supabase.from('connections').select('*', { count: 'exact', head: true }).eq('recipient_id', authUser.id).eq('status', 'pending') : Promise.resolve({ count: 0 }),
   ]);
   if (tasksError) console.error('[OverviewPage] tasks', tasksError);
   if (gigsQ4Error) console.error('[OverviewPage] gigsQ4', gigsQ4Error);
@@ -221,6 +223,7 @@ export default async function OverviewPage() {
         <Link href="/contacts" className="module"><span className="label">KONTAKTE</span><strong>{contactsCount ?? 0}</strong><span className="muted">{contactsRecentCount ?? 0} LETZTE 30 T</span></Link>
         <Link href="/tour" className="module"><span className="label">TOUR</span><strong>{nextGig ? nextGig.city.toUpperCase() : '—'}</strong><span className="muted">{nextGig ? formatDayMonth(nextGig.date) : 'KEIN GIG'}</span></Link>
         <Link href="/marketplace" className="module"><span className="label">FOTOGRAF / VIDEOGRAF</span><strong>SUCHEN</strong><span className="muted">Marktplatz</span></Link>
+        <Link href="/network" className="module"><span className="label">NETZWERK</span><strong>{pendingConnectionsCount ?? 0}</strong><span className="muted">NEUE ANFRAGEN</span></Link>
         <Link href="/import" className="module wide"><span>＋ SCREENSHOT IMPORTIEREN</span><span>›</span></Link>
       </section>
       <Link href="/claude" className="claude-link"><span className="pulse" /> MIT CLAUDE CONTENT PLANEN <span>›</span></Link>

@@ -349,6 +349,25 @@ export type ChatMessage = {
   content: string;
 };
 
+export type ConnectionStatus = 'pending' | 'accepted' | 'declined';
+
+export type Connection = {
+  id: string;
+  requester_id: string;
+  recipient_id: string;
+  status: ConnectionStatus;
+  created_at: string;
+  responded_at: string | null;
+};
+
+export type DirectMessage = {
+  id: string;
+  connection_id: string;
+  sender_id: string;
+  content: string;
+  created_at: string;
+};
+
 export type PlanItem = {
   id: string;
   planned_for: string;
