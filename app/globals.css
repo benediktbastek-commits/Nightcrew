@@ -51,7 +51,9 @@ button:focus-visible { outline: 1px solid var(--white); outline-offset: 2px; }
      User), nur ein einzelnes .auth-screen — das würde ohne grid-area sonst per
      Grid-Auto-Placement in die schmale erste Zelle (die 208px-Sidebar-Spalte)
      gequetscht und bei zu viel Inhalt von .app's overflow:hidden abgeschnitten. */
-  .auth-screen { grid-column: 1 / -1; grid-row: 1 / -1; justify-content: flex-start; overflow-y: auto; padding: 48px; }
+  .auth-screen, .landing-screen { grid-column: 1 / -1; grid-row: 1 / -1; }
+  .auth-screen { justify-content: flex-start; overflow-y: auto; padding: 48px; }
+  .landing-screen { padding: 36px 56px 48px; }
   /* Die Kompakt-Leiste (Home/Claude-Mitte/Menü) ist ein Mobile-Ding — auf Desktop
      ist Platz für die volle Liste in der Sidebar, kein Menü-Sheet nötig. Aus dem
      gleichen Grund wie .auth-screen oben muss ein direktes .sheet-backdrop-Kind
@@ -215,4 +217,17 @@ textarea.field { resize: vertical; min-height: 64px; font-family: inherit; }
 .cal-event-row:last-child { border-bottom: 0; }
 .cal-event-row i { width: 8px; height: 8px; flex: none; border-radius: 50%; }
 .cal-event-row.dim { opacity: .55; }
+.landing-screen { flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 32px; padding: 28px 20px 36px; }
+.landing-hero { display: flex; flex-direction: column; gap: 14px; text-align: center; padding-top: 8px; }
+.landing-hero h1 { margin: 0; font-size: 26px; font-weight: 600; letter-spacing: -.03em; line-height: 1.15; }
+.landing-hero p { margin: 0; font-size: 11.5px; line-height: 1.6; color: var(--muted); }
+.landing-cta { align-self: center; padding: 13px 28px; }
+.landing-feature { display: flex; flex-direction: column; align-items: center; gap: 14px; text-align: center; }
+.landing-feature h2 { margin: 0; font-size: 13px; font-weight: 700; letter-spacing: .1em; }
+.landing-feature p { margin: 0; font-size: 11px; line-height: 1.6; color: var(--muted); max-width: 280px; }
+.landing-shot { position: relative; width: 200px; height: 340px; flex: none; overflow: hidden; border: 1px solid rgba(230,230,230,.2); border-radius: 18px; background: repeating-linear-gradient(135deg, rgba(230,230,230,.08) 0 4px, transparent 4px 9px); }
+.landing-shot img { width: 100%; height: 100%; object-fit: cover; object-position: top; }
+.landing-divider { height: 1px; background: var(--line); }
+.landing-footer { display: flex; flex-direction: column; gap: 16px; padding: 4px 4px 0; }
+.landing-footer .row { justify-content: space-between; }
 .profile-link { text-decoration: underline; text-decoration-color: rgba(230,230,230,.3); text-underline-offset: 2px; }
