@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { Screen } from '@/components/screen';
 import { PostCard } from '@/components/post-card';
-import { dateParts, daysBetween, formatCompact, formatDayMonth, formatDueLabel, formatEuro, formatTimeRange, windowBucket } from '@/lib/format';
+import { dateParts, daysBetween, formatCompact, formatCountdown, formatDayMonth, formatDueLabel, formatEuro, formatTimeRange, windowBucket } from '@/lib/format';
 import { createClient } from '@/lib/supabase/server';
 import { hasRole, isPhotographerOnly } from '@/lib/roles';
 import type { AccountMetric, Gig, Post, Profile, Release, ReleaseAsset, ReleaseDeadline, ReleaseKind, Task } from '@/lib/types';
@@ -117,7 +117,7 @@ export default async function OverviewPage() {
   return (
     <Screen title="ÜBERBLICK">
       <section className="hero-panel">
-        <div className="row"><span className="label bright">NÄCHSTER GIG</span><span className="muted">{nextGig ? `T−${daysUntilGig}` : ''}</span></div>
+        <div className="row"><span className="label bright">NÄCHSTER GIG</span><span className="muted">{nextGig && daysUntilGig !== null ? formatCountdown(daysUntilGig) : ''}</span></div>
         {nextGig ? (
           <div>
             <h2>{nextGig.venue}</h2>
@@ -137,7 +137,7 @@ export default async function OverviewPage() {
         <div className="metric"><span className="label">POSTS OFFEN</span><strong>{String(postsOpenCount ?? 0).padStart(2, '0')}</strong></div>
       </section>
       <section>
-        <div className="row section-heading"><span className="label">RELEASE</span><span className="muted">{currentRelease ? `T−${daysUntilRelease}` : ''}</span></div>
+        <div className="row section-heading"><span className="label">RELEASE</span><span className="muted">{currentRelease && daysUntilRelease !== null ? formatCountdown(daysUntilRelease) : ''}</span></div>
         {currentRelease ? (
           <Link href={`/releases/${currentRelease.id}`} className="panel release-card">
             <div className="row"><div><h3>{KIND_LABEL[currentRelease.kind]} „{currentRelease.title}“</h3><p className="meta">VÖ {formatDayMonth(currentRelease.release_date)} · {releaseTrackCount} TRACKS</p></div><div className="cover" /></div>

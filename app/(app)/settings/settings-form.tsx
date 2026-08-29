@@ -16,6 +16,7 @@ const SOCIAL_FIELDS: { key: keyof NonNullable<Profile['socials']>; label: string
   { key: 'tiktok', label: 'TIKTOK', placeholder: '@deinname oder Link' },
   { key: 'youtube', label: 'YOUTUBE', placeholder: '@deinkanal oder Link' },
   { key: 'spotify', label: 'SPOTIFY', placeholder: 'Link zum Artist-/Profil' },
+  { key: 'soundcloud', label: 'SOUNDCLOUD', placeholder: '@deinname oder Link' },
   { key: 'website', label: 'WEBSITE', placeholder: 'deine-seite.de' },
 ];
 

@@ -249,6 +249,7 @@ export type ProfileSocials = {
   tiktok: string | null;
   youtube: string | null;
   spotify: string | null;
+  soundcloud: string | null;
   website: string | null;
 };
 

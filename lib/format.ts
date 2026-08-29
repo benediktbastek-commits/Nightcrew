@@ -67,6 +67,13 @@ export function formatDueLabel(dueDate: string | null) {
   return dueDate === today ? 'HEUTE' : formatDayMonth(dueDate);
 }
 
+export function formatCountdown(days: number) {
+  if (days === 0) return 'HEUTE';
+  if (days === 1) return 'MORGEN';
+  if (days < 0) return `VOR ${Math.abs(days)} T`;
+  return `NOCH ${days} TAGE`;
+}
+
 export function dateKey(date: Date) {
   return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
 }

@@ -17,6 +17,7 @@ const SOCIAL_LABEL: Record<string, string> = {
   tiktok: 'TIKTOK',
   youtube: 'YOUTUBE',
   spotify: 'SPOTIFY',
+  soundcloud: 'SOUNDCLOUD',
   website: 'WEBSITE',
 };
 
@@ -28,6 +29,7 @@ function socialUrl(key: string, rawValue: string) {
     case 'tiktok': return `https://tiktok.com/@${value}`;
     case 'youtube': return `https://youtube.com/@${value}`;
     case 'spotify': return `https://open.spotify.com/search/${encodeURIComponent(value)}`;
+    case 'soundcloud': return `https://soundcloud.com/${value}`;
     default: return `https://${value}`;
   }
 }

@@ -29,6 +29,7 @@ export async function updateProfile(formData: FormData) {
     tiktok: String(formData.get('social_tiktok') ?? '').trim() || null,
     youtube: String(formData.get('social_youtube') ?? '').trim() || null,
     spotify: String(formData.get('social_spotify') ?? '').trim() || null,
+    soundcloud: String(formData.get('social_soundcloud') ?? '').trim() || null,
     website: String(formData.get('social_website') ?? '').trim() || null,
   };
 

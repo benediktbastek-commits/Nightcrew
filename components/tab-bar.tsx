@@ -7,26 +7,11 @@ import { TabBarClient } from './tab-bar-client';
 // Kalender ist rollenoffen: er zeigt user-gescopte Daten aus mehreren Tabellen
 // (siehe lib/calendar.ts) und braucht keine Rollen-Logik. Jede Rollen-Tab-Liste
 // unten sollte CALENDAR_TAB enthalten — auch neue Kontotypen, die später dazukommen.
+const HOME_TAB = { href: '/', label: 'ÜBERBLICK' };
 const CALENDAR_TAB = { href: '/calendar', label: 'KALENDER' };
 const CONTENT_TAB = { href: '/content', label: 'CONTENT' };
 const CLAUDE_TAB = { href: '/claude', label: 'CLAUDE' };
-
-const DJ_TABS = [
-  { href: '/', label: 'ÜBERBLICK' },
-  { href: '/bookings', label: 'BOOKINGS' },
-  CONTENT_TAB,
-  { href: '/releases', label: 'RELEASES' },
-  CALENDAR_TAB,
-  { href: '/analytics', label: 'ANALYTICS' },
-  CLAUDE_TAB,
-];
-
-const PHOTOGRAPHER_BASE_TABS = [
-  { href: '/', label: 'ÜBERBLICK' },
-  { href: '/bookings', label: 'AUFTRÄGE' },
-  CALENDAR_TAB,
-  { href: '/marketplace', label: 'MARKTPLATZ' },
-];
+const MARKETPLACE_TAB = { href: '/marketplace', label: 'MARKTPLATZ' };
 
 export async function TabBar() {
   const supabase = await createClient();
@@ -36,15 +21,29 @@ export async function TabBar() {
     : { data: null };
   const roles = (profileData?.roles ?? []) as Profile['roles'];
   const isPhotographerOnly = hasRole(roles, 'photographer_videographer') && !hasRole(roles, 'dj_producer');
-
-  if (!isPhotographerOnly) return <TabBarClient tabs={DJ_TABS} />;
-
-  // Fotografen bekommen Content & Claude optional dazu — Content per Einstellungs-Schalter,
-  // Claude sobald ein Zugangscode eingelöst wurde (siehe app/(app)/settings/page.tsx).
   const aiUnlocked = isOwnerEmail(user?.email) || !!profileData?.ai_unlocked;
-  const tabs = [...PHOTOGRAPHER_BASE_TABS];
-  if (profileData?.wants_content) tabs.splice(2, 0, CONTENT_TAB);
-  if (aiUnlocked) tabs.push(CLAUDE_TAB);
 
-  return <TabBarClient tabs={tabs} />;
+  // Claude ist das große KI-Feature und bleibt deshalb — egal bei welcher Rolle —
+  // der auffällig zentrierte Button in der Kompakt-Leiste, sobald verfügbar.
+  // Fotografen ohne Freischaltung bekommen stattdessen den Marktplatz zentriert,
+  // da Claude für sie dann noch gar nicht erreichbar ist.
+  const centerTab = isPhotographerOnly && !aiUnlocked ? MARKETPLACE_TAB : CLAUDE_TAB;
+
+  const djMenu = [
+    { href: '/bookings', label: 'BOOKINGS' },
+    CONTENT_TAB,
+    { href: '/releases', label: 'RELEASES' },
+    CALENDAR_TAB,
+    { href: '/analytics', label: 'ANALYTICS' },
+  ];
+  const photographerMenu = [
+    { href: '/bookings', label: 'AUFTRÄGE' },
+    ...(profileData?.wants_content ? [CONTENT_TAB] : []),
+    CALENDAR_TAB,
+    MARKETPLACE_TAB,
+    ...(aiUnlocked ? [CLAUDE_TAB] : []),
+  ];
+  const menuTabs = (isPhotographerOnly ? photographerMenu : djMenu).filter((tab) => tab.href !== centerTab.href);
+
+  return <TabBarClient homeTab={HOME_TAB} centerTab={centerTab} menuTabs={menuTabs} />;
 }
