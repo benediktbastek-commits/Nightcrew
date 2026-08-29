@@ -165,3 +165,32 @@ export async function revokeAccessCode(id: string) {
 
   revalidatePath('/settings');
 }
+
+export async function grantAiAccessByEmail(formData: FormData) {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user || !isOwnerEmail(user.email)) redirect('/');
+
+  const email = String(formData.get('email') ?? '').trim().toLowerCase();
+  if (!email) redirect('/settings?ai_error=missing_email');
+
+  const { error } = await supabase.rpc('set_ai_access', { target_email: email, unlocked: true });
+  if (error) {
+    console.error('[grantAiAccessByEmail]', error);
+    redirect(`/settings?ai_error=${error.message.includes('user_not_found') ? 'user_not_found' : 'failed'}`);
+  }
+
+  revalidatePath('/settings');
+  redirect('/settings');
+}
+
+export async function revokeAiAccessById(profileId: string) {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user || !isOwnerEmail(user.email)) return;
+
+  const { error } = await supabase.rpc('set_ai_access_by_id', { target_id: profileId, unlocked: false });
+  if (error) console.error('[revokeAiAccessById]', error);
+
+  revalidatePath('/settings');
+}
