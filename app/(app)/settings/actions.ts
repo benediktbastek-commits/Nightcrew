@@ -81,18 +81,35 @@ export async function updatePhotographerDetails(formData: FormData) {
   revalidatePath('/settings');
 }
 
-export async function toggleContentModule(formData: FormData) {
+export async function deleteAccount() {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) redirect('/login');
 
-  const wantsContent = formData.get('wants_content') === 'on';
+  // Storage-Dateien hängen nicht an der DB-Kaskade dran — bestes Bemühen, das
+  // Profilfoto mit zu entfernen, bevor der Account selbst gelöscht wird.
+  try {
+    const { data: files } = await supabase.storage.from('avatars').list(user.id);
+    if (files?.length) {
+      await supabase.storage.from('avatars').remove(files.map((file) => `${user.id}/${file.name}`));
+    }
+  } catch (error) {
+    console.error('[deleteAccount] avatar cleanup', error);
+  }
 
-  const { error } = await supabase.from('profiles').update({ wants_content: wantsContent }).eq('id', user.id);
-  if (error) console.error('[toggleContentModule]', error);
+  const { error } = await supabase.rpc('delete_own_account');
+  if (error) {
+    console.error('[deleteAccount]', error);
+    redirect('/settings?delete_error=1');
+  }
 
-  revalidatePath('/settings');
-  revalidatePath('/');
+  try {
+    await supabase.auth.signOut();
+  } catch (error) {
+    console.error('[deleteAccount] signOut', error);
+  }
+
+  redirect('/login');
 }
 
 export async function submitFeedback(formData: FormData) {

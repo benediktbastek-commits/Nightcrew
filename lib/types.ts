@@ -264,6 +264,14 @@ export type Profile = {
   portfolio: PortfolioItem[];
   onboarded_at: string | null;
   wants_content: boolean;
+  wants_bookings: boolean;
+  wants_releases: boolean;
+  wants_analytics: boolean;
+  wants_finance: boolean;
+  wants_tour: boolean;
+  wants_marketplace: boolean;
+  wants_network: boolean;
+  wants_crew_ai: boolean;
   bio: string | null;
   city: string | null;
   socials: ProfileSocials | null;

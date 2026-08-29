@@ -2,6 +2,7 @@
 
 import { useState, type FormEvent } from 'react';
 import { completeOnboarding } from './actions';
+import { FEATURE_OPTIONS } from '@/lib/features';
 import type { Role } from '@/lib/types';
 
 const ROLE_OPTIONS: { value: Role; label: string; note: string | null }[] = [
@@ -74,6 +75,19 @@ export function OnboardingForm({
       <div className="form-field">
         <span className="label">STATUS</span>
         <input className="field" name="status" placeholder="z.B. Techno DJ aus Köln" defaultValue={defaultStatus} />
+      </div>
+
+      <div className="form-field" style={{ marginTop: 12 }}>
+        <span className="label">WAS MÖCHTEST DU NUTZEN?</span>
+        <p className="muted" style={{ fontSize: 9, marginTop: 2, marginBottom: 6 }}>
+          Alles vorausgewählt — du kannst das jederzeit in den Anzeigeeinstellungen ändern.
+        </p>
+        {FEATURE_OPTIONS.map((feature) => (
+          <label className="form-toggle" key={feature.key}>
+            <input type="checkbox" name={feature.key} className="visual-checkbox" defaultChecked />
+            <span>{feature.label}</span>
+          </label>
+        ))}
       </div>
 
       {error && <p className="error-text">{error}</p>}

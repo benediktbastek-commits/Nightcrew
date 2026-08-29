@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { createClient } from '@/lib/supabase/server';
 import { dateParts } from '@/lib/format';
+import { ProfileMenu } from './profile-menu';
 
 async function Header({ title, back }: { title: string; back?: string }) {
   const supabase = await createClient();
@@ -28,14 +29,7 @@ async function Header({ title, back }: { title: string; back?: string }) {
         </svg>
         {!!unreadCount && <span className="badge">{unreadCount > 9 ? '9+' : unreadCount}</span>}
       </Link>
-      <Link
-        href="/settings"
-        className="avatar"
-        title="Einstellungen"
-        style={profile?.avatar_url ? { backgroundImage: `url(${profile.avatar_url})`, backgroundSize: 'cover', backgroundPosition: 'center' } : undefined}
-      >
-        {!profile?.avatar_url && initials}
-      </Link>
+      <ProfileMenu avatarUrl={profile?.avatar_url ?? null} initials={initials} />
     </header>
   );
 }

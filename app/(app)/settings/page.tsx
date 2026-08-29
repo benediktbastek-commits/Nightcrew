@@ -2,13 +2,13 @@ import { Screen } from '@/components/screen';
 import { createClient } from '@/lib/supabase/server';
 import { isOwnerEmail } from '@/lib/owner';
 import { hasRole } from '@/lib/roles';
-import { signOut } from '@/app/actions';
+import { DeleteAccountButton } from '@/components/delete-account-button';
 import { SettingsForm } from './settings-form';
 import {
+  deleteAccount,
   grantAiAccessByEmail,
   revokeAiAccessById,
   submitFeedback,
-  toggleContentModule,
   updatePhotographerDetails,
 } from './actions';
 import type { Profile } from '@/lib/types';
@@ -19,14 +19,20 @@ const AI_ERROR_MESSAGE: Record<string, string> = {
   failed: 'Freischalten fehlgeschlagen.',
 };
 
-export default async function SettingsPage({ searchParams }: { searchParams: { ai_error?: string } }) {
+export default async function SettingsPage({ searchParams }: { searchParams: { ai_error?: string; delete_error?: string } }) {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return null;
 
   const isOwner = isOwnerEmail(user.email);
   const { data: profileData } = await supabase.from('profiles').select('*').eq('id', user.id).maybeSingle();
-  const profile = (profileData ?? { id: user.id, display_name: null, avatar_url: null, status: null, roles: [], ai_unlocked: false, skills: [], portfolio: [], onboarded_at: null, wants_content: false, bio: null, city: null, socials: null, username: null }) as Profile;
+  const profile = (profileData ?? {
+    id: user.id, display_name: null, avatar_url: null, status: null, roles: [], ai_unlocked: false,
+    skills: [], portfolio: [], onboarded_at: null, wants_content: true, wants_bookings: true,
+    wants_releases: true, wants_analytics: true, wants_finance: true, wants_tour: true,
+    wants_marketplace: true, wants_network: true, wants_crew_ai: true, bio: null, city: null,
+    socials: null, username: null,
+  }) as Profile;
 
   const { data: unlockedData } = isOwner
     ? await supabase.from('profiles').select('id, display_name, username').eq('ai_unlocked', true).neq('id', user.id)
@@ -48,19 +54,6 @@ export default async function SettingsPage({ searchParams }: { searchParams: { a
           <p className="muted">Noch nicht freigeschaltet — frag den Entwickler, dich per E-Mail freizuschalten.</p>
         )}
       </section>
-
-      {hasRole(profile.roles, 'photographer_videographer') && (
-        <section className="panel">
-          <div className="row section-heading"><span className="label">ZUSÄTZLICHE FUNKTIONEN</span></div>
-          <form action={toggleContentModule} className="auth-form">
-            <label className="form-toggle">
-              <input type="checkbox" name="wants_content" defaultChecked={profile.wants_content} className="visual-checkbox" />
-              <span>Content-Planung nutzen (Posts planen, Wochenübersicht — wie bei DJs)</span>
-            </label>
-            <button type="submit" className="button">SPEICHERN</button>
-          </form>
-        </section>
-      )}
 
       {hasRole(profile.roles, 'photographer_videographer') && (
         <section>
@@ -117,9 +110,15 @@ export default async function SettingsPage({ searchParams }: { searchParams: { a
         </form>
       </section>
 
-      <form action={signOut}>
-        <button type="submit" className="button">ABMELDEN</button>
-      </form>
+      <section className="panel">
+        <div className="row section-heading"><span className="label">GEFAHRENZONE</span></div>
+        <p className="muted" style={{ fontSize: 10.5, marginBottom: 10 }}>
+          Löscht deinen Account, dein Profil und alle deine Daten dauerhaft. Danach kannst
+          du die App jederzeit wieder wie neu von vorne nutzen.
+        </p>
+        {searchParams.delete_error && <p className="error-text" style={{ marginBottom: 10 }}>Löschen fehlgeschlagen — bitte nochmal versuchen.</p>}
+        <DeleteAccountButton action={deleteAccount} />
+      </section>
     </Screen>
   );
 }

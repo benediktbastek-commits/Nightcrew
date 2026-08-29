@@ -3,6 +3,7 @@
 import { redirect } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
 import { isValidUsername, normalizeUsername } from '@/lib/username';
+import { FEATURE_COLUMN, FEATURE_OPTIONS } from '@/lib/features';
 import type { Role } from '@/lib/types';
 
 export async function completeOnboarding(formData: FormData) {
@@ -20,6 +21,11 @@ export async function completeOnboarding(formData: FormData) {
   const { data: taken } = await supabase.from('profiles').select('id').eq('username', username).neq('id', user.id).maybeSingle();
   if (taken) return { error: 'username_taken' };
 
+  const featurePrefs: Record<string, boolean> = {};
+  for (const feature of FEATURE_OPTIONS) {
+    featurePrefs[FEATURE_COLUMN[feature.key]] = formData.get(feature.key) === 'on';
+  }
+
   const { error } = await supabase.from('profiles').upsert({
     id: user.id,
     display_name: displayName || null,
@@ -27,6 +33,7 @@ export async function completeOnboarding(formData: FormData) {
     roles,
     username,
     onboarded_at: new Date().toISOString(),
+    ...featurePrefs,
   });
   if (error) {
     console.error('[completeOnboarding]', error);

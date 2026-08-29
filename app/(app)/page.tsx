@@ -4,6 +4,7 @@ import { PostCard } from '@/components/post-card';
 import { dateParts, daysBetween, formatCompact, formatCountdown, formatDayMonth, formatDueLabel, formatEuro, formatTimeRange, windowBucket } from '@/lib/format';
 import { createClient } from '@/lib/supabase/server';
 import { hasRole, isPhotographerOnly } from '@/lib/roles';
+import { wantsFeature } from '@/lib/features';
 import type { AccountMetric, Gig, Post, Profile, Release, ReleaseAsset, ReleaseDeadline, ReleaseKind, Task } from '@/lib/types';
 import { toggleAsset, toggleDeadline, togglePhaseTask } from './releases/actions';
 import { createTask, toggleTask } from './actions';
@@ -15,13 +16,23 @@ export default async function OverviewPage() {
   const supabase = await createClient();
   const { data: { user: authUser } } = await supabase.auth.getUser();
   const { data: profileData } = authUser
-    ? await supabase.from('profiles').select('roles').eq('id', authUser.id).maybeSingle()
+    ? await supabase.from('profiles').select('roles, wants_bookings, wants_content, wants_releases, wants_analytics, wants_finance, wants_tour, wants_marketplace, wants_network, wants_crew_ai').eq('id', authUser.id).maybeSingle()
     : { data: null };
   const roles = (profileData?.roles ?? []) as Profile['roles'];
 
   if (authUser && isPhotographerOnly(roles)) {
     return <PhotographerDashboard userId={authUser.id} />;
   }
+
+  const wantsBookings = wantsFeature(profileData, 'bookings');
+  const wantsContent = wantsFeature(profileData, 'content');
+  const wantsReleases = wantsFeature(profileData, 'releases');
+  const wantsAnalytics = wantsFeature(profileData, 'analytics');
+  const wantsFinance = wantsFeature(profileData, 'finance');
+  const wantsTour = wantsFeature(profileData, 'tour');
+  const wantsMarketplace = wantsFeature(profileData, 'marketplace');
+  const wantsNetwork = wantsFeature(profileData, 'network');
+  const wantsCrewAi = wantsFeature(profileData, 'crew_ai');
 
   const today = new Date().toISOString().slice(0, 10);
   const year = new Date().getFullYear();
@@ -116,43 +127,49 @@ export default async function OverviewPage() {
 
   return (
     <Screen title="ÜBERBLICK">
-      <section className="hero-panel">
-        <div className="row"><span className="label bright">NÄCHSTER GIG</span><span className="muted">{nextGig && daysUntilGig !== null ? formatCountdown(daysUntilGig) : ''}</span></div>
-        {nextGig ? (
-          <div>
-            <h2>{nextGig.venue}</h2>
-            <p className="muted">{nextGig.city} / {dateParts(nextGig.date).weekday} {dateParts(nextGig.date).day}.{dateParts(nextGig.date).month} / {formatTimeRange(nextGig.set_start, nextGig.set_end)}</p>
+      {wantsBookings && (
+        <section className="hero-panel">
+          <div className="row"><span className="label bright">NÄCHSTER GIG</span><span className="muted">{nextGig && daysUntilGig !== null ? formatCountdown(daysUntilGig) : ''}</span></div>
+          {nextGig ? (
+            <div>
+              <h2>{nextGig.venue}</h2>
+              <p className="muted">{nextGig.city} / {dateParts(nextGig.date).weekday} {dateParts(nextGig.date).day}.{dateParts(nextGig.date).month} / {formatTimeRange(nextGig.set_start, nextGig.set_end)}</p>
+            </div>
+          ) : (
+            <p className="muted">Kein Gig geplant.</p>
+          )}
+          <div className="button-row">
+            <button className="button solid-button" disabled={!nextGig}>RIDER SENDEN</button>
+            <Link href="/tour" className="button">LOGISTIK</Link>
           </div>
-        ) : (
-          <p className="muted">Kein Gig geplant.</p>
-        )}
-        <div className="button-row">
-          <button className="button solid-button" disabled={!nextGig}>RIDER SENDEN</button>
-          <Link href="/tour" className="button">LOGISTIK</Link>
-        </div>
-      </section>
-      <section className="metrics">
-        <div className="metric"><span className="label">GIGS Q4</span><strong>{String(gigsQ4Count ?? 0).padStart(2, '0')}</strong></div>
-        <div className="metric"><span className="label">AUFRUFE 30T</span><strong>{totalReach > 0 ? formatCompact(totalReach) : '—'}</strong></div>
-        <div className="metric"><span className="label">POSTS OFFEN</span><strong>{String(postsOpenCount ?? 0).padStart(2, '0')}</strong></div>
-      </section>
-      <section>
-        <div className="row section-heading"><span className="label">RELEASE</span><span className="muted">{currentRelease && daysUntilRelease !== null ? formatCountdown(daysUntilRelease) : ''}</span></div>
-        {currentRelease ? (
-          <Link href={`/releases/${currentRelease.id}`} className="panel release-card">
-            <div className="row"><div><h3>{KIND_LABEL[currentRelease.kind]} „{currentRelease.title}“</h3><p className="meta">VÖ {formatDayMonth(currentRelease.release_date)} · {releaseTrackCount} TRACKS</p></div><div className="cover" /></div>
-            {releaseTasksTotal > 0 && (
-              <>
-                <div className="segments">{Array.from({ length: releaseTasksTotal }, (_, i) => <i className={i < releaseTasksDone ? 'filled' : ''} key={i} />)}</div>
-                <p className="meta">{releaseTasksDone} / {releaseTasksTotal} AUFGABEN</p>
-              </>
-            )}
-          </Link>
-        ) : (
-          <Link href="/releases/new" className="panel release-card"><p className="muted">Kein Release geplant.</p></Link>
-        )}
-      </section>
-      {currentRelease && (
+        </section>
+      )}
+      {(wantsBookings || wantsAnalytics || wantsContent) && (
+        <section className="metrics">
+          {wantsBookings && <div className="metric"><span className="label">GIGS Q4</span><strong>{String(gigsQ4Count ?? 0).padStart(2, '0')}</strong></div>}
+          {wantsAnalytics && <div className="metric"><span className="label">AUFRUFE 30T</span><strong>{totalReach > 0 ? formatCompact(totalReach) : '—'}</strong></div>}
+          {wantsContent && <div className="metric"><span className="label">POSTS OFFEN</span><strong>{String(postsOpenCount ?? 0).padStart(2, '0')}</strong></div>}
+        </section>
+      )}
+      {wantsReleases && (
+        <section>
+          <div className="row section-heading"><span className="label">RELEASE</span><span className="muted">{currentRelease && daysUntilRelease !== null ? formatCountdown(daysUntilRelease) : ''}</span></div>
+          {currentRelease ? (
+            <Link href={`/releases/${currentRelease.id}`} className="panel release-card">
+              <div className="row"><div><h3>{KIND_LABEL[currentRelease.kind]} „{currentRelease.title}“</h3><p className="meta">VÖ {formatDayMonth(currentRelease.release_date)} · {releaseTrackCount} TRACKS</p></div><div className="cover" /></div>
+              {releaseTasksTotal > 0 && (
+                <>
+                  <div className="segments">{Array.from({ length: releaseTasksTotal }, (_, i) => <i className={i < releaseTasksDone ? 'filled' : ''} key={i} />)}</div>
+                  <p className="meta">{releaseTasksDone} / {releaseTasksTotal} AUFGABEN</p>
+                </>
+              )}
+            </Link>
+          ) : (
+            <Link href="/releases/new" className="panel release-card"><p className="muted">Kein Release geplant.</p></Link>
+          )}
+        </section>
+      )}
+      {wantsReleases && currentRelease && (
         <section>
           <div className="row section-heading"><span className="label">OFFEN FÜR RELEASE</span><span className="muted">{releaseOpenCount}</span></div>
           {releaseOpenCount === 0 ? (
@@ -210,23 +227,25 @@ export default async function OverviewPage() {
           <button type="submit" className="button">+</button>
         </form>
       </section>
-      <section>
-        <div className="row section-heading"><span className="label">BALD FÄLLIG</span><span className="muted">{dueSoonPosts.length}</span></div>
-        {dueSoonPosts.length === 0 ? (
-          <p className="empty-state">Nichts Dringendes.</p>
-        ) : (
-          dueSoonPosts.map((post) => <PostCard post={post} key={post.id} />)
-        )}
-      </section>
+      {wantsContent && (
+        <section>
+          <div className="row section-heading"><span className="label">BALD FÄLLIG</span><span className="muted">{dueSoonPosts.length}</span></div>
+          {dueSoonPosts.length === 0 ? (
+            <p className="empty-state">Nichts Dringendes.</p>
+          ) : (
+            dueSoonPosts.map((post) => <PostCard post={post} key={post.id} />)
+          )}
+        </section>
+      )}
       <section className="module-grid">
-        <Link href="/finance" className="module"><span className="label">FINANZEN</span><strong>{formatEuro(openInvoicesTotal)}</strong><span className="muted">OFFEN</span></Link>
+        {wantsFinance && <Link href="/finance" className="module"><span className="label">FINANZEN</span><strong>{formatEuro(openInvoicesTotal)}</strong><span className="muted">OFFEN</span></Link>}
         <Link href="/contacts" className="module"><span className="label">KONTAKTE</span><strong>{contactsCount ?? 0}</strong><span className="muted">{contactsRecentCount ?? 0} LETZTE 30 T</span></Link>
-        <Link href="/tour" className="module"><span className="label">TOUR</span><strong>{nextGig ? nextGig.city.toUpperCase() : '—'}</strong><span className="muted">{nextGig ? formatDayMonth(nextGig.date) : 'KEIN GIG'}</span></Link>
-        <Link href="/marketplace" className="module"><span className="label">FOTOGRAF / VIDEOGRAF</span><strong>SUCHEN</strong><span className="muted">Marktplatz</span></Link>
-        <Link href="/network" className="module"><span className="label">NETZWERK</span><strong>{pendingConnectionsCount ?? 0}</strong><span className="muted">NEUE ANFRAGEN</span></Link>
-        <Link href="/import" className="module wide"><span>＋ SCREENSHOT IMPORTIEREN</span><span>›</span></Link>
+        {wantsTour && <Link href="/tour" className="module"><span className="label">TOUR</span><strong>{nextGig ? nextGig.city.toUpperCase() : '—'}</strong><span className="muted">{nextGig ? formatDayMonth(nextGig.date) : 'KEIN GIG'}</span></Link>}
+        {wantsMarketplace && <Link href="/marketplace" className="module"><span className="label">FOTOGRAF / VIDEOGRAF</span><strong>SUCHEN</strong><span className="muted">Marktplatz</span></Link>}
+        {wantsNetwork && <Link href="/network" className="module"><span className="label">NETZWERK</span><strong>{pendingConnectionsCount ?? 0}</strong><span className="muted">NEUE ANFRAGEN</span></Link>}
+        {wantsAnalytics && <Link href="/import" className="module wide"><span>＋ SCREENSHOT IMPORTIEREN</span><span>›</span></Link>}
       </section>
-      <Link href="/crew-ai" className="claude-link"><span className="pulse" /> MIT CREW AI CONTENT PLANEN <span>›</span></Link>
+      {wantsCrewAi && <Link href="/crew-ai" className="claude-link"><span className="pulse" /> MIT CREW AI CONTENT PLANEN <span>›</span></Link>}
     </Screen>
   );
 }

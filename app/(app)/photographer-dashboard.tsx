@@ -2,18 +2,22 @@ import Link from 'next/link';
 import { Screen } from '@/components/screen';
 import { createClient } from '@/lib/supabase/server';
 import { formatDayMonth } from '@/lib/format';
-import type { Gig, ServiceRequest } from '@/lib/types';
+import { wantsFeature } from '@/lib/features';
+import type { Gig } from '@/lib/types';
 
 export async function PhotographerDashboard({ userId }: { userId: string }) {
   const supabase = await createClient();
   const today = new Date().toISOString().slice(0, 10);
 
-  const [{ data: nextGigData }, { count: openRequestsCount }, { count: pendingConnectionsCount }] = await Promise.all([
+  const [{ data: nextGigData }, { count: openRequestsCount }, { count: pendingConnectionsCount }, { data: profileData }] = await Promise.all([
     supabase.from('gigs').select('*').eq('user_id', userId).gte('date', today).order('date', { ascending: true }).limit(1).maybeSingle(),
     supabase.from('service_requests').select('*', { count: 'exact', head: true }).eq('status', 'open'),
     supabase.from('connections').select('*', { count: 'exact', head: true }).eq('recipient_id', userId).eq('status', 'pending'),
+    supabase.from('profiles').select('wants_marketplace, wants_network').eq('id', userId).maybeSingle(),
   ]);
   const nextGig = nextGigData as Gig | null;
+  const wantsMarketplace = wantsFeature(profileData, 'marketplace');
+  const wantsNetwork = wantsFeature(profileData, 'network');
 
   return (
     <Screen title="ÜBERBLICK">
@@ -32,14 +36,16 @@ export async function PhotographerDashboard({ userId }: { userId: string }) {
         </div>
       </section>
 
-      <Link href="/marketplace" className="claude-link">
-        <span>OFFENE ANFRAGEN ANSEHEN</span>
-        <span className="muted" style={{ marginRight: 8 }}>{openRequestsCount ?? 0}</span>
-        <span>›</span>
-      </Link>
+      {wantsMarketplace && (
+        <Link href="/marketplace" className="claude-link">
+          <span>OFFENE ANFRAGEN ANSEHEN</span>
+          <span className="muted" style={{ marginRight: 8 }}>{openRequestsCount ?? 0}</span>
+          <span>›</span>
+        </Link>
+      )}
 
       <section className="module-grid">
-        <Link href="/network" className="module"><span className="label">NETZWERK</span><strong>{pendingConnectionsCount ?? 0}</strong><span className="muted">NEUE ANFRAGEN</span></Link>
+        {wantsNetwork && <Link href="/network" className="module"><span className="label">NETZWERK</span><strong>{pendingConnectionsCount ?? 0}</strong><span className="muted">NEUE ANFRAGEN</span></Link>}
         <Link href="/settings" className="module"><span className="label">SKILLS</span><strong>BEARBEITEN</strong><span className="muted">& Referenzen</span></Link>
       </section>
     </Screen>
