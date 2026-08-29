@@ -20,7 +20,7 @@ button:focus-visible { outline: 1px solid var(--white); outline-offset: 2px; }
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } } @keyframes blink { 0%, 100% { opacity: .2; } 50% { opacity: 1; } }
 .tabs { height: calc(62px + env(safe-area-inset-bottom)); flex: none; display: flex; padding: 6px 8px calc(14px + env(safe-area-inset-bottom)); border-top: 1px solid var(--line); background: #0b0c0b; }.tabs a { flex: 1; min-width: 0; position: relative; display: block; text-align: center; text-decoration: none; border: 0; background: transparent; color: rgba(230,230,230,.4); font-size: 7px; font-weight: 600; letter-spacing: .05em; cursor: pointer; }.tabs a i { display: block; width: 14px; height: 2px; margin: 0 auto 8px; background: transparent; }.tabs a.selected { color: var(--white); }.tabs a.selected i { background: var(--white); }
 .tabs-full { display: none; }
-.tabs-compact button { flex: 1; min-width: 0; position: relative; display: block; text-align: center; text-decoration: none; border: 0; background: transparent; color: rgba(230,230,230,.4); font: inherit; font-size: 7px; font-weight: 600; letter-spacing: .05em; cursor: pointer; }
+.tabs-compact button { flex: 1; min-width: 0; position: relative; display: block; margin: 0; padding: 0; text-align: center; text-decoration: none; border: 0; background: transparent; color: rgba(230,230,230,.4); font: inherit; font-size: 7px; font-weight: 600; letter-spacing: .05em; cursor: pointer; }
 .tabs-compact button i { display: block; width: 14px; height: 2px; margin: 0 auto 8px; background: transparent; }
 .tabs-compact button.selected { color: var(--white); }
 .tabs-compact button.selected i { background: var(--white); }
