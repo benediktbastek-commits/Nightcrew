@@ -29,7 +29,9 @@ export async function middleware(request: NextRequest) {
     || path.startsWith('/signup')
     || path.startsWith('/forgot-password')
     || path.startsWith('/reset-password')
-    || path.startsWith('/auth');
+    || path.startsWith('/auth')
+    || path.startsWith('/impressum')
+    || path.startsWith('/datenschutz');
   const isApiRoute = path.startsWith('/api');
   const isOnboardingRoute = path.startsWith('/onboarding') || path.startsWith('/tutorial');
 

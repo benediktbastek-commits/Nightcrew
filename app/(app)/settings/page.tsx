@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { Screen } from '@/components/screen';
 import { createClient } from '@/lib/supabase/server';
 import { isOwnerEmail } from '@/lib/owner';
@@ -119,6 +120,11 @@ export default async function SettingsPage({ searchParams }: { searchParams: { a
         {searchParams.delete_error && <p className="error-text" style={{ marginBottom: 10 }}>Löschen fehlgeschlagen — bitte nochmal versuchen.</p>}
         <DeleteAccountButton action={deleteAccount} />
       </section>
+
+      <div className="row">
+        <Link href="/impressum" className="edit-link">IMPRESSUM</Link>
+        <Link href="/datenschutz" className="edit-link">DATENSCHUTZ</Link>
+      </div>
     </Screen>
   );
 }

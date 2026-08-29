@@ -107,6 +107,10 @@ export default function LoginPage() {
               <Link href="/forgot-password" className="edit-link">PASSWORT VERGESSEN?</Link>
               <Link href="/signup" className="edit-link">REGISTRIEREN</Link>
             </div>
+            <div className="row" style={{ marginTop: 8 }}>
+              <Link href="/impressum" className="edit-link">IMPRESSUM</Link>
+              <Link href="/datenschutz" className="edit-link">DATENSCHUTZ</Link>
+            </div>
           </div>
         </div>
       </div>
