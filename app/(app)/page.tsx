@@ -226,7 +226,7 @@ export default async function OverviewPage() {
         <Link href="/network" className="module"><span className="label">NETZWERK</span><strong>{pendingConnectionsCount ?? 0}</strong><span className="muted">NEUE ANFRAGEN</span></Link>
         <Link href="/import" className="module wide"><span>＋ SCREENSHOT IMPORTIEREN</span><span>›</span></Link>
       </section>
-      <Link href="/claude" className="claude-link"><span className="pulse" /> MIT CLAUDE CONTENT PLANEN <span>›</span></Link>
+      <Link href="/crew-ai" className="claude-link"><span className="pulse" /> MIT CREW AI CONTENT PLANEN <span>›</span></Link>
     </Screen>
   );
 }

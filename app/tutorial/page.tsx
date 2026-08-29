@@ -6,7 +6,7 @@ const ITEMS = [
   { label: 'CONTENT', text: 'Posts planen, Wochenübersicht, mit Releases verknüpfen.' },
   { label: 'RELEASES', text: 'Zeitstrahl, Phasen, Tracks und Deadlines pro Release.' },
   { label: 'ANALYTICS', text: 'Screenshots importieren, Analytics ohne manuelles Abtippen.' },
-  { label: 'CLAUDE', text: 'KI-Planer für Content-Ideen — braucht einen Zugangscode (Einstellungen).' },
+  { label: 'CREW AI', text: 'KI-Planer für Content-Ideen — muss vom Entwickler freigeschaltet werden.' },
   { label: 'DASHBOARD-KACHELN', text: 'Finanzen, Tour & Logistik und Screenshot-Import erreichst du über die Kacheln im Dashboard.' },
 ];
 

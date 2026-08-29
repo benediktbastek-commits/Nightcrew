@@ -156,7 +156,7 @@ export function ImportFlow({ posts }: { posts: Post[] }) {
           <p className="muted">
             {mode === 'ACCOUNT'
               ? 'Lade einen Screenshot deiner Account-Übersicht hoch (z.B. Spotify for Artists, Instagram Insights).'
-              : 'Lade einen Screenshot der Kennzahlen zu einem einzelnen Post hoch (z.B. Instagram-Insights zu einem Reel) — Claude liest die Zahlen aus und schätzt kurz ein, was gut oder schlecht gelaufen ist.'}
+              : 'Lade einen Screenshot der Kennzahlen zu einem einzelnen Post hoch (z.B. Instagram-Insights zu einem Reel) — Crew AI liest die Zahlen aus und schätzt kurz ein, was gut oder schlecht gelaufen ist.'}
           </p>
         </>
       )}
@@ -164,7 +164,7 @@ export function ImportFlow({ posts }: { posts: Post[] }) {
       {step === 'reading' && (
         <div className="dropzone">
           <span className="pulse" />
-          <span>CLAUDE LIEST DEN SCREENSHOT</span>
+          <span>CREW AI LIEST DEN SCREENSHOT</span>
         </div>
       )}
 

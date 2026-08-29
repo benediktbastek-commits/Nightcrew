@@ -10,7 +10,7 @@ import { TabBarClient } from './tab-bar-client';
 const HOME_TAB = { href: '/', label: 'ÜBERBLICK' };
 const CALENDAR_TAB = { href: '/calendar', label: 'KALENDER' };
 const CONTENT_TAB = { href: '/content', label: 'CONTENT' };
-const CLAUDE_TAB = { href: '/claude', label: 'CLAUDE' };
+const CREW_AI_TAB = { href: '/crew-ai', label: 'CREW AI' };
 const MARKETPLACE_TAB = { href: '/marketplace', label: 'MARKTPLATZ' };
 
 export async function TabBar() {
@@ -27,7 +27,7 @@ export async function TabBar() {
   // der auffällig zentrierte Button in der Kompakt-Leiste, sobald verfügbar.
   // Fotografen ohne Freischaltung bekommen stattdessen den Marktplatz zentriert,
   // da Claude für sie dann noch gar nicht erreichbar ist.
-  const centerTab = isPhotographerOnly && !aiUnlocked ? MARKETPLACE_TAB : CLAUDE_TAB;
+  const centerTab = isPhotographerOnly && !aiUnlocked ? MARKETPLACE_TAB : CREW_AI_TAB;
 
   const djMenu = [
     { href: '/bookings', label: 'BOOKINGS' },
@@ -41,7 +41,7 @@ export async function TabBar() {
     ...(profileData?.wants_content ? [CONTENT_TAB] : []),
     CALENDAR_TAB,
     MARKETPLACE_TAB,
-    ...(aiUnlocked ? [CLAUDE_TAB] : []),
+    ...(aiUnlocked ? [CREW_AI_TAB] : []),
   ];
   const menuTabs = (isPhotographerOnly ? photographerMenu : djMenu).filter((tab) => tab.href !== centerTab.href);
 

@@ -17,7 +17,7 @@ function formatPlanDate(iso: string) {
   return `${String(date.getDate()).padStart(2, '0')}.${String(date.getMonth() + 1).padStart(2, '0')}`;
 }
 
-export function ClaudeChat() {
+export function CrewAiChat() {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [planItems, setPlanItems] = useState<PlanItem[]>([]);
   const [draft, setDraft] = useState('');
@@ -122,7 +122,7 @@ export function ClaudeChat() {
           ref={inputRef}
           value={draft}
           onChange={(event) => setDraft(event.target.value)}
-          placeholder="Nachricht an Claude …"
+          placeholder="Nachricht an Crew AI …"
         />
         <button type="submit" className="chat-send" disabled={!draft.trim() || thinking}>↑</button>
       </form>

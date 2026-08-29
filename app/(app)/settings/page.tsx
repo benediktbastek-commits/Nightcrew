@@ -41,7 +41,7 @@ export default async function SettingsPage({ searchParams }: { searchParams: { a
       </section>
 
       <section className="panel">
-        <div className="row section-heading"><span className="label">KI-FUNKTIONEN (CLAUDE, SCREENSHOT-IMPORT)</span></div>
+        <div className="row section-heading"><span className="label">KI-FUNKTIONEN (CREW AI, SCREENSHOT-IMPORT)</span></div>
         {isOwner || profile.ai_unlocked ? (
           <p className="muted">✓ Freigeschaltet{isOwner ? ' (Eigentümer)' : ''}.</p>
         ) : (
