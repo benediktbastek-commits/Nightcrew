@@ -5,35 +5,42 @@ import Link from 'next/link';
 import { Chip } from '@/components/ui';
 import { dateParts, formatDayMonth, formatEuro, formatTimeRange } from '@/lib/format';
 import type { Gig, GigStatus } from '@/lib/types';
+import { cancelGig } from './actions';
 
 const STATUS_LABEL: Record<GigStatus, string> = {
   confirmed: 'BESTÄTIGT',
   requested: 'ANGEFRAGT',
   option: 'OPTION',
+  cancelled: 'ABGESAGT',
 };
 
 const STATUS_TONE: Record<GigStatus, 'solid' | 'outline' | 'dim'> = {
   confirmed: 'solid',
   requested: 'outline',
   option: 'dim',
+  cancelled: 'dim',
 };
 
 export function PhotographerBookingsScreen({ gigs }: { gigs: Gig[] }) {
   const [openGigId, setOpenGigId] = useState<string | null>(null);
+
+  const today = new Date().toISOString().slice(0, 10);
+  const upcomingGigs = gigs.filter((gig) => gig.date >= today);
+  const pastGigs = gigs.filter((gig) => gig.date < today).slice().reverse();
   const openGig = gigs.find((gig) => gig.id === openGigId) ?? null;
 
   return (
     <>
       <div className="row list-meta">
-        <span className="label">{String(gigs.length).padStart(2, '0')} AUFTRÄGE</span>
-        <span className="label">GAGE ∑ {formatEuro(gigs.reduce((sum, gig) => sum + gig.fee_cents, 0))}</span>
+        <span className="label">{String(upcomingGigs.length).padStart(2, '0')} AUFTRÄGE</span>
+        <span className="label">GAGE ∑ {formatEuro(upcomingGigs.reduce((sum, gig) => sum + gig.fee_cents, 0))}</span>
       </div>
 
-      {gigs.length === 0 ? (
+      {upcomingGigs.length === 0 ? (
         <p className="empty-state">Noch keine Aufträge. Angenommene Anfragen aus dem Marktplatz erscheinen hier automatisch.</p>
       ) : (
         <div className="list">
-          {gigs.map((gig) => {
+          {upcomingGigs.map((gig) => {
             const { weekday, day, month } = dateParts(gig.date);
             return (
               <button className="gig-row" key={gig.id} onClick={() => setOpenGigId(gig.id)}>
@@ -55,6 +62,21 @@ export function PhotographerBookingsScreen({ gigs }: { gigs: Gig[] }) {
 
       <Link href="/bookings/new" className="claude-link">+ AUFTRAG ANLEGEN <span>›</span></Link>
 
+      {pastGigs.length > 0 && (
+        <section>
+          <div className="row section-heading"><span className="label">VERGANGENE AUFTRÄGE</span><span className="muted">{pastGigs.length}</span></div>
+          {pastGigs.map((gig) => (
+            <button className="platform-row" style={{ width: '100%', border: 0, background: 'transparent', cursor: 'pointer' }} key={gig.id} onClick={() => setOpenGigId(gig.id)}>
+              <div className="platform-row-top">
+                <span className="platform-name">{gig.venue} · {gig.city}</span>
+                <Chip tone={STATUS_TONE[gig.status]}>{STATUS_LABEL[gig.status]}</Chip>
+              </div>
+              <p className="meta">{formatDayMonth(gig.date)} · {formatEuro(gig.fee_cents)}</p>
+            </button>
+          ))}
+        </section>
+      )}
+
       {openGig && (
         <div className="sheet-backdrop" onClick={() => setOpenGigId(null)}>
           <div className="sheet" onClick={(event) => event.stopPropagation()}>
@@ -72,6 +94,11 @@ export function PhotographerBookingsScreen({ gigs }: { gigs: Gig[] }) {
               <Link href={`/bookings/${openGig.id}/edit`} className="button">BEARBEITEN</Link>
               <button className="button" onClick={() => setOpenGigId(null)}>SCHLIESSEN</button>
             </div>
+            {openGig.status !== 'cancelled' && (
+              <form action={cancelGig.bind(null, openGig.id)}>
+                <button type="submit" className="edit-link">AUFTRAG ABSAGEN</button>
+              </form>
+            )}
           </div>
         </div>
       )}

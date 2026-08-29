@@ -1,4 +1,4 @@
-export type GigStatus = 'confirmed' | 'requested' | 'option';
+export type GigStatus = 'confirmed' | 'requested' | 'option' | 'cancelled';
 
 export type Gig = {
   id: string;

@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { Chip, Segmented } from '@/components/ui';
 import { dateParts, formatDayMonth, formatEuro, formatTimeRange } from '@/lib/format';
 import type { Contact, Gig, GigStatus } from '@/lib/types';
-import { confirmAdvance } from './actions';
+import { cancelGig, confirmAdvance } from './actions';
 
 const FILTERS = ['ALLE', 'BESTÄTIGT', 'ANGEFRAGT'] as const;
 
@@ -13,12 +13,14 @@ const STATUS_LABEL: Record<GigStatus, string> = {
   confirmed: 'BESTÄTIGT',
   requested: 'ANGEFRAGT',
   option: 'OPTION',
+  cancelled: 'ABGESAGT',
 };
 
 const STATUS_TONE: Record<GigStatus, 'solid' | 'outline' | 'dim'> = {
   confirmed: 'solid',
   requested: 'outline',
   option: 'dim',
+  cancelled: 'dim',
 };
 
 export function BookingsScreen({ gigs, contacts, photographerConfirmedGigIds = [] }: { gigs: Gig[]; contacts: Contact[]; photographerConfirmedGigIds?: string[] }) {
@@ -26,7 +28,11 @@ export function BookingsScreen({ gigs, contacts, photographerConfirmedGigIds = [
   const [filter, setFilter] = useState<(typeof FILTERS)[number]>('ALLE');
   const [openGigId, setOpenGigId] = useState<string | null>(null);
 
-  const filtered = gigs.filter((gig) => {
+  const today = new Date().toISOString().slice(0, 10);
+  const upcomingGigs = gigs.filter((gig) => gig.date >= today);
+  const pastGigs = gigs.filter((gig) => gig.date < today).slice().reverse();
+
+  const filtered = upcomingGigs.filter((gig) => {
     if (filter === 'BESTÄTIGT') return gig.status === 'confirmed';
     if (filter === 'ANGEFRAGT') return gig.status === 'requested';
     return true;
@@ -71,6 +77,21 @@ export function BookingsScreen({ gigs, contacts, photographerConfirmedGigIds = [
 
       <Link href="/bookings/new" className="claude-link">+ NEUEN GIG ANLEGEN <span>›</span></Link>
 
+      {pastGigs.length > 0 && (
+        <section>
+          <div className="row section-heading"><span className="label">VERGANGENE GIGS</span><span className="muted">{pastGigs.length}</span></div>
+          {pastGigs.map((gig) => (
+            <button className="platform-row" style={{ width: '100%', border: 0, background: 'transparent', cursor: 'pointer' }} key={gig.id} onClick={() => setOpenGigId(gig.id)}>
+              <div className="platform-row-top">
+                <span className="platform-name">{gig.venue} · {gig.city}</span>
+                <Chip tone={STATUS_TONE[gig.status]}>{STATUS_LABEL[gig.status]}</Chip>
+              </div>
+              <p className="meta">{formatDayMonth(gig.date)} · {formatEuro(gig.fee_cents)}</p>
+            </button>
+          ))}
+        </section>
+      )}
+
       {openGig && (
         <div className="sheet-backdrop" onClick={() => setOpenGigId(null)}>
           <div className="sheet" onClick={(event) => event.stopPropagation()}>
@@ -91,11 +112,13 @@ export function BookingsScreen({ gigs, contacts, photographerConfirmedGigIds = [
               <div className="kv-row"><span className="kv-key">ANREISE</span><span className="kv-value">{openGig.travel || '—'}</span></div>
               <div className="kv-row"><span className="kv-key">FOTO/VIDEO</span><span className="kv-value">{confirmedSet.has(openGig.id) ? '✓ Bestätigt' : '—'}</span></div>
             </div>
-            {!confirmedSet.has(openGig.id) && (
+            {!confirmedSet.has(openGig.id) && openGig.status !== 'cancelled' && (
               <Link href={`/marketplace?gig=${openGig.id}#anfrage`} className="edit-link">AUF MARKTPLATZ POSTEN (FOTOGRAF SUCHEN)</Link>
             )}
             <div className="button-row">
-              {openGig.advance_confirmed ? (
+              {openGig.status === 'cancelled' ? (
+                <span className="button">ABGESAGT</span>
+              ) : openGig.advance_confirmed ? (
                 <span className="button solid-button">✓ ADVANCE BESTÄTIGT</span>
               ) : (
                 <form action={confirmAdvance.bind(null, openGig.id)}>
@@ -104,6 +127,11 @@ export function BookingsScreen({ gigs, contacts, photographerConfirmedGigIds = [
               )}
               <button className="button" onClick={() => setOpenGigId(null)}>SCHLIESSEN</button>
             </div>
+            {openGig.status !== 'cancelled' && (
+              <form action={cancelGig.bind(null, openGig.id)}>
+                <button type="submit" className="edit-link">GIG ABSAGEN</button>
+              </form>
+            )}
           </div>
         </div>
       )}

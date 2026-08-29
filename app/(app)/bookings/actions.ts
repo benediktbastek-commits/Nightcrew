@@ -50,3 +50,12 @@ export async function confirmAdvance(id: string) {
   await supabase.from('gigs').update({ advance_confirmed: true }).eq('id', id);
   revalidatePath('/bookings');
 }
+
+export async function cancelGig(id: string) {
+  const supabase = await createClient();
+  const { error } = await supabase.from('gigs').update({ status: 'cancelled' }).eq('id', id);
+  if (error) console.error('[cancelGig]', error);
+
+  revalidatePath('/bookings');
+  revalidatePath('/');
+}
