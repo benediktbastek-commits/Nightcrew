@@ -18,14 +18,9 @@ export default function ImpressumPage() {
               betrieben.
             </p>
             <p>
-              Ein vollständiges Impressum gemäß §5 TMG wird nachgereicht, sobald die App
-              über den privaten Gebrauch hinaus (z.B. öffentlich oder kommerziell)
-              angeboten wird.
-            </p>
-            <p>
-              <span className="label">KONTAKT</span><br />
-              Benedikt Bastek<br />
-              E-Mail: benedikt.bastek@gmx.de
+              Ein vollständiges Impressum gemäß §5 TMG mit Kontaktangaben wird nachgereicht,
+              sobald die App über den privaten Gebrauch hinaus (z.B. öffentlich oder
+              kommerziell) angeboten wird.
             </p>
             <p>
               <Link href="/datenschutz" className="edit-link">ZUR DATENSCHUTZERKLÄRUNG</Link>

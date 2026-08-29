@@ -19,7 +19,8 @@ export default function DatenschutzPage() {
             </p>
 
             <p><span className="label">VERANTWORTLICHER</span><br />
-              Benedikt Bastek, E-Mail: benedikt.bastek@gmx.de (siehe auch{' '}
+              Kontaktangaben werden nachgereicht, sobald die App über den privaten Gebrauch
+              hinaus angeboten wird (siehe auch{' '}
               <Link href="/impressum" className="edit-link">Impressum</Link>).
             </p>
 
@@ -57,9 +58,9 @@ export default function DatenschutzPage() {
             <p><span className="label">DEINE RECHTE</span><br />
               Du kannst deine Profildaten jederzeit selbst in den Einstellungen bearbeiten.
               Unter Einstellungen → Gefahrenzone kannst du deinen Account inklusive aller
-              gespeicherten Daten jederzeit selbst und dauerhaft löschen. Für Fragen zu
-              Auskunft, Berichtigung oder Löschung kannst du dich zusätzlich jederzeit per
-              E-Mail an uns wenden.
+              gespeicherten Daten jederzeit selbst und dauerhaft löschen. Kontaktwege für
+              weitergehende Anfragen (Auskunft, Berichtigung) werden zusammen mit dem
+              vollständigen Impressum nachgereicht.
             </p>
           </div>
         </div>
